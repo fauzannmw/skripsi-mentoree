@@ -1,0 +1,42 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import prisma from "./database";
+import { cookies } from "next/headers";
+
+export const register = async (e: FormData) => {
+  console.log(e);
+
+  const data = {
+    name: e.get("name")?.toString(),
+    nim: e.get("nim")?.toString(),
+    major: e.get("major")?.toString(),
+    email: e.get("email")?.toString(),
+    password: e.get("password")?.toString(),
+  };
+  // @ts-ignore
+  await prisma.mentee.create({ data: data });
+  // cookies().set("nim", e.get("nim") as string);
+  return redirect("/login");
+};
+
+export const login = async (e: FormData) => {
+  // console.log(e);
+
+  const mentee = await prisma.mentee.findUnique({
+    where: {
+      //@ts-ignore
+      nim: e.get("nim")?.toString(),
+    },
+  });
+
+  if (e.get("nim") && mentee?.nim) {
+    cookies().set("nim", mentee.nim);
+    return redirect("/");
+  }
+};
+
+export const logout = async () => {
+  cookies().delete("nim");
+  redirect("/login");
+};
