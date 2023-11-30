@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
 import { login } from "@/server/post_action";
 
-export default function Login() {
+export default function signin() {
   return (
     <Fragment>
       <form
         action={login}
         method="POST"
-        className="mx-auto mt-4 max-w-xl sm:mt-20"
+        className="max-w-xl mx-auto mt-4 sm:mt-20"
       >
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div className="sm:col-span-2">

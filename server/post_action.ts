@@ -5,8 +5,6 @@ import prisma from "./database";
 import { cookies } from "next/headers";
 
 export const register = async (e: FormData) => {
-  console.log(e);
-
   const data = {
     name: e.get("name")?.toString(),
     nim: e.get("nim")?.toString(),
@@ -17,12 +15,10 @@ export const register = async (e: FormData) => {
   // @ts-ignore
   await prisma.mentee.create({ data: data });
   // cookies().set("nim", e.get("nim") as string);
-  return redirect("/login");
+  return redirect("/signin");
 };
 
 export const login = async (e: FormData) => {
-  // console.log(e);
-
   const mentee = await prisma.mentee.findUnique({
     where: {
       //@ts-ignore
@@ -30,13 +26,16 @@ export const login = async (e: FormData) => {
     },
   });
 
-  if (e.get("nim") && mentee?.nim) {
+  if (e.get("nim") === mentee?.nim && e.get("password") === mentee?.password) {
     cookies().set("nim", mentee.nim);
-    return redirect("/");
+    return { mentee };
+    // return redirect("/");
   }
+
+  return;
 };
 
 export const logout = async () => {
   cookies().delete("nim");
-  redirect("/login");
+  redirect("/signin");
 };

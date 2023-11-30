@@ -1,9 +1,11 @@
 "use client";
+import React from "react";
 import { title } from "@/components/primitives";
 import { Button } from "@nextui-org/button";
+
 import { signIn, signOut, useSession } from "next-auth/react";
 
-export default function AboutPage() {
+export default function CTAButton() {
   const { data: session } = useSession();
 
   if (!session) {
