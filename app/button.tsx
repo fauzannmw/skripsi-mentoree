@@ -20,7 +20,7 @@ export default function CTAButton() {
       <div className="flex flex-col gap-4">
         <h1 className={title()}>Welcome</h1>
         {session?.user?.name}
-        <Button onClick={() => signOut()}>Sign Out</Button>
+        <Button onClick={() => signIn()}>Sign Out</Button>
       </div>
     );
   }

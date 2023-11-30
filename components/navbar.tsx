@@ -1,23 +1,12 @@
 "use client";
 
 import React from "react";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-} from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
-import { Button } from "@nextui-org/button";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import logo from "../assets/image/mentoree.svg";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export const NavbarGlobal = () => {
   const { data: session } = useSession();
@@ -55,19 +44,19 @@ export const NavbarGlobal = () => {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-x-12">
           <ThemeSwitch />
           {session ? (
-            <a
-              href="#"
+            <button
+              onClick={() => signOut()}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Log Out <span aria-hidden="true">&rarr;</span>
-            </a>
+            </button>
           ) : (
-            <a
-              href="#"
+            <button
+              onClick={() => signIn()}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+            </button>
           )}
         </div>
         <div className="flex lg:hidden gap-x-8">
@@ -122,12 +111,21 @@ export const NavbarGlobal = () => {
                 ))}
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  {session ? "Log Out" : "Log in"}
-                </a>
+                {session ? (
+                  <a
+                    onClick={() => signOut()}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Log Out
+                  </a>
+                ) : (
+                  <a
+                    onClick={() => signIn()}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Log In
+                  </a>
+                )}
               </div>
             </div>
           </div>
