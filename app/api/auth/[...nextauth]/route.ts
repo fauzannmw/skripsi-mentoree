@@ -14,6 +14,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
+    //@ts-ignore
     async signIn({ account, profile }) {
       if (account.provider === "google") {
         return (
@@ -26,7 +27,7 @@ export const authOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
 };
-
+//@ts-ignore
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
