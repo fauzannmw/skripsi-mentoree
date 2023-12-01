@@ -42,14 +42,26 @@ export const NavbarGlobal = () => {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-x-12">
-          <ThemeSwitch />
           {session ? (
-            <button
-              onClick={() => signOut()}
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Log Out <span aria-hidden="true">&rarr;</span>
-            </button>
+            <div className="flex gap-x-12">
+              <a href="/profile" className="flex flex-row items-center gap-x-6">
+                <p className="text-sm font-semibold leading-6 text-gray-900">
+                  {session?.user?.name}
+                </p>
+                <img
+                  src={session?.user?.image ?? ""}
+                  alt=""
+                  className="w-8 rounded-full"
+                />
+              </a>
+              <ThemeSwitch />
+              <button
+                onClick={() => signOut()}
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
+                Log Out <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
           ) : (
             <button
               onClick={() => signIn()}
@@ -112,12 +124,24 @@ export const NavbarGlobal = () => {
               </div>
               <div className="py-6">
                 {session ? (
-                  <a
-                    onClick={() => signOut()}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Log Out
-                  </a>
+                  <div>
+                    <a href="/profile" className="flex items-center gap-x-6">
+                      <img
+                        src={session?.user?.image ?? ""}
+                        alt=""
+                        className="w-8 rounded-full"
+                      />
+                      <p className="block px-3 py-2 -mx-3 text-base font-semibold leading-7 text-gray-900 rounded-lg hover:bg-gray-50">
+                        {session?.user?.name}
+                      </p>
+                    </a>
+                    <a
+                      onClick={() => signOut()}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      Log Out
+                    </a>
+                  </div>
                 ) : (
                   <a
                     onClick={() => signIn()}

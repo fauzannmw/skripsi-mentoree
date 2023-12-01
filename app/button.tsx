@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
 import { title } from "@/components/primitives";
-import { Button } from "@nextui-org/button";
-
+import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function CTAButton() {
@@ -12,15 +11,14 @@ export default function CTAButton() {
     return (
       <div className="flex flex-col gap-4">
         <h1 className={title()}>Please Login</h1>
-        <Button onClick={() => signIn()}>SignIn</Button>
+        {/* <Button onClick={() => signIn()}>SignIn</Button> */}
       </div>
     );
   } else {
     return (
       <div className="flex flex-col gap-4">
         <h1 className={title()}>Welcome</h1>
-        {session?.user?.name}
-        <Button onClick={() => signOut()}>Sign Out</Button>
+        {/* <Button onClick={() => signOut()}>Sign Out</Button> */}
       </div>
     );
   }

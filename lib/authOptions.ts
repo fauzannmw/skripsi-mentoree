@@ -1,12 +1,27 @@
+import prisma from "@/server/database";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: `${profile.given_name} ${profile.family_name}`,
+          email: profile.email,
+          image: profile.picture,
+          role: profile.role ? profile.role : "user",
+        };
+      },
     }),
   ],
   callbacks: {
@@ -20,6 +35,13 @@ export const authOptions: NextAuthOptions = {
         );
       }
       return true; // Do different verification for other providers that don't have `email_verified`
+    },
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      session.user.role = token.role;
+      return session;
     },
   },
 
