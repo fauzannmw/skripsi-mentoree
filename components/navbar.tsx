@@ -11,8 +11,8 @@ import { MentoreeIcon } from "./icons";
 export const NavbarGlobal = () => {
   const { data: session } = useSession();
   const navigation = [
-    { name: "About", href: "#" },
-    { name: "Explore", href: "#" },
+    { name: "About", href: "/about" },
+    { name: "Explore", href: "/profile" },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);

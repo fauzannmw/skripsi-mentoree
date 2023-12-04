@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
-import { register } from "@/server/post_action";
+// import { register } from "@/server/post_action";
 
 export default function Register() {
   return (
     <Fragment>
       <form
-        action={register}
+        // action={register}
         method="POST"
         className="mx-auto mt-4 max-w-xl sm:mt-20"
       >

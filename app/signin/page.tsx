@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
-import { login } from "@/server/post_action";
+// import { login } from "@/server/post_action";
 
 export default function signin() {
   return (
     <Fragment>
       <form
-        action={login}
+        // action={login}
         method="POST"
         className="max-w-xl mx-auto mt-4 sm:mt-20"
       >
