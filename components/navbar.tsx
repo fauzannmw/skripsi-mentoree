@@ -12,7 +12,7 @@ export const NavbarGlobal = () => {
   const { data: session } = useSession();
   const navigation = [
     { name: "About", href: "/about" },
-    { name: "Explore", href: "/profile" },
+    { name: "Explore", href: "/explore" },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
