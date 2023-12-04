@@ -1,7 +1,6 @@
 import prisma from "@/server/database";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
-import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
@@ -19,7 +18,12 @@ export const authOptions: NextAuthOptions = {
           name: `${profile.given_name} ${profile.family_name}`,
           email: profile.email,
           image: profile.picture,
-          role: profile.role ? profile.role : "user",
+          role:
+            profile?.email === "muhamad.fauzan@student.ub.ac.id" ||
+            profile?.email === "fz1792@student.ub.ac.id"
+              ? "admin"
+              : "user",
+          // role: profile.role ? profile.role : "user",
         };
       },
     }),

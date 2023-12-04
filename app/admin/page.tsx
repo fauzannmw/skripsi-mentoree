@@ -3,7 +3,7 @@ import { title } from "@/components/primitives";
 import { Button } from "@nextui-org/button";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-export default function AboutPage() {
+export default function AdminPage() {
   const { data: session } = useSession();
 
   if (!session) {

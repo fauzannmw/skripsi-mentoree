@@ -4,9 +4,9 @@ import React from "react";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
-import logo from "../assets/image/mentoree.svg";
+import { Image } from "@nextui-org/image";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { MentoreeIcon } from "./icons";
 
 export const NavbarGlobal = () => {
   const { data: session } = useSession();
@@ -26,7 +26,7 @@ export const NavbarGlobal = () => {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Mentoree</span>
-            <Image className="w-auto h-8" src={logo} alt={""} />
+            <MentoreeIcon />
           </a>
         </div>
 
@@ -48,10 +48,9 @@ export const NavbarGlobal = () => {
                 <p className="text-sm font-semibold leading-6 text-gray-900">
                   {session?.user?.name}
                 </p>
-                <img
-                  src={session?.user?.image ?? ""}
-                  alt=""
+                <Image
                   className="w-8 rounded-full"
+                  src={session?.user?.image ?? ""}
                 />
               </a>
               <ThemeSwitch />
@@ -95,7 +94,7 @@ export const NavbarGlobal = () => {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <Image className="w-auto h-8" src={logo} alt={""} />
+              <MentoreeIcon />
             </a>
             <div className="flex gap-x-8">
               <ThemeSwitch className="-m-2.5" />
@@ -126,10 +125,9 @@ export const NavbarGlobal = () => {
                 {session ? (
                   <div>
                     <a href="/profile" className="flex items-center gap-x-6">
-                      <img
-                        src={session?.user?.image ?? ""}
-                        alt=""
+                      <Image
                         className="w-8 rounded-full"
+                        src={session?.user?.image ?? ""}
                       />
                       <p className="block px-3 py-2 -mx-3 text-base font-semibold leading-7 text-gray-900 rounded-lg hover:bg-gray-50">
                         {session?.user?.name}

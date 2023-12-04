@@ -11,12 +11,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Mentee {
-  nim      String @id @unique
-  password String
-  name     String
-  major    String
-  email    String
+model Mentor {
+  nim          String @id @unique
+  name         String
+  major        String
+  phone_number String
+  image        String
 }
 
 model Account {
