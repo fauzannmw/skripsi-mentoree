@@ -2,12 +2,12 @@ import prisma from "./database";
 import { cookies } from "next/headers";
 
 export const getAll = () => {
-  return prisma.mentee.findMany({});
+  return prisma.mentor.findMany({});
 };
 
 export const getDetail = async () => {
   try {
-    const detail = await prisma.mentee.findUnique({
+    const detail = await prisma.mentor.findUnique({
       where: {
         nim: cookies().get("nim")?.value,
       },
