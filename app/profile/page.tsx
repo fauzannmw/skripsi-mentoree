@@ -9,6 +9,7 @@ export default async function Profile() {
 
   return (
     <Fragment>
+      {/* @ts-ignore */}
       <Form profile={profile} />
     </Fragment>
   );
