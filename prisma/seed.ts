@@ -5,23 +5,48 @@ const prisma = new PrismaClient();
 const MENTOR = [
   {
     nim: "205150200111037",
-    name: "Fauzan",
+    name: "Muhamad Fauzan",
     major: "Teknologi Informasi",
     phone_number: "082221120018",
     image:
       "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
     course: "Typescript, Next Js",
-    course_day: "Monday",
+    course_day: "Senin",
+    // course_day: [
+    //   "Senin 12.00 - 13.00",
+    //   "Rabu 12.00 - 13.00",
+    //   "Jumat 12.00 - 13.00",
+    // ],
   },
   {
     nim: "205150200111038",
-    name: "Faza",
+    name: "Muhammad Faza",
     major: "Teknik Informatika",
-    phone_number: "081271960553",
+    phone_number: "082221120019",
     image:
       "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    course: "Kotlin, Java, Flutter",
-    course_day: "Monday",
+    course: "Dart, Flutter",
+    course_day: "Senin",
+    // course_day: [
+    //   "Senin 12.00 - 13.00",
+    //   "Rabu 12.00 - 13.00",
+    //   "Jumat 12.00 - 13.00",
+    // ],
+  },
+  {
+    nim: "205150200111039",
+    name: "Xavier Julian",
+    major: "Teknik Elektro",
+    phone_number: "082221120020",
+    image:
+      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    course: "Kotlin, Jetpack Compose",
+    course_day: "Senin",
+    // course_day: [
+    //   "Senin 12.00 - 13.00",
+    //   "Rabu 12.00 - 13.00",
+    //   "Jumat 12.00 - 13.00",
+    // ],
   },
 ];
 function seedMentor() {

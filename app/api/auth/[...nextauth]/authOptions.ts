@@ -3,6 +3,8 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
+// const date = new Date().toISOString().slice(0, 10);
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -17,13 +19,15 @@ export const authOptions: NextAuthOptions = {
           id: profile.sub,
           name: `${profile.given_name} ${profile.family_name}`,
           email: profile.email,
+          emailVerified: Date.now(),
           image: profile.picture,
           role:
             profile?.email === "muhamad.fauzan@student.ub.ac.id" ||
-            profile?.email === "fz1792@student.ub.ac.id"
+            profile?.email === "fz1792@student.ub.ac.id" ||
+            profile?.email === "lutfifanani@ub.ac.id" ||
+            profile?.email === "adam@ub.ac.id"
               ? "admin"
               : "user",
-          // role: profile.role ? profile.role : "user",
         };
       },
     }),
@@ -35,7 +39,8 @@ export const authOptions: NextAuthOptions = {
           //@ts-ignore
           profile?.email_verified &&
           //@ts-ignore
-          profile?.email?.endsWith("@student.ub.ac.id")
+          // profile?.email?.endsWith("@student.ub.ac.id")
+          profile?.email?.endsWith("ub.ac.id")
         );
       }
       return true; // Do different verification for other providers that don't have `email_verified`

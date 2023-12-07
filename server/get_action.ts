@@ -4,7 +4,25 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export const getAllMentor = async () => {
-  return await prisma.mentor.findMany({});
+  try {
+    const detail = await prisma.mentor.findMany({});
+    return { detail };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getMentorByMajor = async () => {
+  try {
+    const detail = await prisma.mentor.findMany({
+      where: {
+        major: "Teknik Informatika",
+      },
+    });
+    return { detail };
+  } catch (error) {
+    return { error };
+  }
 };
 
 export const getProfileUser = async () => {

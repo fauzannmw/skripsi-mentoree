@@ -3,10 +3,10 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 };
 
 export type CardProps = {
-  image: string;
-  name: string;
-  major: string;
-  course_day: String;
-  course: String;
-  description: string;
+  image: string?;
+  name: string?;
+  major: string?;
+  course_day: string?;
+  course: string?;
+  description: string?;
 };
