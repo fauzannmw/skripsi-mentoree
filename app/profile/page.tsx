@@ -1,19 +1,15 @@
-"use client";
-import { useSession } from "next-auth/react";
+import React, { Fragment } from "react";
+import Form from "./form";
+// import FormCopy from "./form copy";
+import { getProfileUser } from "@/server/get_action";
 
-export default function ProfilePage() {
-  const { data: session } = useSession();
+export default async function Profile() {
+  const user = await getProfileUser();
+  const profile = user.detail;
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="grid grid-cols-2 p-2 rounded shadow mt-9">
-        <p>Name:</p>
-        <p>{session?.user.name}</p>
-        <p>Email:</p>
-        <p>{session?.user.email}</p>
-        <p>Role:</p>
-        <p>{session?.user.role}</p>
-      </div>
-    </div>
+    <Fragment>
+      <Form profile={profile} />
+    </Fragment>
   );
 }

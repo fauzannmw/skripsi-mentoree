@@ -2,7 +2,29 @@
 
 import { redirect } from "next/navigation";
 import prisma from "./database";
-import { cookies } from "next/headers";
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+
+export const updateProfile = async (e: FormData) => {
+  const session = await getServerSession(authOptions);
+
+  const data = {
+    email: e.get("email")?.toString(),
+    name: e.get("name")?.toString(),
+    major: e.get("major")?.toString(),
+    nim: e.get("nim")?.toString(),
+  };
+  // @ts-ignore
+  await prisma.user.update({
+    where: {
+      email: session?.user?.email,
+    },
+    data: data,
+  });
+
+  return redirect("/profile");
+};
 
 // export const register = async (e: FormData) => {
 //   const data = {
@@ -35,7 +57,7 @@ import { cookies } from "next/headers";
 //   return;
 // };
 
-export const logout = async () => {
-  cookies().delete("nim");
-  redirect("/signin");
-};
+// export const logout = async () => {
+//   cookies().delete("nim");
+//   redirect("/signin");
+// };

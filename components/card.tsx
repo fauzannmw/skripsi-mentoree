@@ -9,14 +9,15 @@ export const Card: React.FC<CardProps> = ({
   image,
   name,
   major,
+  course,
+  course_day,
   description,
 }) => {
   return (
-    <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-      <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
-       
+    <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-2xl">
+      <div className="flex justify-center relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
         {image ? (
-          image
+          <Image src={image} className="object-cover" />
         ) : (
           <img
             src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
@@ -25,7 +26,7 @@ export const Card: React.FC<CardProps> = ({
         )}
         {/* <Image src="https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg" /> */}
 
-        <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
+        {/* <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div> */}
         <button
           className="!absolute  top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button"
@@ -45,6 +46,12 @@ export const Card: React.FC<CardProps> = ({
             5.0
           </p>
         </div>
+        <p className="block font-sans text-base antialiased font-semibold leading-relaxed text-gray-700">
+          {course}
+        </p>
+        <p className="block font-sans text-base antialiased font-semibold leading-relaxed text-gray-700">
+          Every {course_day}
+        </p>
         <p className="block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
           {description}
         </p>

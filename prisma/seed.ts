@@ -6,18 +6,22 @@ const MENTOR = [
   {
     nim: "205150200111037",
     name: "Fauzan",
-    major: "Informatics",
+    major: "Teknologi Informasi",
     phone_number: "082221120018",
     image:
       "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    course: "Typescript, Next Js",
+    course_day: "Monday",
   },
   {
     nim: "205150200111038",
     name: "Faza",
-    major: "Informatics",
-    phone_number: "082221120019",
+    major: "Teknik Informatika",
+    phone_number: "081271960553",
     image:
       "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    course: "Kotlin, Java, Flutter",
+    course_day: "Monday",
   },
 ];
 function seedMentor() {
@@ -30,6 +34,8 @@ function seedMentor() {
           major: item.major,
           phone_number: item.phone_number,
           image: item.image,
+          course: item.course,
+          course_day: item.course_day,
         },
       })
     )

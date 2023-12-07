@@ -10,6 +10,7 @@ import { MentoreeIcon } from "./icons";
 
 export const NavbarGlobal = () => {
   const { data: session } = useSession();
+
   const navigation = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },

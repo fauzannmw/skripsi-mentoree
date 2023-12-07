@@ -17,6 +17,8 @@ model Mentor {
   major        String
   phone_number String
   image        String
+  course       String
+  course_day   String
 }
 
 model Account {
@@ -48,11 +50,13 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
+  name          String
+  nim           String?   @unique
+  email         String    @unique
   emailVerified DateTime?
-  image         String?
-  role          String?
+  major         String?
+  image         String
+  role          String
   accounts      Account[]
   sessions      Session[]
 }
