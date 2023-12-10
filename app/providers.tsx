@@ -7,6 +7,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import { RecoilRoot } from "recoil";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -19,9 +20,11 @@ export function Providers({ children, themeProps, session }: ProvidersProps) {
 
   return (
     <SessionProvider session={session} refetchInterval={1 * 60}>
-      <NextUIProvider navigate={router.push}>
-        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-      </NextUIProvider>
+      <RecoilRoot>
+        <NextUIProvider navigate={router.push}>
+          <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+        </NextUIProvider>
+      </RecoilRoot>
     </SessionProvider>
   );
 }

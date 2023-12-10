@@ -25,6 +25,19 @@ export const getMentorByMajor = async () => {
   }
 };
 
+export const getMentorByNim = async (nim: string) => {
+  try {
+    const detail = await prisma.mentor.findUnique({
+      where: {
+        nim: nim,
+      },
+    });
+    return { detail };
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getProfileUser = async () => {
   const session = await getServerSession(authOptions);
 
