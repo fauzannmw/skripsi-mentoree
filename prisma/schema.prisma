@@ -18,9 +18,7 @@ model Mentor {
   phone_number String
   image        String
   gender       String
-  // course       String
   course       Course[]
-  // course_day   String?
   course_day   Day[]
 }
 
@@ -74,6 +72,7 @@ model User {
   major         String?
   image         String
   role          String
+  coin          Int?      @default(0)
   accounts      Account[]
   sessions      Session[]
 }

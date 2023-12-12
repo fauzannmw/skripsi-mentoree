@@ -7,7 +7,15 @@ export type CardProps = {
   name: string?;
   major: string?;
   image: string?;
-  course_day: string?;
-  course: string?;
+  course: Course[];
+  course_day: Day[];
   description: string?;
+};
+
+type Course = {
+  course: string?;
+};
+
+type Day = {
+  day: string?;
 };

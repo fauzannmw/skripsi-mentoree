@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Image } from "@nextui-org/image";
 import { User } from "@prisma/client";
 import { updateProfile } from "@/server/post_action";
+import { Button } from "@nextui-org/button";
+import { Link } from "@nextui-org/link";
 
 export interface FormProps {
   profile: User;
@@ -17,11 +19,19 @@ export default function Form({ profile, action }: FormProps) {
     <form
       action={updateProfile}
       method="POST"
-      className="mx-auto mt-4 max-w-xl sm:mt-20"
+      className="max-w-xl mx-auto mt-4 sm:mt-20"
     >
       <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-        <div className="sm:col-span-2 flex justify-center">
+        <div className="flex justify-center sm:col-span-2">
           <Image src={profile?.image ?? ""} />
+        </div>
+        <div className="flex items-center justify-between">
+          <p className="block text-sm font-semibold leading-6 text-gray-900">
+            Mentore Coin Kamu : {profile?.coin}
+          </p>
+          <Link href="/coin">
+            <Button>Topup Coin</Button>
+          </Link>
         </div>
         <div className="sm:col-span-2">
           <label

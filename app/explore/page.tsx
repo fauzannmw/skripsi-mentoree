@@ -28,8 +28,8 @@ export default async function ExplorePage({
             name={mentor.name}
             major={mentor.major}
             image={mentor.image}
-            course_day={mentor.course_day}
             course={mentor.course}
+            course_day={mentor.course_day}
             description={
               "Enter a freshly updated and thoughtfully furnished peaceful homesurrounded by ancient trees, stone walls, and open meadows."
             }

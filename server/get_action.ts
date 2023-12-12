@@ -40,9 +40,34 @@ export const getMentorByFilter = async (course: string, gender: string) => {
             },
           },
         },
+        include: {
+          course: {
+            select: {
+              course: true,
+            },
+          },
+          course_day: {
+            select: {
+              day: true,
+            },
+          },
+        },
       });
     } else {
-      return await prisma.mentor.findMany({});
+      return await prisma.mentor.findMany({
+        include: {
+          course: {
+            select: {
+              course: true,
+            },
+          },
+          course_day: {
+            select: {
+              day: true,
+            },
+          },
+        },
+      });
     }
   } catch (error) {
     return { error };
@@ -88,16 +113,3 @@ export const getProfileUser = async () => {
     return { error };
   }
 };
-
-// export const getDetail = async () => {
-//   try {
-//     const detail = await prisma.mentor.findUnique({
-//       where: {
-//         nim: cookies().get("nim")?.value,
-//       },
-//     });
-//     return { detail };
-//   } catch (error) {
-//     return { error };
-//   }
-// };
