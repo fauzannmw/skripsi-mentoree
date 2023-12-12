@@ -1,6 +1,11 @@
-import { Button } from "@nextui-org/button";
+"use client";
 
-export default async function Form() {
+import { Button } from "@nextui-org/button";
+import { useState } from "react";
+
+export default function Form() {
+  const [price, setPrice] = useState("-");
+
   function numberWithCommas(price: number) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
@@ -38,7 +43,7 @@ export default async function Form() {
     },
   ];
   return (
-    <form action="" method="POST">
+    <form action="" method="POST" className="flex flex-col justify-between ">
       <div className="grid grid-cols-2 gap-4 my-4">
         {coin?.map((coin, index: number) => (
           <label key={index} className="cursor-pointer">
@@ -47,6 +52,7 @@ export default async function Form() {
               className="sr-only peer"
               name="price"
               value={coin.price}
+              onChange={(e) => setPrice(e.target.value)}
             />
             <div className="w-full max-w-md px-3 py-2 text-gray-600 transition-all rounded-md ring-2 ring-gray-600 hover:shadow peer-checked:text-sky-600 peer-checked:ring-blue-400 peer-checked:ring-offset-2">
               <div className="flex flex-col gap-1">
@@ -72,7 +78,18 @@ export default async function Form() {
           </label>
         ))}
       </div>
-      <Button type="submit">Submit</Button>
+      <div className="absolute inset-x-0 bottom-0 flex flex-col w-full p-16 font-medium">
+        <div className="flex justify-between">
+          <p>Total Pembayaran</p>
+          <p className="">
+            <span className="text-lg font-bold">Rp. </span>
+            {price !== "-" ? numberWithCommas(parseInt(price)) : "-"}
+          </p>
+        </div>
+        <Button className="font-medium" type="submit">
+          Lanjutkan Pembayaran
+        </Button>
+      </div>
     </form>
   );
 }
