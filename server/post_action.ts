@@ -15,7 +15,6 @@ export const updateProfile = async (e: FormData) => {
     major: e.get("major")?.toString(),
     nim: e.get("nim")?.toString(),
   };
-  // @ts-ignore
   await prisma.user.update({
     where: {
       email: session?.user?.email,
@@ -24,6 +23,23 @@ export const updateProfile = async (e: FormData) => {
   });
 
   return redirect("/profile");
+};
+
+export const updateFilter = async (e: FormData) => {
+  const courseFilter = e.getAll("course");
+  const genderFilter = e.getAll("gender");
+
+  if (courseFilter || genderFilter) {
+    const courseParams = new URLSearchParams([
+      ["course", courseFilter.join(",")],
+    ]);
+    const genderParams = new URLSearchParams([
+      ["gender", genderFilter.join(",")],
+    ]);
+    redirect(`/explore?${courseParams}&${genderParams}`);
+  }
+
+  redirect("/explore");
 };
 
 // export const register = async (e: FormData) => {

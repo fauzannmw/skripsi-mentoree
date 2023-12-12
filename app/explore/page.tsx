@@ -1,23 +1,27 @@
-// "use client";
 import { Card } from "@/components/card";
+import { getMentorByFilter } from "@/server/get_action";
 import Select from "./select";
-import { getAllMentor } from "@/server/get_action";
 
-import { majorState } from "@/recoil/atom/majorRecoil";
-import { useRecoilState } from "recoil";
+export type ProfileSearchParams = {
+  [key: string]: string;
+};
 
-export default async function ExplorePage() {
-  // const [major, setMajor] = useRecoilState(majorState);
-  // console.log(major);
-
-  const mentorList = await getAllMentor();
+export default async function ExplorePage({
+  searchParams,
+}: {
+  searchParams: ProfileSearchParams;
+}) {
+  const mentorFilterByCourse = await getMentorByFilter(
+    searchParams.course,
+    searchParams.gender
+  );
 
   return (
     <div className="grid gap-y-6">
       <Select />
       <div className="grid gap-y-6">
         {/* @ts-ignore */}
-        {mentorList.detail?.map((mentor, index) => (
+        {mentorFilterByCourse.map((mentor, index) => (
           <Card
             key={index}
             nim={mentor.nim}

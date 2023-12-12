@@ -12,22 +12,31 @@ generator client {
 }
 
 model Mentor {
-  nim          String  @id @unique
+  nim          String   @id @unique
   name         String
   major        String
   phone_number String
   image        String
-  course       String
-  course_day   String?
-  // course_day   Day[]
+  gender       String
+  // course       String
+  course       Course[]
+  // course_day   String?
+  course_day   Day[]
 }
 
-// model Day {
-//   id        Int     @id @default(autoincrement())
-//   day       String
-//   Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
-//   mentorNim String?
-// }
+model Course {
+  id        Int     @id @default(autoincrement())
+  Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
+  mentorNim String?
+  course    String
+}
+
+model Day {
+  id        Int     @id @default(autoincrement())
+  Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
+  mentorNim String?
+  day       String
+}
 
 model Account {
   id                String  @id @default(cuid())
