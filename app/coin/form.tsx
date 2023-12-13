@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@nextui-org/button";
+import { Button } from "@nextui-org/react";
 import { useState } from "react";
 
 export default function Form() {

@@ -1,6 +1,6 @@
 "use client";
 import { title } from "@/components/primitives";
-import { Button } from "@nextui-org/button";
+import { Button } from "@nextui-org/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function AboutPage() {

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Image } from "@nextui-org/image";
 import { User } from "@prisma/client";
 import { updateProfile } from "@/server/post_action";
-import { Button } from "@nextui-org/button";
+import { Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/link";
 
 export interface FormProps {

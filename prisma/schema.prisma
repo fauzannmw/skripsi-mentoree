@@ -18,6 +18,7 @@ model Mentor {
   phone_number String
   image        String
   gender       String
+  // mentoring_location
   course       Course[]
   course_day   Day[]
 }

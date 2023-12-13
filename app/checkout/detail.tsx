@@ -3,7 +3,7 @@
 import { Mentor, User } from "@prisma/client";
 import { Image } from "@nextui-org/image";
 import { Fragment } from "react";
-import { Button } from "@nextui-org/button";
+import { Button } from "@nextui-org/react";
 import { RiErrorWarningLine } from "react-icons/ri";
 
 export interface FormProps {
@@ -16,7 +16,7 @@ export default function Detail({ data, user }: FormProps) {
 
   return (
     <Fragment>
-      <div className="flex flex-col gap-4 p-4 ">
+      <div className="flex flex-col gap-4 ">
         <div className="flex gap-6 font-semibold">
           <Image className="w-20" alt="mentor-image" src={data?.image ?? ""} />
           <div className="flex flex-col justify-between">
@@ -37,7 +37,7 @@ export default function Detail({ data, user }: FormProps) {
             <span>
               <RiErrorWarningLine />
             </span>
-            <p>
+            <p className="text-sm">
               Pemesanan Mentor di kurang dari waktu persiapan berisiko ditolak.
             </p>
           </div>
@@ -51,14 +51,21 @@ export default function Detail({ data, user }: FormProps) {
             <span>
               <RiErrorWarningLine />
             </span>
-            <p>Pemesanan Mentor di luar jadwal rekomendasi berisiko ditolak.</p>
+            <p className="text-sm">
+              Pemesanan Mentor di luar jadwal rekomendasi berisiko ditolak.
+            </p>
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             {/* @ts-ignore */}
             {data?.course_day.map((course_day, index: number) => (
-              <p className="" key={index}>
-                {course_day?.day}
-              </p>
+              <div key={index} className="flex gap-4">
+                <Button size="sm" className="font-semibold w-fit">
+                  {course_day?.day}
+                </Button>
+                <Button size="sm" className="font-semibold w-fit">
+                  13.00 - 14.00
+                </Button>
+              </div>
             ))}
           </div>
         </div>
@@ -68,7 +75,6 @@ export default function Detail({ data, user }: FormProps) {
           </p>
         </div>
       </div>
-      
     </Fragment>
   );
 }
