@@ -1,4 +1,8 @@
-import { getMentorByNim, getProfileUser } from "@/server/get_action";
+import {
+  getMentorByLocation,
+  getMentorByNim,
+  getProfileUser,
+} from "@/server/get_action";
 import Detail from "../detail";
 import Form from "../form";
 

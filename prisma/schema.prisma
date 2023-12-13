@@ -18,10 +18,18 @@ model Mentor {
   phone_number String
   image        String
   gender       String
-  // mentoring_location
+  description  String?
+  mentoring_location Location[]
   course       Course[]
   course_day   Day[]
 }
+
+model Location {
+  id         Int        @id @default(autoincrement())
+  location      String
+  mentor Mentor[]
+}
+
 
 model Course {
   id        Int     @id @default(autoincrement())
@@ -35,6 +43,7 @@ model Day {
   Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
   mentorNim String?
   day       String
+  time      String
 }
 
 model Account {

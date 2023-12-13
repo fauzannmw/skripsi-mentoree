@@ -12,8 +12,6 @@ export interface FormProps {
 }
 
 export default function Detail({ data, user }: FormProps) {
-  console.log(user);
-
   return (
     <Fragment>
       <div className="flex flex-col gap-4 ">

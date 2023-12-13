@@ -28,15 +28,19 @@ export const updateProfile = async (e: FormData) => {
 export const updateFilter = async (e: FormData) => {
   const courseFilter = e.getAll("course");
   const genderFilter = e.getAll("gender");
+  const locationFilter = e.getAll("location");
 
-  if (courseFilter || genderFilter) {
+  if (courseFilter || genderFilter || locationFilter) {
     const courseParams = new URLSearchParams([
       ["course", courseFilter.join(",")],
     ]);
     const genderParams = new URLSearchParams([
       ["gender", genderFilter.join(",")],
     ]);
-    redirect(`/explore?${courseParams}&${genderParams}`);
+    const locationParams = new URLSearchParams([
+      ["location", locationFilter.join(",")],
+    ]);
+    redirect(`/explore?${courseParams}&${genderParams}&${locationParams}`);
   }
 
   redirect("/explore");

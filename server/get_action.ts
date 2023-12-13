@@ -28,12 +28,21 @@ export const getAllCourse = async () => {
   }
 };
 
-export const getMentorByFilter = async (course: string, gender: string) => {
+export const getMentorByFilter = async (
+  course: string,
+  gender: string,
+  location: string
+) => {
   try {
-    if (course || gender) {
+    if (course || gender || location) {
       return await prisma.mentor.findMany({
         where: {
           gender: gender,
+          mentoring_location: {
+            some: {
+              location: location,
+            },
+          },
           course: {
             some: {
               course: course,
@@ -49,6 +58,7 @@ export const getMentorByFilter = async (course: string, gender: string) => {
           course_day: {
             select: {
               day: true,
+              time: true,
             },
           },
         },
@@ -89,6 +99,23 @@ export const getMentorByNim = async (nim: string) => {
         course_day: {
           select: {
             day: true,
+          },
+        },
+      },
+    });
+    return { detail };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getMentorByLocation = async (location: string) => {
+  try {
+    const detail = await prisma.mentor.findMany({
+      where: {
+        mentoring_location: {
+          some: {
+            location: location,
           },
         },
       },

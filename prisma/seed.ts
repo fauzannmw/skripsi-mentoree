@@ -91,6 +91,16 @@ async function main() {
       image:
         "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
       gender: "Laki Laki",
+      mentoring_location: {
+        create: [
+          {
+            location: "Daring",
+          },
+          {
+            location: "Luring",
+          },
+        ],
+      },
       course: {
         create: [
           {
@@ -105,9 +115,11 @@ async function main() {
         create: [
           {
             day: "Senin",
+            time: "13.00 - 14.00",
           },
           {
             day: "Selasa",
+            time: "13.00 - 14.00",
           },
         ],
       },
@@ -124,6 +136,13 @@ async function main() {
       image:
         "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
       gender: "Laki Laki",
+      mentoring_location: {
+        create: [
+          {
+            location: "Daring",
+          },
+        ],
+      },
       course: {
         create: [
           {
@@ -138,9 +157,11 @@ async function main() {
         create: [
           {
             day: "Selasa",
+            time: "13.00 - 14.00",
           },
           {
             day: "Rabu",
+            time: "13.00 - 14.00",
           },
         ],
       },
@@ -154,7 +175,14 @@ async function main() {
       phone_number: "082221120020",
       image:
         "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      gender: "Laki Laki",
+      gender: "Perempuan",
+      mentoring_location: {
+        create: [
+          {
+            location: "Luring",
+          },
+        ],
+      },
       course: {
         create: [
           {
@@ -169,9 +197,11 @@ async function main() {
         create: [
           {
             day: "Rabu",
+            time: "13.00 - 14.00",
           },
           {
             day: "Kamis",
+            time: "13.00 - 14.00",
           },
         ],
       },

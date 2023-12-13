@@ -1,6 +1,6 @@
 import { Card } from "@/components/card";
 import { getMentorByFilter } from "@/server/get_action";
-import Select from "./select";
+import Filter from "./filter";
 
 export type ProfileSearchParams = {
   [key: string]: string;
@@ -11,28 +11,30 @@ export default async function ExplorePage({
 }: {
   searchParams: ProfileSearchParams;
 }) {
-  const mentorFilterByCourse = await getMentorByFilter(
+  const mentorFilter = await getMentorByFilter(
     searchParams.course,
-    searchParams.gender
+    searchParams.gender,
+    searchParams.location
   );
+
+  console.log(mentorFilter);
 
   return (
     <div className="grid gap-y-6">
-      <Select />
-      <div className="grid gap-y-6">
+      <Filter />
+      <div className="grid justify-center gap-y-6">
         {/* @ts-ignore */}
-        {mentorFilterByCourse.map((mentor, index) => (
+        {mentorFilter.map((mentor, index) => (
           <Card
             key={index}
             nim={mentor.nim}
             name={mentor.name}
             major={mentor.major}
             image={mentor.image}
+            gender={mentor.gender}
             course={mentor.course}
             course_day={mentor.course_day}
-            description={
-              "Enter a freshly updated and thoughtfully furnished peaceful homesurrounded by ancient trees, stone walls, and open meadows."
-            }
+            description={mentor.description}
           />
         ))}
       </div>

@@ -3,20 +3,24 @@ import { Image } from "@nextui-org/image";
 import { HeartFilledIcon, StarIcon } from "./icons";
 import { CardProps } from "./types";
 import { Link } from "@nextui-org/link";
+import { Button } from "@nextui-org/react";
+import { BsGenderMale } from "react-icons/bs";
+import { BsGenderFemale } from "react-icons/bs";
 
 export const Card: React.FC<CardProps> = async ({
   nim,
   name,
   major,
   image,
+  gender,
   course,
   course_day,
   description,
 }) => {
   return (
     <Fragment>
-      <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-2xl">
-        <div className="relative flex justify-center mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
+      <div className="relative flex w-full max-w-[22rem] sm:max-w-md flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-2xl">
+        {/* <div className="relative flex justify-center mx-4 mt-4 overflow-hidden text-white rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
           {image ? (
             <Image alt="mentor-image" src={image} className="object-cover" />
           ) : (
@@ -26,8 +30,8 @@ export const Card: React.FC<CardProps> = async ({
             />
           )}
 
-          {/* <Image src="https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg" /> */}
-          {/* <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div> */}
+          <Image src="https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg" />
+          <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
 
           <button
             className="!absolute  top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -37,34 +41,48 @@ export const Card: React.FC<CardProps> = async ({
               <HeartFilledIcon />
             </span>
           </button>
+        </div> */}
+        <div className="flex items-center justify-center p-6 ">
+          {image ? (
+            <Image
+              alt="mentor-image"
+              src={image}
+              className="object-cover w-72 h-72"
+            />
+          ) : (
+            <Image
+              alt="mentor-image"
+              src="https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80&w=2718&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            />
+          )}
         </div>
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-col gap-2 px-6">
+          <div className="flex items-center justify-between">
             <h5 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
               {name}, {major}
             </h5>
-            <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
+            <span>
+              {gender == "Laki Laki" ? <BsGenderMale /> : <BsGenderFemale />}
+            </span>
+            {/* <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
               <StarIcon />
               5.0
-            </p>
+            </p> */}
           </div>
-          {course?.map((course, index) => (
-            <p
-              key={index}
-              className="block font-sans text-base antialiased font-semibold leading-relaxed text-gray-700"
-            >
-              {course.course}
-            </p>
-          ))}
-          {course_day?.map((course_day, index) => (
-            <p
-              key={index}
-              className="block font-sans text-base antialiased font-semibold leading-relaxed text-gray-700"
-            >
-              Jadwal Mentoring : {course_day.day}
-            </p>
-          ))}
-
+          <div className="flex gap-2">
+            {course?.map((course, index) => (
+              <Button size="sm" className="font-semibold" key={index}>
+                {course.course}
+              </Button>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            {course_day?.map((course_day, index) => (
+              <Button size="sm" className="font-semibold" key={index}>
+                {course_day.day}
+              </Button>
+            ))}
+          </div>
           <p className="block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
             {description}
           </p>
