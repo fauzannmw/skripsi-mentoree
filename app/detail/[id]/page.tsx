@@ -228,7 +228,7 @@ export default async function DetailPage({ params }) {
               <BsCoin />
             </span>
           </p>
-          <Link href={`checkout/${mentorData?.detail?.nim}`} className="">
+          <Link href={`/checkout/${mentorData?.detail?.nim}`} className="">
             <Button className="font-sans text-sm font-semibold text-white bg-gray-900 rounded-lg">
               Pesan Sekarang
             </Button>
