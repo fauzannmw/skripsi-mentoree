@@ -1,6 +1,4 @@
 import { getMentorByNim, getProfileUser } from "@/server/get_action";
-import Detail from "../detail";
-import Form from "../form";
 
 // @ts-ignore
 export default async function CheckoutPage({ params }) {
@@ -10,11 +8,6 @@ export default async function CheckoutPage({ params }) {
   console.log(mentorData);
 
   return (
-    <div className="flex flex-col justify-between gap-2 select-none">
-      {/* @ts-ignore */}
-      <Detail data={mentorData} user={userData} />
-      {/* @ts-ignore */}
-      <Form mentor={mentorData} user={userData} />
-    </div>
+    <div className="flex flex-col justify-between gap-2 select-none"></div>
   );
 }

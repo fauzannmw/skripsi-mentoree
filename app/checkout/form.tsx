@@ -2,17 +2,46 @@
 
 import { Button } from "@nextui-org/react";
 import { BsCoin } from "react-icons/bs";
+import { createTransaction } from "@/server/post_action";
+import { Mentor, User } from "@prisma/client";
 
-import { useState } from "react";
+interface FormProps {
+  mentor: Mentor;
+  user: User;
+}
 
-export default function Form() {
-  const [location, setLocation] = useState("-");
-
+export default function Form({ mentor, user }: FormProps) {
   return (
-    <form action="" method="POST">
+    <form action={createTransaction} method="POST">
+      <input
+        type="text"
+        className="sr-only peer"
+        name="mentorNim"
+        value={mentor?.nim as string}
+      />
+      <input
+        type="text"
+        className="sr-only peer"
+        name="userNim"
+        value={user?.nim as string}
+      />
       <div className="flex flex-col gap-4">
+        <div className="flex gap-4">
+          <input
+            type="date"
+            className="block w-full px-2.5 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Select date"
+            name="date"
+          />
+          <input
+            type="time"
+            className="block w-full px-2.5 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Select date"
+            name="time"
+          />
+        </div>
         <div className="flex flex-col gap-2">
-          <p className="text-lg font-semibold">Lokasi Mentoring : {location}</p>
+          <p className="text-lg font-semibold">Lokasi Mentoring</p>
           <div className="flex gap-4">
             <label className="cursor-pointer">
               <input
@@ -20,7 +49,6 @@ export default function Form() {
                 className="sr-only peer"
                 name="location"
                 value={"Daring"}
-                onChange={(e) => setLocation(e.target.value)}
               />
               <div className="px-3 py-2 rounded-md ring-1 ring-zinc-300 peer-checked:text-sky-600 bg-zinc-300 peer-checked:ring-blue-400">
                 <p className="text-xs font-semibold">Daring</p>
@@ -32,7 +60,6 @@ export default function Form() {
                 className="sr-only peer"
                 name="location"
                 value={"Luring"}
-                onChange={(e) => setLocation(e.target.value)}
               />
               <div className="px-3 py-2 rounded-md ring-1 ring-zinc-300 peer-checked:text-sky-600 bg-zinc-300 peer-checked:ring-blue-400">
                 <p className="text-xs font-semibold">Luring</p>
@@ -59,7 +86,7 @@ export default function Form() {
                 type="radio"
                 className="sr-only peer"
                 name="participant"
-                value={"2"}
+                value={"2 - 5 Orang"}
               />
               <div className="px-3 py-2 rounded-md ring-1 ring-zinc-300 peer-checked:text-sky-600 bg-zinc-300 peer-checked:ring-blue-400">
                 <p className="text-xs font-semibold">2 - 5 Orang</p>
@@ -70,7 +97,7 @@ export default function Form() {
                 type="radio"
                 className="sr-only peer"
                 name="participant"
-                value={"6"}
+                value={"5 - 10 Orang"}
               />
               <div className="px-3 py-2 rounded-md ring-1 ring-zinc-300 peer-checked:text-sky-600 bg-zinc-300 peer-checked:ring-blue-400">
                 <p className="text-xs font-semibold">5 - 10 Orang</p>
@@ -84,7 +111,7 @@ export default function Form() {
             Topik Mentoring
           </label>
           <textarea
-            id="message"
+            name="mentoring_topic"
             rows={4}
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Isi materi yang ingin anda tanyakan disini"
@@ -103,14 +130,6 @@ export default function Form() {
           Lanjutkan Pembayaran
         </Button>
       </div>
-      {/* <div className="absolute inset-x-0 bottom-0 flex items-center justify-between w-full p-8 font-medium bg-gray-100">
-        <p>
-          <span className="font-semibold">1 Coin</span> / Jam
-        </p>
-        <Button className="font-medium" type="submit">
-          Lanjutkan Pembayaran
-        </Button>
-      </div> */}
     </form>
   );
 }

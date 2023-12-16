@@ -25,6 +25,43 @@ export const updateProfile = async (e: FormData) => {
   return redirect("/profile");
 };
 
+export const createTransaction = async (e: FormData) => {
+  const session = await getServerSession(authOptions);
+
+  await prisma.user.update({
+    where: { email: session?.user?.email },
+    data: {
+      transaction: {
+        create: [
+          {
+            mentorNim: e.get("mentorNim")?.toString(),
+            date: e.get("date")?.toString(),
+            time: e.get("time")?.toString(),
+            location: e.get("location")?.toString(),
+            participant: e.get("participant")?.toString(),
+            mentoring_topic: e.get("mentoring_topic")?.toString(),
+          },
+        ],
+      },
+    },
+  });
+
+  return redirect("/transaction");
+};
+
+export const changeTransactionStatus = async (e: FormData) => {
+  await prisma.transaction.update({
+    where: {
+      id: e.get("transactionId")?.toString(),
+    },
+    data: {
+      status: false,
+    },
+  });
+
+  return redirect("/transaction");
+};
+
 export const updateFilter = async (e: FormData) => {
   const courseFilter = e.getAll("course");
   const genderFilter = e.getAll("gender");

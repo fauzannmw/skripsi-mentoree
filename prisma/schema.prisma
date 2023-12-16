@@ -12,30 +12,49 @@ generator client {
 }
 
 model Mentor {
-  nim          String   @id @unique
+  id           String    @id @default(cuid())
+  nim          String?   @unique
   name         String
   major        String
   phone_number String
   image        String
   gender       String
   description  String?
-  mentoring_location Location[]
   course       Course[]
   course_day   Day[]
+  mentoring_location Location[]
+  experience Experience[]
+  certification Certification[]
+  transaction Transaction[]
 }
-
-model Location {
-  id         Int        @id @default(autoincrement())
-  location      String
-  mentor Mentor[]
-}
-
 
 model Course {
   id        Int     @id @default(autoincrement())
   Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
   mentorNim String?
   course    String
+}
+
+model Experience {
+  id        Int     @id @default(autoincrement())
+  Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
+  mentorNim String?
+  position    String
+  company    String
+}
+
+model Certification {
+  id        Int     @id @default(autoincrement())
+  Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
+  mentorNim String?
+  course    String
+  institution    String
+}
+
+model Location {
+  id         Int        @id @default(autoincrement())
+  location      String
+  mentor Mentor[]
 }
 
 model Day {
@@ -73,6 +92,22 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Transaction {
+  id        String   @id @default(cuid())
+  User      User?    @relation(fields: [userEmail], references: [email])
+  mentor    Mentor?   @relation(fields: [mentorNim], references: [nim])
+  userEmail String
+  mentorNim String?
+  date      String?
+  time      String?
+  location  String?
+  participant String?
+  mentoring_topic String?
+  status    Boolean? @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String
@@ -85,6 +120,7 @@ model User {
   coin          Int?      @default(0)
   accounts      Account[]
   sessions      Session[]
+  transaction   Transaction[]
 }
 
 model VerificationToken {

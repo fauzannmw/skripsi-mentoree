@@ -16,7 +16,11 @@ export default function Detail({ data, user }: FormProps) {
     <Fragment>
       <div className="flex flex-col gap-4 ">
         <div className="flex gap-6 font-semibold">
-          <Image className="w-20" alt="mentor-image" src={data?.image ?? ""} />
+          <Image
+            className="object-cover object-center w-20 h-20"
+            alt="mentor-image"
+            src={data?.image ?? ""}
+          />
           <div className="flex flex-col justify-between">
             <div className="flex gap-2">
               {/* @ts-ignore */}

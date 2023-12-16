@@ -19,7 +19,7 @@ export const Card: React.FC<CardProps> = async ({
 }) => {
   return (
     <Fragment>
-      <div className="relative flex w-full max-w-[22rem] sm:max-w-md flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-2xl">
+      <div className="flex flex-col max-w-md gap-4 p-6 text-gray-700 bg-white shadow-2xl rounded-xl bg-clip-border">
         {/* <div className="relative flex justify-center mx-4 mt-4 overflow-hidden text-white rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
           {image ? (
             <Image alt="mentor-image" src={image} className="object-cover" />
@@ -42,7 +42,7 @@ export const Card: React.FC<CardProps> = async ({
             </span>
           </button>
         </div> */}
-        <div className="flex items-center justify-center p-6 ">
+        <div className="flex items-center justify-center">
           {image ? (
             <Image
               alt="mentor-image"
@@ -56,7 +56,7 @@ export const Card: React.FC<CardProps> = async ({
             />
           )}
         </div>
-        <div className="flex flex-col gap-2 px-6">
+        <div className="flex flex-col gap-2 ">
           <div className="flex items-center justify-between">
             <h5 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
               {name}, {major}
@@ -87,9 +87,9 @@ export const Card: React.FC<CardProps> = async ({
             {description}
           </p>
         </div>
-        <Link href={`detail/${nim}`} className="p-6 pt-3">
+        <Link href={`detail/${nim}`} className="">
           <button
-            className="block w-full select-none rounded-lg bg-gray-900 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            className="w-full select-none rounded-lg bg-gray-900 py-4 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
           >
             See Detail

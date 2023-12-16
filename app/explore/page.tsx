@@ -22,7 +22,7 @@ export default async function ExplorePage({
   return (
     <div className="grid gap-y-6">
       <Filter />
-      <div className="grid justify-center gap-y-6">
+      <div className="grid justify-center p-6 gap-y-6">
         {/* @ts-ignore */}
         {mentorFilter.map((mentor, index) => (
           <Card

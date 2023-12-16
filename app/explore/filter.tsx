@@ -7,7 +7,7 @@ export default async function Filter() {
 
   return (
     <form action={updateFilter} method="POST">
-      <div className="w-screen max-w-lg px-4">
+      <div className="w-screen max-w-lg p-6">
         <div className="p-6 bg-white border border-gray-200 shadow-lg rounded-xl">
           <h2 className="text-xl font-bold text-stone-700">Apply filters</h2>
           <p className="mt-1 text-sm">Masukkan filter sesuai kategori anda</p>

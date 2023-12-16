@@ -89,8 +89,10 @@ async function main() {
       major: "Teknologi Informasi",
       phone_number: "082221120018",
       image:
-        "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80&w=2718&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       gender: "Laki Laki",
+      description:
+        "Their faces were red and weather-blasted below their white foreheads, the coarse hair on their round heads grown iron-gray and as stiff as the roached mane of a horse.",
       mentoring_location: {
         create: [
           {
@@ -123,6 +125,22 @@ async function main() {
           },
         ],
       },
+      experience: {
+        create: [
+          {
+            position: "Internship Front-end Developer",
+            company: "MAW Company",
+          },
+        ],
+      },
+      certification: {
+        create: [
+          {
+            course: "React and React Native Intermediate",
+            institution: "Dicoding Indonesia",
+          },
+        ],
+      },
     },
   });
   const faza = await prisma.mentor.upsert({
@@ -134,8 +152,10 @@ async function main() {
       major: "Teknik Informatika",
       phone_number: "082221120019",
       image:
-        "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=3230&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       gender: "Laki Laki",
+      description:
+        "Their faces were red and weather-blasted below their white foreheads, the coarse hair on their round heads grown iron-gray and as stiff as the roached mane of a horse.",
       mentoring_location: {
         create: [
           {
@@ -165,17 +185,37 @@ async function main() {
           },
         ],
       },
+      experience: {
+        create: [
+          {
+            position: "Internship Mobile Developer",
+            company: "MAW Company",
+          },
+        ],
+      },
+      certification: {
+        create: [
+          {
+            course: "Flutter Intermediate",
+            institution: "Dicoding Indonesia",
+          },
+        ],
+      },
     },
   });
-  const xavier = await prisma.mentor.create({
-    data: {
+  const xavier = await prisma.mentor.upsert({
+    where: { nim: "205150200111039" },
+    update: {},
+    create: {
       nim: "205150200111039",
       name: "Xavier",
       major: "Teknik Elektro",
       phone_number: "082221120020",
       image:
-        "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=3243&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       gender: "Perempuan",
+      description:
+        "Their faces were red and weather-blasted below their white foreheads, the coarse hair on their round heads grown iron-gray and as stiff as the roached mane of a horse.",
       mentoring_location: {
         create: [
           {
@@ -202,6 +242,22 @@ async function main() {
           {
             day: "Kamis",
             time: "13.00 - 14.00",
+          },
+        ],
+      },
+      experience: {
+        create: [
+          {
+            position: "Internship Android Developer",
+            company: "MAW Company",
+          },
+        ],
+      },
+      certification: {
+        create: [
+          {
+            course: "Kotlin Intermediate",
+            institution: "Dicoding Indonesia",
           },
         ],
       },

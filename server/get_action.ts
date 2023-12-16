@@ -22,7 +22,11 @@ export const getAllMentor = async () => {
 
 export const getAllCourse = async () => {
   try {
-    return await prisma.course.findMany({});
+    return await prisma.course.findMany({
+      orderBy: {
+        course: "asc",
+      },
+    });
   } catch (error) {
     return { error };
   }
@@ -101,23 +105,19 @@ export const getMentorByNim = async (nim: string) => {
             day: true,
           },
         },
-      },
-    });
-    return { detail };
-  } catch (error) {
-    return { error };
-  }
-};
-
-export const getMentorByLocation = async (location: string) => {
-  try {
-    const detail = await prisma.mentor.findMany({
-      where: {
-        mentoring_location: {
-          some: {
-            location: location,
+        experience: {
+          select: {
+            position: true,
+            company: true,
           },
         },
+        certification: {
+          select: {
+            course: true,
+            institution: true,
+          },
+        },
+        transaction: true,
       },
     });
     return { detail };
@@ -133,6 +133,9 @@ export const getProfileUser = async () => {
     const detail = await prisma.user.findUnique({
       where: {
         email: session?.user?.email,
+      },
+      include: {
+        transaction: true,
       },
     });
     return { detail };
