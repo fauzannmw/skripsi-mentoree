@@ -25,7 +25,8 @@ export default function Form({ mentor, user }: FormProps) {
         name="userNim"
         value={user?.nim as string}
       />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <p className="text-lg font-semibold">Waktu dan Tanggal Mentoring</p>
         <div className="flex gap-4">
           <input
             type="date"

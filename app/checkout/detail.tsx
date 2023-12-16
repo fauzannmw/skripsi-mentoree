@@ -21,7 +21,7 @@ export default function Detail({ data, user }: FormProps) {
             alt="mentor-image"
             src={data?.image ?? ""}
           />
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-center">
             <div className="flex gap-2">
               {/* @ts-ignore */}
               {data?.course.map((course, index: number) => (
