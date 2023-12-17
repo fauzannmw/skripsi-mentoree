@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { BsCoin } from "react-icons/bs";
 import { createTransaction } from "@/server/post_action";
 import { Mentor, User } from "@prisma/client";
@@ -127,9 +127,17 @@ export default function Form({ mentor, user }: FormProps) {
           </span>
           &nbsp; / Jam
         </p>
-        <Button className="font-medium" type="submit">
-          Lanjutkan Pembayaran
-        </Button>
+        {user?.coin != 0 ? (
+          <Button className="font-medium" type="submit">
+            Lanjutkan Pembayaran
+          </Button>
+        ) : (
+          <Link href="/coin">
+            <Button className="font-medium text-red-600" type="submit">
+              Lakukan Pembelian Coin
+            </Button>
+          </Link>
+        )}
       </div>
     </form>
   );

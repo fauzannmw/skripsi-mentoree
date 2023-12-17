@@ -73,7 +73,10 @@ export default function Detail({ data, user }: FormProps) {
         </div>
         <div className="flex flex-col gap-2">
           <p className="text-lg font-semibold">
-            Saldo Mentoree Coin : {user?.coin}
+            Saldo Mentoree Coin :&nbsp;
+            <span className={`${user?.coin === 0 && "text-red-600"}`}>
+              {user?.coin}
+            </span>
           </p>
         </div>
       </div>

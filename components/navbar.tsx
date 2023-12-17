@@ -14,7 +14,7 @@ export const NavbarGlobal = () => {
 
   const navigation = [
     { name: "Explore", href: "/explore" },
-    { name: "Transaction", href: "/transaction" },
+    { name: "Mentoringku", href: "/mentoringku" },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);

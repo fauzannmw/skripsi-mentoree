@@ -74,9 +74,14 @@ export default async function Card({ data }: CardProps) {
           </div>
         </div>
         <div className="flex justify-center">
-          <Button className="w-2/3" type="submit">
+          {data?.status === "Berlangsung" && (
+            <Button className="w-2/3" type="submit">
+              Selesaikan Pesanan
+            </Button>
+          )}
+          {/* <Button className="w-2/3" type="submit">
             Selesaikan Pesanan
-          </Button>
+          </Button> */}
         </div>
       </div>
     </form>

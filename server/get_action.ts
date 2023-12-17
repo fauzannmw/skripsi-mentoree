@@ -20,18 +20,6 @@ export const getAllMentor = async () => {
   }
 };
 
-export const getAllCourse = async () => {
-  try {
-    return await prisma.course.findMany({
-      orderBy: {
-        course: "asc",
-      },
-    });
-  } catch (error) {
-    return { error };
-  }
-};
-
 export const getMentorByFilter = async (
   course: string,
   gender: string,
@@ -136,6 +124,39 @@ export const getProfileUser = async () => {
       },
       include: {
         transaction: true,
+      },
+    });
+    return { detail };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getAllCourse = async () => {
+  try {
+    return await prisma.course.findMany({
+      orderBy: {
+        course: "asc",
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getAllTransaction = async () => {
+  try {
+    return await prisma.transaction.findMany({});
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getTransactionByStatus = async (status: string) => {
+  try {
+    const detail = await prisma.transaction.findMany({
+      where: {
+        status: status,
       },
     });
     return { detail };

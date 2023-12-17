@@ -31,6 +31,7 @@ export const createTransaction = async (e: FormData) => {
   await prisma.user.update({
     where: { email: session?.user?.email },
     data: {
+      coin: { decrement: 1 },
       transaction: {
         create: [
           {
@@ -55,7 +56,7 @@ export const changeTransactionStatus = async (e: FormData) => {
       id: e.get("transactionId")?.toString(),
     },
     data: {
-      status: false,
+      status: "Selesai",
     },
   });
 

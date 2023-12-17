@@ -103,7 +103,7 @@ model Transaction {
   location  String?
   participant String?
   mentoring_topic String?
-  status    Boolean? @default(true)
+  status    String? @default("Berlangsung")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
