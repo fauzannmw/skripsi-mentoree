@@ -14,18 +14,22 @@ import { User } from "@prisma/client";
 
 const FormDataSchema = z.object({
   nim: z.string().min(1, { message: "Silahkan Login Terlebih Dahulu" }),
-  coin: z
+  price: z
     .string()
     .min(1, { message: "Silahkan pilih jumlah Coin yang ingin Anda Beli" }),
 });
 
-type Inputs = z.infer<typeof FormDataSchema>;
+export type Inputs = z.infer<typeof FormDataSchema>;
 
 export interface FormProps {
   profile: User;
 }
 
 export default function Form({ profile }: FormProps) {
+  const [price, setPrice] = useState("0");
+  const [token, setToken] = useState("");
+  console.log("token : ", token);
+
   const {
     register,
     handleSubmit,
@@ -34,25 +38,10 @@ export default function Form({ profile }: FormProps) {
   } = useForm<Inputs>({
     defaultValues: {
       nim: profile?.nim as string,
-      coin: "",
+      price: "",
     },
     resolver: zodResolver(FormDataSchema),
   });
-
-  console.log(watch("coin"));
-
-  const [loading, setLoading] = useState(false);
-  const [koin, setKoin] = useState(0);
-
-  const [token, setToken] = useState("");
-  const [datas, setDatas] = useState({
-    price: 0,
-    coin: watch("coin"),
-    bonus: 0,
-  });
-
-  console.log("token : ", token);
-  console.log(datas.coin);
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     // @ts-ignore
@@ -61,7 +50,6 @@ export default function Form({ profile }: FormProps) {
 
     //@ts-ignore
     window.snap.pay(result);
-    setLoading(false);
   };
 
   function numberWithCommas(price: number) {
@@ -94,9 +82,9 @@ export default function Form({ profile }: FormProps) {
             <input
               type="radio"
               className="sr-only peer"
-              value={coin.coin}
-              {...register("coin")}
-              onChange={(e) => setKoin(parseInt(e.target.value))}
+              value={coin.price}
+              {...register("price")}
+              onChange={(e) => setPrice(e.target.value)}
             />
             <div className="w-full max-w-md px-3 py-2 text-gray-600 transition-all rounded-md ring-2 ring-gray-600 hover:shadow peer-checked:text-sky-600 peer-checked:ring-blue-400 peer-checked:ring-offset-2">
               <div className="flex flex-col gap-1">
@@ -127,15 +115,14 @@ export default function Form({ profile }: FormProps) {
           <p>Total Pembayaran</p>
           <p className="">
             <span className="text-lg font-bold">Rp. </span>
-            {/* {price !== "-" ? numberWithCommas(parseInt(price)) : "-"} */}
-            {koin} {numberWithCommas(datas?.price)}
+            {price !== "0" ? numberWithCommas(parseInt(price)) : "0"}
           </p>
         </div>
         <Button className="font-medium" type="submit">
           Lanjutkan Pembayaran
         </Button>
         {errors.nim && <span>{errors.nim.message}</span>}
-        {errors.coin && <span>{errors.coin.message}</span>}
+        {errors.price && <span>{errors.price.message}</span>}
       </div>
     </form>
   );

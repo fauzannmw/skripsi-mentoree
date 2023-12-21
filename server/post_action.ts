@@ -10,6 +10,8 @@ import prisma from "./database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { User } from "@prisma/client";
+import { getProfileUser } from "./get_action";
+import { Inputs } from "@/app/coin/form";
 
 let snap = new Midtrans.Snap({
   isProduction: false,
@@ -17,45 +19,50 @@ let snap = new Midtrans.Snap({
   clientKey: process.env.NEXT_PUBLIC_MIDTRANS_CLIENT,
 });
 
-export async function createMidtransTokens(params: any) {
-  const id = ~~(Math.random() * 1000000000);
-  const name = "Pembelian " + params.coin + " Mentoree Coin";
-  const coin = params.coin;
-  let bonus;
-  let price;
+export async function createMidtransTokens(params: Inputs) {
+  const customer_detail = (await getProfileUser()).detail;
 
-  switch (coin) {
-    case "1":
+  const id = ~~(Math.random() * 1000000000);
+  const price = parseInt(params.price);
+  let bonus;
+  let coin;
+
+  switch (price) {
+    case 15000:
       bonus = 0;
-      price = 15000;
+      coin = 1;
       break;
-    case "4":
+    case 60000:
       bonus = 1;
-      price = 60000;
+      coin = 4;
       break;
-    case "10":
+    case 150000:
       bonus = 3;
-      price = 150000;
+      coin = 10;
       break;
-    case "15":
+    case 225000:
       bonus = 4;
-      price = 225000;
+      coin = 15;
       break;
-    case "20":
+    case 300000:
       bonus = 7;
-      price = 300000;
+      coin = 20;
       break;
-    case "35":
+    case 500000:
       bonus = 10;
-      price = 500000;
+      coin = 35;
       break;
     default:
       bonus = 0;
-      price = 0;
+      coin = 0;
   }
+
+  const item_id = "Coin 0-" + coin + " Mentoree";
+  const name = "Pembelian " + coin + " Mentoree Coin";
 
   const parameter = {
     item_details: {
+      id: item_id,
       name: name,
       coin: coin,
       bonus: bonus,
@@ -65,6 +72,11 @@ export async function createMidtransTokens(params: any) {
     transaction_details: {
       order_id: id,
       gross_amount: price,
+    },
+    customer_details: {
+      first_name: customer_detail?.name,
+      email: customer_detail?.email,
+      nim: customer_detail?.nim,
     },
   };
 
