@@ -23,6 +23,7 @@ export interface FormProps {
 }
 
 export default function Form({ profile }: FormProps) {
+  const [isloading, setLoading] = useState(false);
   const [price, setPrice] = useState("0");
   const [token, setToken] = useState("");
   console.log("token : ", token);
@@ -41,16 +42,18 @@ export default function Form({ profile }: FormProps) {
   });
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
     // @ts-ignore
     const result = await createMidtransToken(data);
     setToken(result);
-    console.log(result);
 
     //@ts-ignore
     window.snap.pay(result, {
       onSuccess: async function (result: string) {
         /* You may add your own implementation here */
         await updateUserCoin(price);
+        setLoading(false);
+
         alert("payment success!");
         console.log(result);
       },
@@ -137,7 +140,7 @@ export default function Form({ profile }: FormProps) {
             {price !== "0" ? numberWithCommas(parseInt(price)) : "0"}
           </p>
         </div>
-        <Button className="font-medium" type="submit">
+        <Button disabled={isloading} className="font-medium" type="submit">
           Lanjutkan Pembayaran
         </Button>
         {errors.nim && <span>{errors.nim.message}</span>}

@@ -143,28 +143,36 @@ export const updateUserCoin = async (params: string) => {
   const session = await getServerSession(authOptions);
 
   const price = parseInt(params);
+  let bonus;
   let coin;
 
   switch (price) {
     case 15000:
-      coin = 1 + 0;
+      bonus = 0;
+      coin = 1 + bonus;
       break;
     case 60000:
-      coin = 4 + 1;
+      bonus = 1;
+      coin = 4 + bonus;
       break;
     case 150000:
-      coin = 10 + 3;
+      bonus = 3;
+      coin = 10 + bonus;
       break;
     case 225000:
-      coin = 15 + 4;
+      bonus = 4;
+      coin = 15 + bonus;
       break;
     case 300000:
-      coin = 20 + 7;
+      bonus = 7;
+      coin = 20 + bonus;
       break;
     case 500000:
-      coin = 35 + 10;
+      bonus = 10;
+      coin = 35 + bonus;
       break;
     default:
+      bonus = 0;
       coin = 0;
   }
 
@@ -175,7 +183,7 @@ export const updateUserCoin = async (params: string) => {
     },
   });
 
-  return redirect("/transaction");
+  return redirect("/profile");
 };
 
 export const updateFilter = async (e: FormData) => {
