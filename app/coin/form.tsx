@@ -1,6 +1,6 @@
 "use client";
 
-import { createMidtransToken } from "@/server/post_action";
+import { createMidtransToken, updateUserCoin } from "@/server/post_action";
 import { Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { coin } from "./coin";
@@ -44,9 +44,31 @@ export default function Form({ profile }: FormProps) {
     // @ts-ignore
     const result = await createMidtransToken(data);
     setToken(result);
+    console.log(result);
 
     //@ts-ignore
-    window.snap.pay(result);
+    window.snap.pay(result, {
+      onSuccess: async function (result: string) {
+        /* You may add your own implementation here */
+        await updateUserCoin(price);
+        alert("payment success!");
+        console.log(result);
+      },
+      onPending: function (result: string) {
+        /* You may add your own implementation here */
+        alert("wating your payment!");
+        console.log(result);
+      },
+      onError: function (result: string) {
+        /* You may add your own implementation here */
+        alert("payment failed!");
+        console.log(result);
+      },
+      onClose: function () {
+        /* You may add your own implementation here */
+        alert("you closed the popup without finishing the payment");
+      },
+    });
   };
 
   function numberWithCommas(price: number) {

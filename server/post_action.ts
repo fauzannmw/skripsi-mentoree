@@ -139,6 +139,45 @@ export const changeTransactionStatus = async (e: FormData) => {
   return redirect("/transaction");
 };
 
+export const updateUserCoin = async (params: string) => {
+  const session = await getServerSession(authOptions);
+
+  const price = parseInt(params);
+  let coin;
+
+  switch (price) {
+    case 15000:
+      coin = 1 + 0;
+      break;
+    case 60000:
+      coin = 4 + 1;
+      break;
+    case 150000:
+      coin = 10 + 3;
+      break;
+    case 225000:
+      coin = 15 + 4;
+      break;
+    case 300000:
+      coin = 20 + 7;
+      break;
+    case 500000:
+      coin = 35 + 10;
+      break;
+    default:
+      coin = 0;
+  }
+
+  await prisma.user.update({
+    where: { email: session?.user?.email },
+    data: {
+      coin: { increment: coin },
+    },
+  });
+
+  return redirect("/transaction");
+};
+
 export const updateFilter = async (e: FormData) => {
   const courseFilter = e.getAll("course");
   const genderFilter = e.getAll("gender");
