@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  createMidtransToken,
-  createMidtransTokens,
-} from "@/server/post_action";
+import { createMidtransToken } from "@/server/post_action";
 import { Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { coin } from "./coin";
@@ -45,7 +42,7 @@ export default function Form({ profile }: FormProps) {
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     // @ts-ignore
-    const result = await createMidtransTokens(data);
+    const result = await createMidtransToken(data);
     setToken(result);
 
     //@ts-ignore

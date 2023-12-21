@@ -19,7 +19,7 @@ let snap = new Midtrans.Snap({
   clientKey: process.env.NEXT_PUBLIC_MIDTRANS_CLIENT,
 });
 
-export async function createMidtransTokens(params: Inputs) {
+export async function createMidtransToken(params: Inputs) {
   const customer_detail = (await getProfileUser()).detail;
 
   const id = ~~(Math.random() * 1000000000);
@@ -77,32 +77,6 @@ export async function createMidtransTokens(params: Inputs) {
       first_name: customer_detail?.name,
       email: customer_detail?.email,
       nim: customer_detail?.nim,
-    },
-  };
-
-  const token = await snap.createTransactionToken(parameter);
-  return token;
-}
-
-export async function createMidtransToken(e: FormData) {
-  const id = ~~(Math.random() * 1000000000);
-
-  // const name = "Produk " + e.get("coin")?.toString();
-  const name = "Produk Coin 4";
-
-  const price = Number(e.get("price"));
-
-  const parameter = {
-    item_details: {
-      name: name,
-      coin: 4,
-      bonus: 1,
-      price: price,
-      quantity: 1,
-    },
-    transaction_details: {
-      order_id: id,
-      gross_amount: price,
     },
   };
 
