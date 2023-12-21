@@ -26,7 +26,6 @@ export default function Form({ profile }: FormProps) {
   const [isloading, setLoading] = useState(false);
   const [price, setPrice] = useState("0");
   const [token, setToken] = useState("");
-  console.log("token : ", token);
 
   const {
     register,
@@ -140,7 +139,7 @@ export default function Form({ profile }: FormProps) {
             {price !== "0" ? numberWithCommas(parseInt(price)) : "0"}
           </p>
         </div>
-        <Button disabled={isloading} className="font-medium" type="submit">
+        <Button isLoading={isloading} className="font-medium" type="submit">
           Lanjutkan Pembayaran
         </Button>
         {errors.nim && <span>{errors.nim.message}</span>}

@@ -1,6 +1,7 @@
 import { Card } from "@/components/card";
-import { getMentorByFilter } from "@/server/get_action";
+import { getAllCourse, getMentorByFilter } from "@/server/get_action";
 import Filter from "./filter";
+import { Course } from "@prisma/client";
 
 export type ProfileSearchParams = {
   [key: string]: string;
@@ -17,11 +18,12 @@ export default async function ExplorePage({
     searchParams.location
   );
 
-  console.log(mentorFilter);
+  const courseList = await getAllCourse();
 
   return (
     <div className="grid gap-y-6">
-      <Filter />
+      {/* @ts-ignore */}
+      <Filter courseList={courseList as Course} />
       <div className="grid justify-center p-6 gap-y-6">
         {/* @ts-ignore */}
         {mentorFilter.map((mentor, index) => (

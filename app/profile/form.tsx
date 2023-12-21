@@ -24,7 +24,7 @@ const FormDataSchema = z.object({
 type Inputs = z.infer<typeof FormDataSchema>;
 
 export default function Form({ profile }: FormProps) {
-  const [data, setData] = useState<Inputs>();
+  const [isloading, setLoading] = useState(false);
 
   const {
     register,
@@ -37,15 +37,22 @@ export default function Form({ profile }: FormProps) {
     },
     resolver: zodResolver(FormDataSchema),
   });
+
   const processForm: SubmitHandler<Inputs> = async (data) => {
-    const result = await updateProfile(data as User);
-    setData(result);
+    try {
+      setLoading(true);
+      await updateProfile(data as User);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form
       onSubmit={handleSubmit(processForm)}
-      className="max-w-xl mx-auto mt-4 sm:mt-20"
+      className="max-w-xl mx-auto my-6 sm:my-20"
     >
       <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
         <div className="flex justify-center sm:col-span-2">
@@ -56,7 +63,13 @@ export default function Form({ profile }: FormProps) {
             Mentore Coin Kamu : {profile?.coin}
           </p>
           <Link href="/coin">
-            <Button>Topup Coin</Button>
+            <Button
+              color="primary"
+              radius="sm"
+              className="w-full text-sm font-semibold"
+            >
+              Topup Coin
+            </Button>
           </Link>
         </div>
         <div className="sm:col-span-2">
@@ -145,9 +158,16 @@ export default function Form({ profile }: FormProps) {
       </div>
 
       <div className="mt-10">
-        <button className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        <Button
+          type="submit"
+          isLoading={isloading}
+          color="primary"
+          radius="sm"
+          className="w-full text-sm font-semibold"
+          // className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
           Update Profil
-        </button>
+        </Button>
       </div>
     </form>
   );
