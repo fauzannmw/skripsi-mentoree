@@ -1,10 +1,12 @@
 import React, { Fragment } from "react";
 import Form from "./form";
 import { getProfileUser } from "@/server/get_action";
+import { User } from "@prisma/client";
 
 export default async function Profile() {
   const user = await getProfileUser();
   const profile = user?.detail;
+
   return (
     <Fragment>
       <div className="flex flex-col gap-1">
@@ -16,7 +18,7 @@ export default async function Profile() {
         </p>
         <p>Saldo Mentoree Coin : {profile?.coin ?? ""}</p>
       </div>
-      <Form />
+      <Form profile={profile as User} />
     </Fragment>
   );
 }

@@ -79,9 +79,6 @@ export default async function Card({ data }: CardProps) {
               Selesaikan Pesanan
             </Button>
           )}
-          {/* <Button className="w-2/3" type="submit">
-            Selesaikan Pesanan
-          </Button> */}
         </div>
       </div>
     </form>

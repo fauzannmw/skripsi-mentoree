@@ -1,58 +1,102 @@
 "use client";
 
+import {
+  createMidtransToken,
+  createMidtransTokens,
+} from "@/server/post_action";
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { coin } from "./coin";
+import { z } from "zod";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
 
-export default function Form() {
-  const [price, setPrice] = useState("-");
+const FormDataSchema = z.object({
+  nim: z.string().min(1, { message: "Silahkan Login Terlebih Dahulu" }),
+  coin: z
+    .string()
+    .min(1, { message: "Silahkan pilih jumlah Coin yang ingin Anda Beli" }),
+});
+
+type Inputs = z.infer<typeof FormDataSchema>;
+
+export interface FormProps {
+  profile: User;
+}
+
+export default function Form({ profile }: FormProps) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>({
+    defaultValues: {
+      nim: profile?.nim as string,
+      coin: "",
+    },
+    resolver: zodResolver(FormDataSchema),
+  });
+
+  console.log(watch("coin"));
+
+  const [loading, setLoading] = useState(false);
+  const [koin, setKoin] = useState(0);
+
+  const [token, setToken] = useState("");
+  const [datas, setDatas] = useState({
+    price: 0,
+    coin: watch("coin"),
+    bonus: 0,
+  });
+
+  console.log("token : ", token);
+  console.log(datas.coin);
+
+  const processForm: SubmitHandler<Inputs> = async (data) => {
+    // @ts-ignore
+    const result = await createMidtransTokens(data);
+    setToken(result);
+
+    //@ts-ignore
+    window.snap.pay(result);
+    setLoading(false);
+  };
 
   function numberWithCommas(price: number) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
-  const coin = [
-    {
-      coin: 1,
-      bonus: 0,
-      price: 15000,
-    },
-    {
-      coin: 4,
-      bonus: 1,
-      price: 60000,
-    },
-    {
-      coin: 10,
-      bonus: 3,
-      price: 150000,
-    },
-    {
-      coin: 15,
-      bonus: 4,
-      price: 225000,
-    },
-    {
-      coin: 20,
-      bonus: 7,
-      price: 300000,
-    },
-    {
-      coin: 35,
-      bonus: 10,
-      price: 500000,
-    },
-  ];
+  useEffect(() => {
+    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const clientKey = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT;
+    const script = document.createElement("script");
+    script.src = snapScript;
+    script.setAttribute("data-client-key", clientKey as string);
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
-    <form action="" method="POST" className="flex flex-col justify-between ">
+    <form
+      onSubmit={handleSubmit(processForm)}
+      className="flex flex-col justify-between "
+    >
       <div className="grid grid-cols-2 gap-4 my-4">
         {coin?.map((coin, index: number) => (
           <label key={index} className="cursor-pointer">
             <input
               type="radio"
               className="sr-only peer"
-              name="price"
-              value={coin.price}
-              onChange={(e) => setPrice(e.target.value)}
+              value={coin.coin}
+              {...register("coin")}
+              onChange={(e) => setKoin(parseInt(e.target.value))}
             />
             <div className="w-full max-w-md px-3 py-2 text-gray-600 transition-all rounded-md ring-2 ring-gray-600 hover:shadow peer-checked:text-sky-600 peer-checked:ring-blue-400 peer-checked:ring-offset-2">
               <div className="flex flex-col gap-1">
@@ -69,7 +113,7 @@ export default function Form() {
                 </div>
                 <div className="">
                   <p>
-                    <span className="text-lg font-bold">Rp.</span>{" "}
+                    <span className="text-lg font-bold">Rp.</span>&nbsp;
                     {numberWithCommas(coin.price)}
                   </p>
                 </div>
@@ -83,12 +127,15 @@ export default function Form() {
           <p>Total Pembayaran</p>
           <p className="">
             <span className="text-lg font-bold">Rp. </span>
-            {price !== "-" ? numberWithCommas(parseInt(price)) : "-"}
+            {/* {price !== "-" ? numberWithCommas(parseInt(price)) : "-"} */}
+            {koin} {numberWithCommas(datas?.price)}
           </p>
         </div>
         <Button className="font-medium" type="submit">
           Lanjutkan Pembayaran
         </Button>
+        {errors.nim && <span>{errors.nim.message}</span>}
+        {errors.coin && <span>{errors.coin.message}</span>}
       </div>
     </form>
   );
