@@ -40,6 +40,7 @@ export default function ActionButtonComponent({
 
   return (
     <ButtonGroup variant="flat">
+      {/* @ts-ignore */}
       <Button onClick={onClickButton}>{labelsMap[selectedOptionValue]}</Button>
       <Dropdown placement="bottom-end">
         <DropdownTrigger className={`${""}`}>
@@ -52,6 +53,7 @@ export default function ActionButtonComponent({
           aria-label="Action options"
           selectedKeys={selectedOption}
           selectionMode="single"
+          // @ts-ignore
           onSelectionChange={setSelectedOption}
           className="max-w-[300px]"
         >

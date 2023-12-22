@@ -10,9 +10,13 @@ import { MentoreeIcon } from "./icons";
 import { Link } from "@nextui-org/link";
 
 export const NavbarGlobal = () => {
-  const [navigation, setNavigation] = useState([{}]);
+  const [navigation, setNavigation] = useState([
+    {
+      name: "",
+      href: "",
+    },
+  ]);
   const { data: session } = useSession();
-  console.log(session);
 
   useEffect(() => {
     switch (session?.user?.role) {
@@ -36,6 +40,8 @@ export const NavbarGlobal = () => {
   ];
 
   const navigationAdmin = [
+    { name: "Explore", href: "/explore" },
+    { name: "Mentoringku", href: "/mentoringku" },
     { name: "Pendaftaran Mentor", href: "/admin/mentor" },
     { name: "Daftar Transaksi User", href: "/admin/transaction" },
   ];

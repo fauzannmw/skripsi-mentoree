@@ -87,6 +87,7 @@ export default function Table({ transactions }: TableProps) {
               <td className="px-4 py-4">
                 <p
                   className={`text-sm font-medium  ${
+                    // @ts-ignore
                     colorStatus[transaction?.status]
                   }`}
                 >

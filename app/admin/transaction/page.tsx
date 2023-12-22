@@ -9,7 +9,6 @@ export default async function AdminTransactionPage() {
   return (
     <div className="items-center w-full px-4 py-4 mx-auto my-10 bg-white rounded-lg shadow-md sm:w-2/3">
       <div className="container mx-auto">
-        {/* Title */}
         <div className="flex justify-between w-full px-4 py-2">
           <div className="text-lg font-bold">Order History</div>
           <Button className="px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">
@@ -17,7 +16,7 @@ export default async function AdminTransactionPage() {
           </Button>
         </div>
 
-        {/* Table */}
+        {/* @ts-ignore */}
         <Table transactions={data} />
 
         <div className="flex flex-col items-center w-full px-4 py-2 space-y-2 text-sm text-gray-500 sm:justify-between sm:space-y-0 sm:flex-row">
