@@ -85,7 +85,7 @@ async function main() {
     update: {},
     create: {
       nim: "205150200111037",
-      name: "Fauzan",
+      name: "Muhamad Fauzan",
       major: "Teknologi Informasi",
       phone_number: "082221120018",
       image:
@@ -148,7 +148,7 @@ async function main() {
     update: {},
     create: {
       nim: "205150200111038",
-      name: "Faza",
+      name: "Muhammad Faza",
       major: "Teknik Informatika",
       phone_number: "082221120019",
       image:
@@ -208,7 +208,7 @@ async function main() {
     update: {},
     create: {
       nim: "205150200111039",
-      name: "Xavier",
+      name: "Xavier Julian",
       major: "Teknik Elektro",
       phone_number: "082221120020",
       image:

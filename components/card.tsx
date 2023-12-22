@@ -58,9 +58,9 @@ export const Card: React.FC<CardProps> = async ({
         </div>
         <div className="flex flex-col gap-2 ">
           <div className="flex items-center justify-between">
-            <h5 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
+            <h1 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
               {name}, {major}
-            </h5>
+            </h1>
             <span>
               {gender == "Laki Laki" ? <BsGenderMale /> : <BsGenderFemale />}
             </span>

@@ -1,6 +1,9 @@
 "use client";
 
-import { createMidtransToken, updateUserCoin } from "@/server/post_action";
+import {
+  createMidtransToken,
+  updateUserCoin,
+} from "@/server/transaction_action";
 import { Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { coin } from "./coin";

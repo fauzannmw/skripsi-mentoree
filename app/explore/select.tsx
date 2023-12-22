@@ -15,7 +15,7 @@ export default function Filter({ courseList }: FilterProps) {
     <form action={updateFilter} method="POST">
       <div className="w-screen max-w-lg p-6">
         <div className="p-6 bg-white border border-gray-200 shadow-lg rounded-xl">
-          <h2 className="text-xl font-bold text-stone-700">Apply filters</h2>
+          <h1 className="text-xl font-bold text-stone-700">Apply filters</h1>
           <p className="mt-1 text-sm">Pilih Mentor sesuai keinginan Anda</p>
           <div className="grid grid-cols-1 gap-6 mt-8">
             <div className="flex flex-col">
