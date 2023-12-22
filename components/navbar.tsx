@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -10,11 +10,39 @@ import { MentoreeIcon } from "./icons";
 import { Link } from "@nextui-org/link";
 
 export const NavbarGlobal = () => {
+  const [navigation, setNavigation] = useState([{}]);
   const { data: session } = useSession();
+  console.log(session);
 
-  const navigation = [
+  useEffect(() => {
+    switch (session?.user?.role) {
+      case "user":
+        setNavigation(navigationUser);
+        break;
+      case "admin":
+        setNavigation(navigationAdmin);
+        break;
+      case "mentor":
+        setNavigation(navigationMentor);
+        break;
+      default:
+        break;
+    }
+  }, [session?.user?.role]);
+
+  const navigationUser = [
     { name: "Explore", href: "/explore" },
     { name: "Mentoringku", href: "/mentoringku" },
+  ];
+
+  const navigationAdmin = [
+    { name: "Pendaftaran Mentor", href: "/admin/mentor" },
+    { name: "Daftar Transaksi User", href: "/admin/transaction" },
+  ];
+
+  const navigationMentor = [
+    { name: "Notifikasi Pemesanan", href: "/mentor/notification" },
+    { name: "Mentoringku", href: "/mentor/transaction" },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -33,6 +61,7 @@ export const NavbarGlobal = () => {
         </div>
 
         <div className="hidden lg:flex lg:gap-x-12">
+          {session?.user?.role === "" && ""}
           {navigation.map((item) => (
             <Link
               key={item.name}
