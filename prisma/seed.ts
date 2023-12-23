@@ -85,6 +85,7 @@ async function main() {
     update: {},
     create: {
       nim: "205150200111037",
+      email: "muhamad.fauzan@student.ub.ac.id",
       name: "Muhamad Fauzan",
       major: "Teknologi Informasi",
       phone_number: "082221120018",
@@ -148,6 +149,7 @@ async function main() {
     update: {},
     create: {
       nim: "205150200111038",
+      email: "muhamad.fauzan@student.ub.ac.id",
       name: "Muhammad Faza",
       major: "Teknik Informatika",
       phone_number: "082221120019",
@@ -208,6 +210,7 @@ async function main() {
     update: {},
     create: {
       nim: "205150200111039",
+      email: "muhamad.fauzan@student.ub.ac.id",
       name: "Xavier Julian",
       major: "Teknik Elektro",
       phone_number: "082221120020",

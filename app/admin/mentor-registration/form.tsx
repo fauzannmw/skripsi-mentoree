@@ -272,39 +272,47 @@ export default function Form({ profile }: FormProps) {
             }}
           />
         </div>
-        <div className="flex gap-2">
-          <Input
-            type="text"
-            label="Hari Mentoring"
-            labelPlacement="outside"
-            variant="bordered"
-            size="lg"
-            radius="sm"
-            isInvalid={errors.course_day ? true : false}
-            errorMessage={errors.course_day && errors.course_day.message}
-            {...register("course_day", { required: true })}
-            className="w-full font-semibold "
-            classNames={{
-              label: "text-sm",
-              input: "text-sm font-semibold",
-            }}
-          />
-          <Input
-            type="text"
-            label="Jam Mentoring"
-            labelPlacement="outside"
-            variant="bordered"
-            size="lg"
-            radius="sm"
-            isInvalid={errors.course_time ? true : false}
-            errorMessage={errors.course_time && errors.course_time.message}
-            {...register("course_time", { required: true })}
-            className="w-full font-semibold "
-            classNames={{
-              label: "text-sm",
-              input: "text-sm font-semibold",
-            }}
-          />
+        <div className="flex flex-col gap-2 mb-2">
+          <label
+            htmlFor="experience_position"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            Sertifikasi
+          </label>
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              label="Hari Mentoring"
+              labelPlacement="outside"
+              variant="bordered"
+              size="lg"
+              radius="sm"
+              isInvalid={errors.course_day ? true : false}
+              errorMessage={errors.course_day && errors.course_day.message}
+              {...register("course_day", { required: true })}
+              className="w-full font-semibold "
+              classNames={{
+                label: "text-sm",
+                input: "text-sm font-semibold",
+              }}
+            />
+            <Input
+              type="text"
+              label="Jam Mentoring"
+              labelPlacement="outside"
+              variant="bordered"
+              size="lg"
+              radius="sm"
+              isInvalid={errors.course_time ? true : false}
+              errorMessage={errors.course_time && errors.course_time.message}
+              {...register("course_time", { required: true })}
+              className="w-full font-semibold "
+              classNames={{
+                label: "text-sm",
+                input: "text-sm font-semibold",
+              }}
+            />
+          </div>
         </div>
         <div className="sm:col-span-2">
           <Select
