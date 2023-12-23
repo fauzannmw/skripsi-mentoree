@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
             profile?.email === "fz1792@student.ub.ac.id" ||
             profile?.email === "lutfifanani@ub.ac.id" ||
             profile?.email === "adam@ub.ac.id"
-              ? "adminn"
+              ? "admin"
               : "user",
         };
       },

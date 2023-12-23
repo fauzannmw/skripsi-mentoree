@@ -23,9 +23,7 @@ export default function ActionButtonComponent({
 }: ActionButtonProps) {
   const [isloading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(new Set([status]));
-  const [selectedId, setSelectedId] = useState(id);
 
-  // Convert the Set to an Array and get the first value.
   const selectedOptionValue = Array.from(selectedOption)[0];
 
   const labelsMap = {

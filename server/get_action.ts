@@ -5,26 +5,30 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export const getAllMentor = async () => {
   try {
-    const detail = await prisma.mentor.findMany({
+    return await prisma.mentor.findMany({
       include: {
         course: {
           select: {
             course: true,
           },
         },
+        course_day: {
+          select: {
+            day: true,
+          },
+        },
       },
     });
-    return { detail };
   } catch (error) {
     return { error };
   }
 };
 
-export const getMentorByNim = async (nim: string) => {
+export const getMentorById = async (id: string) => {
   try {
     const detail = await prisma.mentor.findUnique({
       where: {
-        nim: nim,
+        id: id,
       },
       include: {
         course: {
@@ -108,6 +112,14 @@ export const getAllTransaction = async () => {
         mentor: true,
       },
     });
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getTotalTransaction = async () => {
+  try {
+    return await prisma.transaction.count();
   } catch (error) {
     return { error };
   }
@@ -300,20 +312,7 @@ export const getMentorByFilter = async (
           break;
       }
     } else {
-      return await prisma.mentor.findMany({
-        include: {
-          course: {
-            select: {
-              course: true,
-            },
-          },
-          course_day: {
-            select: {
-              day: true,
-            },
-          },
-        },
-      });
+      return getAllMentor();
     }
   } catch (error) {
     return { error };

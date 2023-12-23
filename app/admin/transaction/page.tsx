@@ -1,14 +1,15 @@
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 
 import { IoMdPrint } from "react-icons/io";
 import Table from "./table";
 import { Button } from "@nextui-org/react";
-import { getAllTransaction } from "@/server/get_action";
+import { getAllTransaction, getTotalTransaction } from "@/server/get_action";
 
 import { useReactToPrint } from "react-to-print";
 
 export default async function AdminTransactionPage() {
   const data = await getAllTransaction();
+  const totalData = await getTotalTransaction();
 
   return (
     <div className="items-center w-full px-4 py-4 mx-auto my-10 bg-white rounded-lg shadow-md lg:w-3/4">
@@ -23,8 +24,11 @@ export default async function AdminTransactionPage() {
         <Table transactions={data} />
         <div className="flex flex-col items-center w-full px-4 py-2 space-y-2 text-sm text-gray-500 sm:justify-between sm:space-y-0 sm:flex-row">
           <p className="flex">
-            Menampilkan&nbsp;<span className="font-bold"> 1 to 10 </span>
-            &nbsp;of 100 Transaksi
+            Menampilkan&nbsp;
+            <span className="font-bold">
+              10 dari {totalData as number as ReactNode}
+            </span>
+            &nbsp; Transaksi
           </p>
           <div className="flex items-center justify-between space-x-2">
             <a href="#" className="hover:text-gray-600">

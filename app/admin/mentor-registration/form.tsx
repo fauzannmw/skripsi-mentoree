@@ -31,8 +31,6 @@ const FormDataSchema = z.object({
     .min(1)
     .email("Masukkan Email dengan Format yang Benar.")
     .refine(async (e) => {
-      // Where checkIfEmailIsValid makes a request to the backend
-      // to see if the email is valid.
       return await checkMentorInUser(e);
     }, "This email is not in our database"),
   name: z.string().min(1),
@@ -89,8 +87,6 @@ export default function Form({ profile }: FormProps) {
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     try {
-      console.log("tes");
-
       setLoading(true);
       await registerMentor(data as registerMentorTypes);
       reset();

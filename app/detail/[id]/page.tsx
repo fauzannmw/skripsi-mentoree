@@ -1,4 +1,4 @@
-import { getMentorByNim } from "@/server/get_action";
+import { getMentorById } from "@/server/get_action";
 import { Image } from "@nextui-org/image";
 import { Button, Link } from "@nextui-org/react";
 import { BsCoin, BsGenderFemale, BsGenderMale } from "react-icons/bs";
@@ -6,7 +6,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 
 // @ts-ignore
 export default async function DetailPage({ params }) {
-  const mentorData = await getMentorByNim(params.id);
+  const mentorData = await getMentorById(params.id);
   const courses = mentorData?.detail?.course;
   const courses_day = mentorData?.detail?.course_day;
   const experience = mentorData?.detail?.experience;
@@ -228,7 +228,7 @@ export default async function DetailPage({ params }) {
               <BsCoin />
             </span>
           </p>
-          <Link href={`/checkout/${mentorData?.detail?.nim}`} className="">
+          <Link href={`/checkout/${mentorData?.detail?.id}`} className="">
             <Button className="font-sans text-sm font-semibold text-white bg-gray-900 rounded-lg">
               Pesan Sekarang
             </Button>

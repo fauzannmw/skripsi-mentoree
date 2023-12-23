@@ -29,6 +29,7 @@ export default async function ExplorePage({
         {mentorFilter.map((mentor, index) => (
           <Card
             key={index}
+            id={mentor.id}
             nim={mentor.nim}
             name={mentor.name}
             major={mentor.major}
