@@ -28,7 +28,6 @@ export const config = {
 
     "/checkout/:path*",
     "/coin/:path*",
-    "/detail/:path*",
     "/mentoringku/:path*",
     "/profile/:path*",
     "/success/:path*",

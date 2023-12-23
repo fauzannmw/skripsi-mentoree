@@ -1,29 +1,63 @@
 import { getMentorById } from "@/server/get_action";
 import { Image } from "@nextui-org/image";
 import { Button, Link } from "@nextui-org/react";
+import { Mentor } from "@prisma/client";
 import { BsCoin, BsGenderFemale, BsGenderMale } from "react-icons/bs";
 import { RiErrorWarningLine } from "react-icons/ri";
 
-// @ts-ignore
-export default async function DetailPage({ params }) {
-  const mentorData = await getMentorById(params.id);
-  const courses = mentorData?.detail?.course;
-  const courses_day = mentorData?.detail?.course_day;
-  const experience = mentorData?.detail?.experience;
-  const certification = mentorData?.detail?.certification;
+interface MentorExtends extends Mentor {
+  course: [{ course: string }];
+  course_day: [
+    {
+      day: string;
+      time: string;
+    }
+  ];
+  mentoring_location: [
+    {
+      location: string;
+    }
+  ];
+  experience: [
+    {
+      position: string;
+      company: string;
+    }
+  ];
+  certification: [
+    {
+      course: string;
+      institution: string;
+    }
+  ];
+}
+
+export default async function DetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const mentorData = (await getMentorById(params.id))
+    .detail as unknown as MentorExtends;
+
+  const courses = mentorData?.course;
+  const courses_day = mentorData?.course_day;
+  const experience = mentorData?.experience;
+  const certification = mentorData?.certification;
 
   return (
     <div className="flex flex-col flex-wrap gap-4 mx-auto">
       <div className="flex items-center justify-center">
-        {mentorData?.detail?.image ? (
+        {mentorData?.image ? (
           <Image
             alt="mentor-image"
             className="object-cover object-center border border-gray-200 rounded w-72 h-72"
-            src={mentorData?.detail?.image}
+            src={mentorData?.image}
           />
         ) : (
           <Image
             alt="mentor-image"
+            className="object-cover object-center border border-gray-200 rounded w-72 h-72"
             src="https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80&w=2718&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           />
         )}
@@ -31,14 +65,14 @@ export default async function DetailPage({ params }) {
       <div className="flex flex-col w-full gap-4 lg:w-1/2 lg:py-6 lg:mt-0">
         <div className="">
           <h1 className="text-sm tracking-widest text-gray-500 ">
-            {mentorData?.detail?.major}
+            {mentorData?.major}
           </h1>
           <div className="flex justify-between">
             <h1 className="mb-1 text-3xl font-medium text-gray-900 ">
-              {mentorData?.detail?.name}
+              {mentorData?.name}
             </h1>
             <button className="inline-flex items-center justify-center p-3 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
-              {mentorData?.detail?.gender == "Laki Laki" ? (
+              {mentorData?.gender == "Laki Laki" ? (
                 <BsGenderMale />
               ) : (
                 <BsGenderFemale />
@@ -46,66 +80,6 @@ export default async function DetailPage({ params }) {
             </button>
           </div>
         </div>
-        {/* <div className="flex mb-4">
-          <span className="flex items-center">
-            <svg
-              fill="currentColor"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 text-red-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg
-              fill="currentColor"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 text-red-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg
-              fill="currentColor"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 text-red-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg
-              fill="currentColor"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 text-red-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 text-red-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <span className="ml-3 text-gray-600">5 Reviews</span>
-          </span>
-        </div> */}
         <div>
           <h1 className="mb-2 text-xl font-bold dark:text-gray-400">
             Deskripsi Diri
@@ -228,7 +202,7 @@ export default async function DetailPage({ params }) {
               <BsCoin />
             </span>
           </p>
-          <Link href={`/checkout/${mentorData?.detail?.id}`} className="">
+          <Link href={`/checkout/${mentorData?.id}`} className="">
             <Button className="font-sans text-sm font-semibold text-white bg-gray-900 rounded-lg">
               Pesan Sekarang
             </Button>

@@ -56,8 +56,7 @@ export default function ActionButtonComponent({
           aria-label="Action options"
           selectedKeys={selectedOption}
           selectionMode="single"
-          // @ts-ignore
-          onSelectionChange={setSelectedOption}
+          onSelectionChange={setSelectedOption as any}
           className="max-w-[300px]"
         >
           <DropdownItem color="warning" key="Belum diterima Mentor">
