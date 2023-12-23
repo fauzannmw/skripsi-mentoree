@@ -6,6 +6,7 @@ import prisma from "./database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { User } from "@prisma/client";
+import { registerMentorTypes } from "./types";
 
 export const updateProfile = async (params: User) => {
   const session = await getServerSession(authOptions);
@@ -24,10 +25,78 @@ export const updateProfile = async (params: User) => {
   return redirect("/profile");
 };
 
+export const registerMentor = async (params: registerMentorTypes) => {
+  await prisma.mentor.upsert({
+    where: { nim: params.nim as string },
+    update: {},
+    create: {
+      nim: params.nim as string,
+      email: params.email,
+      name: params.name as string,
+      major: params.major as string,
+      phone_number: params.phone_number as string,
+      image: params.image as string,
+      gender: params.gender as string,
+      description: params.description as string,
+      mentoring_location: {
+        create: [
+          {
+            location: params.mentoring_location as string,
+          },
+        ],
+      },
+      course: {
+        create: [
+          {
+            course: params.course as string,
+          },
+        ],
+      },
+      course_day: {
+        create: [
+          {
+            day: params.course_day as string,
+            time: params.course_time as string,
+          },
+        ],
+      },
+      experience: {
+        create: [
+          {
+            position: params.experience_position as string,
+            company: params.experience_company as string,
+          },
+        ],
+      },
+      certification: {
+        create: [
+          {
+            course: params.certification_course as string,
+            institution: params.certification_institution as string,
+          },
+        ],
+      },
+    },
+  });
+
+  await prisma.user.update({
+    where: {
+      email: params.email as string,
+    },
+    data: {
+      nim: params.nim,
+      major: params.major,
+      role: "mentor",
+    },
+  });
+
+  return redirect("/admin/mentor-registration");
+};
+
 export const updateFilter = async (data: any) => {
-  const courseFilter = data.course;
-  const genderFilter = data.gender;
-  const locationFilter = data.location;
+  const courseFilter = data.course ?? "";
+  const genderFilter = data.gender ?? "";
+  const locationFilter = data.location ?? "";
 
   if (courseFilter || genderFilter || locationFilter) {
     const courseParams = new URLSearchParams([

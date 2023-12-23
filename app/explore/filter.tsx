@@ -78,7 +78,12 @@ export default function Filter({ courseList }: FilterProps) {
 
           <div className="grid justify-end w-full grid-cols-2 mt-6 space-x-4 md:flex">
             <Link href="/explore" className="w-full">
-              <Button variant="bordered" radius="sm" className="w-full">
+              <Button
+                variant="bordered"
+                radius="sm"
+                isLoading={isloading}
+                className="w-full"
+              >
                 Reset
               </Button>
             </Link>
@@ -87,6 +92,7 @@ export default function Filter({ courseList }: FilterProps) {
               color="primary"
               type="submit"
               radius="sm"
+              isLoading={isloading}
               className="w-full"
             >
               Cari

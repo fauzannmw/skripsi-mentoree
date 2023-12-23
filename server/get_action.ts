@@ -58,6 +58,18 @@ export const getMentorByNim = async (nim: string) => {
   }
 };
 
+export const checkMentorInUser = async (email: string) => {
+  try {
+    return !!(await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    }));
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getProfileUser = async () => {
   const session = await getServerSession(authOptions);
 

@@ -1,6 +1,5 @@
 "use client";
 import { Button, Image } from "@nextui-org/react";
-import { Fragment } from "react";
 import ActionButtonComponent from "./actionButton";
 import { Transaction } from "@prisma/client";
 
@@ -18,7 +17,7 @@ export default function Table({ transactions }: TableProps) {
 
   const colorStatus = {
     "Belum diterima Mentor": "text-yellow-600",
-    Berlangsung: "text-green-600",
+    Berlangsung: "text-blue-600",
     Selesai: "text-green-600",
     Gagal: "text-red-600",
   };
@@ -36,15 +35,20 @@ export default function Table({ transactions }: TableProps) {
               Transaction Number
             </th>
             <th className="px-4 py-3 border-b-2 border-blue-500">Tanggal</th>
+            <th className="px-4 py-3 border-b-2 border-blue-500">Jam</th>
             <th className="px-4 py-3 border-b-2 border-blue-500">Lokasi</th>
+            <th className="px-4 py-3 border-b-2 border-blue-500">
+              Detail Lokasi
+            </th>
             <th className="px-4 py-3 border-b-2 border-blue-500">
               Jumlah Partisipan
             </th>
             <th className="px-4 py-3 border-b-2 border-blue-500">
               Topik Mentoring
             </th>
+            <th className="px-4 py-3 border-b-2 border-blue-500">Pesan</th>
             <th className="px-4 py-3 border-b-2 border-blue-500">
-              Purchased On
+              Tanggal Pemesanan
             </th>
           </tr>
         </thead>
@@ -53,32 +57,45 @@ export default function Table({ transactions }: TableProps) {
           {transactions?.map((transaction, index: number) => (
             <tr
               key={index}
-              className="py-10 border-b border-gray-200 hover:bg-gray-100"
+              className="py-10 text-center border-b border-gray-200 hover:bg-gray-100"
             >
-              <td className="flex flex-row items-center justify-center px-4 py-4">
-                <div className="flex w-10 h-10 mr-4">
-                  <a href="#" className="relative block">
+              <td className="px-4 py-4 text-start">
+                <div className="flex flex-row items-center justify-center gap-4">
+                  <div className="flex w-10 h-10">
                     <Image
                       alt="profil"
                       src={transaction?.mentor?.image}
                       className="object-cover w-10 h-10 mx-auto rounded-md"
                     />
-                  </a>
-                </div>
-                <div className="flex-1 pl-1 ">
-                  <p className="font-medium dark:text-white">
-                    {transaction?.mentor?.name}
-                  </p>
-                  <p className="text-sm">{transaction?.mentor?.phone_number}</p>
+                  </div>
+                  <div className="flex-1 pl-1">
+                    <p className="font-medium dark:text-white">
+                      {transaction?.mentor?.name}
+                    </p>
+                    <p className="text-sm">
+                      {transaction?.mentor?.phone_number}
+                    </p>
+                  </div>
                 </div>
               </td>
-              <td className="px-4 py-4">
-                <p className="font-medium dark:text-white">
-                  {transaction?.User?.name}
-                </p>
-                <p className="text-sm"> {transaction?.User?.email}</p>
+              <td className="px-4 py-4 text-start">
+                <div className="flex flex-row items-center justify-center gap-4">
+                  <div className="flex w-10 h-10">
+                    <Image
+                      alt="profil"
+                      src={transaction?.User?.image}
+                      className="object-cover w-10 h-10 mx-auto rounded-md"
+                    />
+                  </div>
+                  <div className="flex-1 pl-1">
+                    <p className="font-medium dark:text-white">
+                      {transaction?.User?.name}
+                    </p>
+                    <p className="text-sm">{transaction?.User?.email}</p>
+                  </div>
+                </div>
               </td>
-              <td className="px-4 py-4">
+              <td className="px-4 py-4 text-start">
                 <ActionButtonComponent
                   id={transaction?.id}
                   status={transaction?.status}
@@ -86,7 +103,7 @@ export default function Table({ transactions }: TableProps) {
               </td>
               <td className="px-4 py-4">
                 <p
-                  className={`text-sm font-medium  ${
+                  className={`text-sm font-medium w-28  ${
                     // @ts-ignore
                     colorStatus[transaction?.status]
                   }`}
@@ -98,26 +115,33 @@ export default function Table({ transactions }: TableProps) {
                 <p>{transaction?.id}</p>
               </td>
               <td className="px-4 py-4">
-                <div className="flex-1 pl-1 ">
-                  <p className="font-medium dark:text-white">
-                    {transaction?.date}
-                  </p>
-                  <p className="text-sm">{transaction?.time}</p>
-                </div>
+                <p className="w-20 font-medium dark:text-white">
+                  {transaction?.date}
+                </p>
+              </td>
+              <td className="px-4 py-4 ">
+                <p className="text-sm">{transaction?.time}</p>
               </td>
               <td className="px-4 py-4">
-                <div className="flex-1 pl-1 ">
-                  <p className="font-medium dark:text-white">
-                    {transaction?.location}
-                  </p>
-                  <p className="text-sm">{transaction?.location}</p>
-                </div>
+                <p className="font-medium dark:text-white">
+                  {transaction?.location}
+                </p>
+              </td>
+              <td className="px-4 py-4">
+                <p className="w-32">
+                  Junction antara gedung F dan gedung G FILKOM UB
+                </p>
               </td>
               <td className="px-4 py-4">
                 <p>{transaction?.participant}</p>
               </td>
               <td className="px-4 py-4">
                 <p>{transaction?.mentoring_topic}</p>
+              </td>
+              <td className="px-4 py-4">
+                <p className="w-32">
+                  Terlalu mepet waktu mentoringnya dan terlalu pagi mentoringnya
+                </p>
               </td>
               <td className="px-4 py-4">
                 <p>

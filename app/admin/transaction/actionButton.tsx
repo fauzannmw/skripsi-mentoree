@@ -21,6 +21,7 @@ export default function ActionButtonComponent({
   id,
   status,
 }: ActionButtonProps) {
+  const [isloading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(new Set([status]));
   const [selectedId, setSelectedId] = useState(id);
 
@@ -35,13 +36,17 @@ export default function ActionButtonComponent({
   };
 
   async function onClickButton() {
+    setLoading(true);
     await AdminchangeTransactionStatus(id, selectedOptionValue);
+    setLoading(false);
   }
 
   return (
     <ButtonGroup variant="flat">
-      {/* @ts-ignore */}
-      <Button onClick={onClickButton}>{labelsMap[selectedOptionValue]}</Button>
+      <Button isLoading={isloading} onClick={onClickButton}>
+        {/* @ts-ignore */}
+        {labelsMap[selectedOptionValue]}
+      </Button>
       <Dropdown placement="bottom-end">
         <DropdownTrigger className={`${""}`}>
           <Button isIconOnly>

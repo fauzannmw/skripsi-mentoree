@@ -12,20 +12,21 @@ generator client {
 }
 
 model Mentor {
-  id           String    @id @default(cuid())
-  nim          String?   @unique
-  name         String
-  major        String
-  phone_number String
-  image        String
-  gender       String
-  description  String?
-  course       Course[]
-  course_day   Day[]
+  id                 String          @id @default(cuid())
+  nim                String         @unique
+  email              String         @unique
+  name               String
+  major              String?
+  phone_number       String?
+  image              String?
+  gender             String?
+  description        String?
+  course             Course[]
+  course_day         Day[]
   mentoring_location Location[]
-  experience Experience[]
-  certification Certification[]
-  transaction Transaction[]
+  experience         Experience[]
+  certification      Certification[]
+  transaction        Transaction[]
 }
 
 model Course {
@@ -39,22 +40,22 @@ model Experience {
   id        Int     @id @default(autoincrement())
   Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
   mentorNim String?
-  position    String
-  company    String
+  position  String
+  company   String
 }
 
 model Certification {
-  id        Int     @id @default(autoincrement())
-  Mentor    Mentor? @relation(fields: [mentorNim], references: [nim])
-  mentorNim String?
-  course    String
-  institution    String
+  id          Int     @id @default(autoincrement())
+  Mentor      Mentor? @relation(fields: [mentorNim], references: [nim])
+  mentorNim   String?
+  course      String
+  institution String
 }
 
 model Location {
-  id         Int        @id @default(autoincrement())
-  location      String
-  mentor Mentor[]
+  id       Int      @id @default(autoincrement())
+  location String
+  mentor   Mentor[]
 }
 
 model Day {
@@ -93,31 +94,33 @@ model Session {
 }
 
 model Transaction {
-  id        String   @id @default(cuid())
-  User      User?    @relation(fields: [userEmail], references: [email])
-  mentor    Mentor?   @relation(fields: [mentorNim], references: [nim])
-  userEmail String
-  mentorNim String?
-  date      String?
-  time      String?
-  location  String?
-  participant String?
+  id              String   @id @default(cuid())
+  User            User?    @relation(fields: [userEmail], references: [email])
+  mentor          Mentor?  @relation(fields: [mentorNim], references: [nim])
+  userEmail       String
+  mentorNim       String?
+  date            String?
+  time            String?
+  location        String?
+  location_detail String?
+  participant     String?
   mentoring_topic String?
-  status    String? @default("Berlangsung")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  message         String?
+  status          String?  @default("Belum diterima Mentor")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String
-  nim           String?   @unique
-  email         String    @unique
+  nim           String?       @unique
+  email         String        @unique
   emailVerified DateTime?
   major         String?
   image         String
   role          String
-  coin          Int?      @default(0)
+  coin          Int?          @default(0)
   accounts      Account[]
   sessions      Session[]
   transaction   Transaction[]
