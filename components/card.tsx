@@ -20,37 +20,17 @@ export const Card: React.FC<CardProps> = async ({
   return (
     <Fragment>
       <div className="flex flex-col max-w-md gap-4 p-6 text-gray-700 bg-white shadow-2xl rounded-xl bg-clip-border">
-        {/* <div className="relative flex justify-center mx-4 mt-4 overflow-hidden text-white rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
-          {image ? (
-            <Image alt="mentor-image" src={image} className="object-cover" />
-          ) : (
-            <Image
-              alt="mentor-image"
-              src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
-            />
-          )}
-
-          <Image src="https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg" />
-          <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
-
-          <button
-            className="!absolute  top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button"
-          >
-            <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-              <HeartFilledIcon />
-            </span>
-          </button>
-        </div> */}
         <div className="flex items-center justify-center">
           {image ? (
             <Image
+              isZoomed
               alt="mentor-image"
               src={image}
               className="object-cover w-72 h-72"
             />
           ) : (
             <Image
+              isZoomed
               alt="mentor-image"
               src="https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80&w=2718&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             />

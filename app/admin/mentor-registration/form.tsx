@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import { Mentor, User } from "@prisma/client";
 import { registerMentor } from "@/server/post_action";
-import { Button } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+
+import { MdEmail } from "react-icons/md";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -85,6 +87,8 @@ export default function Form({ profile }: FormProps) {
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     try {
+      console.log("tes");
+
       setLoading(true);
       await registerMentor(data as registerMentorTypes);
       reset();
@@ -97,274 +101,332 @@ export default function Form({ profile }: FormProps) {
 
   return (
     <form onSubmit={handleSubmit(processForm)}>
-      <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label
-            htmlFor="email"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Email
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="email"
-              {...register("email", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.email && <span>{errors.email.message}</span>}
-          </div>
+          <Input
+            type="email"
+            label="Email"
+            placeholder="mentor@ub.ac.id"
+            variant="bordered"
+            size="sm"
+            radius="sm"
+            isInvalid={errors.email ? true : false}
+            errorMessage={errors.email && errors.email.message}
+            endContent={
+              <MdEmail className="self-center text-2xl text-default-400" />
+            }
+            {...register("email", { required: true })}
+            className="w-full text-sm font-semibold"
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="nim"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Nomor Induk Mahasiswa
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="number"
-              {...register("nim", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.nim && <span>{errors.nim.message}</span>}
-          </div>
+          <Input
+            type="number"
+            label="Nomor Induk Mahasiswa"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.nim ? true : false}
+            errorMessage={errors.nim && errors.nim.message}
+            {...register("nim", { required: true })}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="name"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Nama
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="text"
-              {...register("name", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.name && <span>{errors.name.message}</span>}
-          </div>
+          <Input
+            type="text"
+            label="Nama"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.name ? true : false}
+            errorMessage={errors.name && errors.name.message}
+            {...register("name", { required: true })}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="major"
-            className="block text-sm font-semibold leading-6 text-gray-900"
+          <Select
+            label="Jurusan"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.major ? true : false}
+            errorMessage={errors.major && errors.major.message}
+            {...register("major", { required: true })}
+            className="w-full font-semibold"
+            classNames={{
+              label: "text-sm",
+              value: "text-sm font-semibold",
+            }}
           >
-            Jurusan
-          </label>
-          <div className="mt-2.5">
-            <select
-              {...register("major", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            <SelectItem key={"Teknik Informatika"} value="Teknik Informatika">
+              Teknik Informatika - FILKOM
+            </SelectItem>
+            <SelectItem key={"Teknik Elektro"} value="Teknik Elektro">
+              Teknik Elektro - FT
+            </SelectItem>
+            <SelectItem key={"Statistika"} value="Statistika">
+              Statistika - FMIPA
+            </SelectItem>
+            <SelectItem key={"Teknologi Informasi"} value="Teknologi Informasi">
+              Teknologi Informasi - FV
+            </SelectItem>
+            <SelectItem
+              key={"Teknik Industri Pertanian"}
+              value="Teknik Industri Pertanian"
             >
-              <option value="Teknik Informatika">
-                Teknik Informatika - FILKOM
-              </option>
-              <option value="Teknik Elektro">Teknik Elektro - FT</option>
-              <option value="Statistika">Statistika - FMIPA</option>
-              <option value="Teknologi Informasi">
-                Teknologi Informasi - FV
-              </option>
-              <option value="Teknik Industri Pertanian">
-                Teknik Industri Pertanian - FTP
-              </option>
-            </select>
-            {errors.major && <span>{errors.major.message}</span>}
-          </div>
+              Teknik Industri Pertanian - FTP
+            </SelectItem>
+          </Select>
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="phone_number"
-            className="block text-sm font-semibold leading-6 text-gray-900"
+          <Input
+            type="number"
+            label="Nomor Ponsel"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.phone_number ? true : false}
+            errorMessage={errors.phone_number && errors.phone_number.message}
+            {...register("phone_number", { required: true })}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <Select
+            label="Jenis Kelamin"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.gender ? true : false}
+            errorMessage={errors.gender && errors.gender.message}
+            {...register("gender", { required: true })}
+            className="w-full font-semibold"
+            classNames={{
+              label: "text-sm",
+              value: "text-sm font-semibold",
+            }}
           >
-            Nomor Ponsel
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="number"
-              {...register("phone_number", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.phone_number && <span>{errors.phone_number.message}</span>}
-          </div>
+            <SelectItem key={"Laki Laki"} value="Laki Laki">
+              Laki Laki
+            </SelectItem>
+            <SelectItem key={"Perempuan"} value="Perempuan">
+              Perempuan
+            </SelectItem>
+          </Select>
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="gender"
-            className="block text-sm font-semibold leading-6 text-gray-900"
+          <Textarea
+            label="Description"
+            labelPlacement="outside"
+            variant="bordered"
+            placeholder="Deskripsi singkat Mentor"
+            minRows={4}
+            isInvalid={errors.description ? true : false}
+            errorMessage={errors.description && errors.description.message}
+            {...register("description", { required: true })}
+            className="w-full font-semibold"
+            classNames={{
+              label: "text-sm",
+              input: "resize-y min-h-[50px] text-sm font-semibold",
+            }}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <Input
+            type="text"
+            label="Bahasa Pemrograman"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.course ? true : false}
+            errorMessage={errors.course && errors.course.message}
+            {...register("course", { required: true })}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
+        </div>
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            label="Hari Mentoring"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.course_day ? true : false}
+            errorMessage={errors.course_day && errors.course_day.message}
+            {...register("course_day", { required: true })}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
+          <Input
+            type="text"
+            label="Jam Mentoring"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.course_time ? true : false}
+            errorMessage={errors.course_time && errors.course_time.message}
+            {...register("course_time", { required: true })}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <Select
+            label="Lokasi Mentoring"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.mentoring_location ? true : false}
+            errorMessage={
+              errors.mentoring_location && errors.mentoring_location.message
+            }
+            {...register("mentoring_location", { required: true })}
+            className="w-full font-semibold"
+            classNames={{
+              label: "text-sm",
+              value: "text-sm font-semibold",
+            }}
           >
-            Jenis Kelamin
-          </label>
-          <div className="mt-2.5">
-            <select
-              {...register("gender", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            >
-              <option value="Laki Laki">Laki Laki</option>
-              <option value="Perempuan">Perempuan</option>
-            </select>
-            {errors.gender && <span>{errors.gender.message}</span>}
-          </div>
+            <SelectItem key={"Daring"} value="Daring">
+              Daring
+            </SelectItem>
+            <SelectItem key={"Luring"} value="Luring">
+              Luring
+            </SelectItem>
+          </Select>
         </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="description"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Deskripsi
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="text"
-              {...register("description", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.description && <span>{errors.description.message}</span>}
-          </div>
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="course"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Bahasa Pemrograman
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="text"
-              {...register("course", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.course && <span>{errors.course.message}</span>}
-          </div>
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="course_day"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Hari Mentoring
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="text"
-              {...register("course_day", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.course_day && <span>{errors.course_day.message}</span>}
-          </div>
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="course_time"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Jam Mentoring
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="text"
-              {...register("course_time", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.course_time && <span>{errors.course_time.message}</span>}
-          </div>
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="mentoring_location"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Lokasi Mentoring
-          </label>
-          <div className="mt-2.5">
-            <select
-              {...register("mentoring_location", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            >
-              <option value="Daring">Daring</option>
-              <option value="Luring">Luring</option>
-            </select>
-            {errors.mentoring_location && (
-              <span>{errors.mentoring_location.message}</span>
-            )}
-          </div>
-        </div>
-        <div className="sm:col-span-2">
+        <div className="flex flex-col gap-2 mb-2">
           <label
             htmlFor="experience_position"
             className="block text-sm font-semibold leading-6 text-gray-900"
           >
-            Posisi ?
+            Pengalaman Bekerja
           </label>
-          <div className="mt-2.5">
-            <input
+          <div className="flex gap-2">
+            <Input
               type="text"
+              label="Pekerjaan"
+              labelPlacement="inside"
+              variant="bordered"
+              size="sm"
+              radius="sm"
+              isInvalid={errors.experience_position ? true : false}
+              errorMessage={
+                errors.experience_position && errors.experience_position.message
+              }
               {...register("experience_position", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full font-semibold "
+              classNames={{
+                label: "text-sm",
+                input: "text-sm font-semibold",
+              }}
             />
-            {errors.experience_position && (
-              <span>{errors.experience_position.message}</span>
-            )}
-          </div>
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="experience_company"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Perusahaan
-          </label>
-          <div className="mt-2.5">
-            <input
+            <Input
               type="text"
+              label="Nama Perusahaan"
+              labelPlacement="inside"
+              variant="bordered"
+              size="sm"
+              radius="sm"
+              isInvalid={errors.experience_company ? true : false}
+              errorMessage={
+                errors.experience_company && errors.experience_company.message
+              }
               {...register("experience_company", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full font-semibold "
+              classNames={{
+                label: "text-sm",
+                input: "text-sm font-semibold",
+              }}
             />
-            {errors.experience_company && (
-              <span>{errors.experience_company.message}</span>
-            )}
           </div>
         </div>
-        <div className="sm:col-span-2">
+        <div className="flex flex-col gap-2 mb-2">
           <label
-            htmlFor="certification_course"
+            htmlFor="experience_position"
             className="block text-sm font-semibold leading-6 text-gray-900"
           >
-            Course Sertifikasi
+            Sertifikasi
           </label>
-          <div className="mt-2.5">
-            <input
+          <div className="flex gap-2">
+            <Input
               type="text"
+              label="Nama Course"
+              labelPlacement="inside"
+              variant="bordered"
+              size="sm"
+              radius="sm"
+              isInvalid={errors.certification_course ? true : false}
+              errorMessage={
+                errors.certification_course &&
+                errors.certification_course.message
+              }
               {...register("certification_course", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full font-semibold "
+              classNames={{
+                label: "text-sm",
+                input: "text-sm font-semibold",
+              }}
             />
-            {errors.certification_course && (
-              <span>{errors.certification_course.message}</span>
-            )}
-          </div>
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="certification_institution"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Institusi Sertifikasi
-          </label>
-          <div className="mt-2.5">
-            <input
+            <Input
               type="text"
+              label="Nama Institusi"
+              labelPlacement="inside"
+              variant="bordered"
+              size="sm"
+              radius="sm"
+              isInvalid={errors.certification_institution ? true : false}
+              errorMessage={
+                errors.certification_institution &&
+                errors.certification_institution.message
+              }
               {...register("certification_institution", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full font-semibold "
+              classNames={{
+                label: "text-sm",
+                input: "text-sm font-semibold",
+              }}
             />
-            {errors.certification_institution && (
-              <span>{errors.certification_institution.message}</span>
-            )}
           </div>
         </div>
       </div>
-
       <div className="mt-10">
         <Button
           type="submit"
