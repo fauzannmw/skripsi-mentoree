@@ -5,6 +5,8 @@ import { registerMentor } from "@/server/post_action";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 
 import { MdEmail } from "react-icons/md";
+import { MdOutlinePhoneAndroid } from "react-icons/md";
+import { FaCode } from "react-icons/fa";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -160,6 +162,27 @@ export default function Form({ profile }: FormProps) {
           />
         </div>
         <div className="sm:col-span-2">
+          <Input
+            type="number"
+            label="Nomor Ponsel"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.phone_number ? true : false}
+            errorMessage={errors.phone_number && errors.phone_number.message}
+            {...register("phone_number", { required: true })}
+            endContent={
+              <MdOutlinePhoneAndroid className="self-center text-xl text-default-400" />
+            }
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
+        </div>
+        <div className="sm:col-span-2">
           <Select
             label="Jurusan"
             labelPlacement="outside"
@@ -194,24 +217,6 @@ export default function Form({ profile }: FormProps) {
               Teknik Industri Pertanian - FTP
             </SelectItem>
           </Select>
-        </div>
-        <div className="sm:col-span-2">
-          <Input
-            type="number"
-            label="Nomor Ponsel"
-            labelPlacement="outside"
-            variant="bordered"
-            size="lg"
-            radius="sm"
-            isInvalid={errors.phone_number ? true : false}
-            errorMessage={errors.phone_number && errors.phone_number.message}
-            {...register("phone_number", { required: true })}
-            className="w-full font-semibold "
-            classNames={{
-              label: "text-sm",
-              input: "text-sm font-semibold",
-            }}
-          />
         </div>
         <div className="sm:col-span-2">
           <Select
@@ -265,6 +270,9 @@ export default function Form({ profile }: FormProps) {
             radius="sm"
             isInvalid={errors.course ? true : false}
             errorMessage={errors.course && errors.course.message}
+            endContent={
+              <FaCode className="self-center text-xl text-default-400" />
+            }
             {...register("course", { required: true })}
             className="w-full font-semibold "
             classNames={{
