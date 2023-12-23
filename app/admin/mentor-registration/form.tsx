@@ -46,10 +46,10 @@ const FormDataSchema = z.object({
   course_day: z.string().min(1),
   course_time: z.string().min(1),
   mentoring_location: z.string().min(1),
-  experience_position: z.string().min(1),
-  experience_company: z.string().min(1),
-  certification_course: z.string().min(1),
-  certification_institution: z.string().min(1),
+  experience_position: z.string(),
+  experience_company: z.string(),
+  certification_course: z.string(),
+  certification_institution: z.string(),
 });
 
 type Inputs = z.infer<typeof FormDataSchema>;
@@ -244,6 +244,7 @@ export default function Form({ profile }: FormProps) {
             variant="bordered"
             placeholder="Deskripsi singkat Mentor"
             minRows={4}
+            radius="sm"
             isInvalid={errors.description ? true : false}
             errorMessage={errors.description && errors.description.message}
             {...register("description", { required: true })}
@@ -272,46 +273,76 @@ export default function Form({ profile }: FormProps) {
             }}
           />
         </div>
-        <div className="flex flex-col gap-2 mb-2">
+        <div className="flex flex-col w-full gap-2 mt-2 sm:col-span-2">
           <label
             htmlFor="experience_position"
             className="block text-sm font-semibold leading-6 text-gray-900"
           >
-            Sertifikasi
+            Jadwal Mentoring
           </label>
           <div className="flex gap-2">
-            <Input
-              type="text"
-              label="Hari Mentoring"
-              labelPlacement="outside"
+            <Select
+              label="Hari"
+              labelPlacement="inside"
               variant="bordered"
-              size="lg"
+              size="sm"
               radius="sm"
               isInvalid={errors.course_day ? true : false}
               errorMessage={errors.course_day && errors.course_day.message}
               {...register("course_day", { required: true })}
-              className="w-full font-semibold "
+              className="w-full font-semibold"
               classNames={{
                 label: "text-sm",
-                input: "text-sm font-semibold",
+                value: "text-sm font-semibold",
               }}
-            />
-            <Input
-              type="text"
-              label="Jam Mentoring"
-              labelPlacement="outside"
+            >
+              <SelectItem key={"Senin"} value="Senin">
+                Senin
+              </SelectItem>
+              <SelectItem key={"Selasa"} value="Selasa">
+                Selasa
+              </SelectItem>
+              <SelectItem key={"Rabu"} value="Rabu">
+                Rabu
+              </SelectItem>
+              <SelectItem key={"Kamis"} value="Kamis">
+                Kamis
+              </SelectItem>
+              <SelectItem key={"Jumat"} value="Jumat">
+                Jumat
+              </SelectItem>
+            </Select>
+            <Select
+              label="Jam"
+              labelPlacement="inside"
               variant="bordered"
-              size="lg"
+              size="sm"
               radius="sm"
               isInvalid={errors.course_time ? true : false}
               errorMessage={errors.course_time && errors.course_time.message}
               {...register("course_time", { required: true })}
-              className="w-full font-semibold "
+              className="w-full font-semibold"
               classNames={{
                 label: "text-sm",
-                input: "text-sm font-semibold",
+                value: "text-sm font-semibold",
               }}
-            />
+            >
+              <SelectItem key={"08.00 - 10.00"} value="08.00 - 10.00">
+                08.00 - 10.00
+              </SelectItem>
+              <SelectItem key={"10.00 - 12.00"} value="10.00 - 12.00">
+                10.00 - 12.00
+              </SelectItem>
+              <SelectItem key={"12.00 - 14.00"} value="12.00 - 14.00">
+                12.00 - 14.00
+              </SelectItem>
+              <SelectItem key={"14.00 - 16.00"} value="14.00 - 16.00">
+                14.00 - 16.00
+              </SelectItem>
+              <SelectItem key={"16.00 - 18.00"} value="16.00 - 18.00">
+                16.00 - 18.00
+              </SelectItem>
+            </Select>
           </div>
         </div>
         <div className="sm:col-span-2">
@@ -340,7 +371,7 @@ export default function Form({ profile }: FormProps) {
             </SelectItem>
           </Select>
         </div>
-        <div className="flex flex-col gap-2 mb-2">
+        <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
           <label
             htmlFor="experience_position"
             className="block text-sm font-semibold leading-6 text-gray-900"
@@ -386,7 +417,7 @@ export default function Form({ profile }: FormProps) {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2 mb-2">
+        <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
           <label
             htmlFor="experience_position"
             className="block text-sm font-semibold leading-6 text-gray-900"
