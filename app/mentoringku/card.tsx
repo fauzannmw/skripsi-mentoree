@@ -25,7 +25,7 @@ export default async function Card({ data }: CardProps) {
           <Image
             className="object-cover object-center w-20 h-20"
             alt="mentor-image"
-            src={mentorData?.image}
+            src={mentorData?.image && ""}
           />
           <div className="flex flex-col justify-center">
             <div className="flex gap-2">
