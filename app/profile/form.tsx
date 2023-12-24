@@ -3,28 +3,36 @@ import React, { useState } from "react";
 import { Image } from "@nextui-org/image";
 import { User } from "@prisma/client";
 import { updateProfile } from "@/server/post_action";
-import { Button } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { Link } from "@nextui-org/link";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { MdEmail } from "react-icons/md";
+
+import { toast } from "sonner";
 
 export interface FormProps {
   profile: User;
 }
 
 const FormDataSchema = z.object({
-  major: z.string().min(1, { message: "Isi Program Studi Anda dengan Benar." }),
+  email: z.string().min(1).email("Masukkan Email dengan Format yang Benar."),
+  name: z.string().min(1),
   nim: z
     .string()
     .min(15, { message: "Masukkan Nim dengan Format yang Benar." }),
+  major: z.string().min(1, { message: "Isi Program Studi Anda dengan Benar." }),
 });
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
 export default function Form({ profile }: FormProps) {
   const [isloading, setLoading] = useState(false);
+  const [values, setValues] = React.useState<Selection>(
+    new Set([profile?.major])
+  );
 
   const {
     register,
@@ -32,8 +40,10 @@ export default function Form({ profile }: FormProps) {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      major: profile?.major as string,
+      email: profile?.email as string,
+      name: profile?.name as string,
       nim: profile?.nim as string,
+      major: profile?.major as string,
     },
     resolver: zodResolver(FormDataSchema),
   });
@@ -42,6 +52,7 @@ export default function Form({ profile }: FormProps) {
     try {
       setLoading(true);
       await updateProfile(data as User);
+      toast("Profile Updated");
     } catch (error) {
       console.log(error);
     } finally {
@@ -73,87 +84,106 @@ export default function Form({ profile }: FormProps) {
           </Link>
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="email"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Email
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={profile?.email ?? ""}
-              disabled
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
+          <Input
+            type="email"
+            label="Email"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isDisabled
+            isInvalid={errors.email ? true : false}
+            errorMessage={errors.email && errors.email.message}
+            endContent={
+              <MdEmail className="self-center text-2xl text-default-400" />
+            }
+            defaultValue={profile?.email}
+            {...register("email", { required: true })}
+            className="w-full text-sm font-semibold"
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="name"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Nama
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={profile?.name ?? ""}
-              disabled
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
+          <Input
+            type="text"
+            label="Nama"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isDisabled
+            isInvalid={errors.name ? true : false}
+            errorMessage={errors.name && errors.name.message}
+            defaultValue={profile?.name}
+            {...register("name", { required: true })}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="nim"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            Nomor Induk Mahasiswa
-          </label>
-          <div className="mt-2.5">
-            <input
-              type="number"
-              placeholder="nim"
-              {...register("nim", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            {errors.nim && <span>{errors.nim.message}</span>}
-          </div>
+          <Input
+            type="number"
+            placeholder="Isi Nomor Induk Mahasiswa Anda..."
+            label="Nomor Induk Mahasiswa"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.nim ? true : false}
+            errorMessage={errors.nim && errors.nim.message}
+            {...register("nim", { required: true })}
+            defaultValue={profile?.nim as string}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
         </div>
         <div className="sm:col-span-2">
-          <label
-            htmlFor="major"
-            className="block text-sm font-semibold leading-6 text-gray-900"
+          <Select
+            placeholder="Pilih Program Studi Anda"
+            label="Program Studi"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.major ? true : false}
+            errorMessage={errors.major && errors.major.message}
+            {...register("major", { required: true })}
+            selectedKeys={values as Iterable<Key>}
+            onSelectionChange={setValues}
+            className="w-full font-semibold"
+            classNames={{
+              label: "text-sm",
+              value: "text-sm font-semibold",
+            }}
           >
-            Jurusan
-          </label>
-          <div className="mt-2.5">
-            <select
-              {...register("major", { required: true })}
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            <SelectItem key={"Teknik Informatika"} value="Teknik Informatika">
+              Teknik Informatika - FILKOM
+            </SelectItem>
+            <SelectItem key={"Teknik Elektro"} value="Teknik Elektro">
+              Teknik Elektro - FT
+            </SelectItem>
+            <SelectItem key={"Statistika"} value="Statistika">
+              Statistika - FMIPA
+            </SelectItem>
+            <SelectItem key={"Teknologi Informasi"} value="Teknologi Informasi">
+              Teknologi Informasi - FV
+            </SelectItem>
+            <SelectItem
+              key={"Teknik Industri Pertanian"}
+              value="Teknik Industri Pertanian"
             >
-              <option disabled value="">
-                Pilih Jurusan Anda
-              </option>
-              <option value="Teknik Informatika">
-                Teknik Informatika - FILKOM
-              </option>
-              <option value="Teknik Elektro">Teknik Elektro - FT</option>
-              <option value="Statistika">Statistika - FMIPA</option>
-              <option value="Teknologi Informasi">
-                Teknologi Informasi - FV
-              </option>
-              <option value="Teknik Industri Pertanian">
-                Teknik Industri Pertanian - FTP
-              </option>
-            </select>
-            {errors.major && <span>{errors.major.message}</span>}
-          </div>
+              Teknik Industri Pertanian - FTP
+            </SelectItem>
+          </Select>
         </div>
       </div>
 

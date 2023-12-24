@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import { NavbarGlobal } from "@/components/navbar";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +56,7 @@ export default function RootLayout({
               </Link>
             </footer> */}
           </div>
+          <Toaster />
         </Providers>
       </body>
     </html>
