@@ -18,6 +18,8 @@ export default async function AdminTransactionPage() {
   const data = await getAllTransaction();
   const totalData = await getTotalTransaction();
 
+  console.log(data);
+
   return (
     <div className="items-center w-full px-4 py-4 mx-auto my-10 bg-white rounded-lg shadow-md lg:w-3/4">
       <div className="container mx-auto">
@@ -28,7 +30,7 @@ export default async function AdminTransactionPage() {
           </Button>
         </div>
         {/* @ts-ignore */}
-        <Table transactions={data} />
+        {/* <Table transactions={data} /> */}
         {/* <Table transactions={data as TransactionExtends} /> */}
         <div className="flex flex-col items-center w-full px-4 py-2 space-y-2 text-sm text-gray-500 sm:justify-between sm:space-y-0 sm:flex-row">
           <p className="flex">
