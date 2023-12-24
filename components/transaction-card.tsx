@@ -16,7 +16,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Mentor, Transaction, User } from "@prisma/client";
-import { Fragment, useState } from "react";
+import { FormEventHandler, Fragment, useState } from "react";
 import { MdDone } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 
@@ -43,6 +43,13 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
     month: "long",
     day: "numeric",
   };
+
+  function decline(transactionId: string) {
+    return (event: React.FormEvent) => {
+      AdminchangeTransactionStatus(transactionId, "Gagal", message);
+      event.preventDefault();
+    };
+  }
 
   function declineTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
@@ -125,6 +132,7 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
             <p>
               Tanggal Pemesanan :{" "}
               <span>
+                {/* @ts-ignore */}
                 {(data?.createdAt).toLocaleDateString("id-ID", options)}
               </span>
             </p>
@@ -186,7 +194,7 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
         isDismissable={false}
         hideCloseButton
       >
-        <form >
+        <form onSubmit={decline(data?.id)}>
           {/* PASS isOpen STATE FROM  useDisclosure HOOK*/}
           <ModalContent>
             {(onClose) => (
@@ -227,14 +235,12 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
                     Tidak
                   </Button>
                   <Button
-                    type={role === "user" ? "button" : "button"}
+                    type={role === "user" ? "button" : "submit"}
                     color="success"
                     onPress={onClose}
-                    onClick={
-                      role === "user"
-                        ? finishTransaction(data?.id)
-                        : declineTransaction(data?.id)
-                    }
+                    isDisabled={role === "mentor" && message === ""}
+                    // @ts-ignore
+                    onClick={role === "user" && finishTransaction(data?.id)}
                     className="font-semibold text-black"
                   >
                     {/* PASS  onClose OR ANY OTHER FUNCTION TO onPress EVENT LISTENER*/}
