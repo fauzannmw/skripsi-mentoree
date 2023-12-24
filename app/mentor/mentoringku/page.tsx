@@ -6,10 +6,9 @@ import TransactionCardComponent from "@/components/transaction-card";
 
 export default async function MentorNotificationPage() {
   const transactionData = await getActiveTransactionByMentor();
-  console.log(transactionData);
 
   return (
-    <div className="flex flex-col w-full gap-6 py-4 mx-auto my-6 sm:w-1/2">
+    <div className="flex flex-col items-center justify-center gap-6 py-4 mx-auto sm:w-1/2">
       <div className="flex items-center justify-between w-full px-4 py-2">
         <h1 className="text-xl font-bold">Mentoring Aktif</h1>
         <Button className="px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">

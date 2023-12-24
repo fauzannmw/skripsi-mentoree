@@ -91,7 +91,8 @@ export const changeTransactionStatus = async (e: FormData) => {
 
 export const AdminchangeTransactionStatus = async (
   id: string,
-  status: string
+  status: string,
+  message: string
 ) => {
   const session = await getServerSession(authOptions);
 
@@ -101,6 +102,7 @@ export const AdminchangeTransactionStatus = async (
     },
     data: {
       status: status,
+      message: message,
     },
   });
 

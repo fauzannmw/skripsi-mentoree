@@ -7,6 +7,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -32,24 +33,34 @@ type CardProps = {
 
 export default function TransactionCardComponent({ data, role }: CardProps) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [message, setMessage] = useState(
+    "Mentor Berhalangan pada Jadwal yang diminta"
+  );
+
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   function declineTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      AdminchangeTransactionStatus(transactionId, "Gagal");
+      AdminchangeTransactionStatus(transactionId, "Gagal", message);
       event.preventDefault();
     };
   }
 
   function acceptTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      AdminchangeTransactionStatus(transactionId, "Berlangsung");
+      AdminchangeTransactionStatus(transactionId, "Berlangsung", "");
       event.preventDefault();
     };
   }
 
   function finishTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      AdminchangeTransactionStatus(transactionId, "Selesai");
+      AdminchangeTransactionStatus(transactionId, "Selesai", "");
       event.preventDefault();
     };
   }
@@ -62,14 +73,14 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
         shadow="sm"
         fullWidth
         onPress={onOpen}
-        isPressable={role === "mentor" || role === "admin"}
+        // isPressable={role === "mentor" || role === "admin"}
         className="border-2 border-[#2e1065] max-w-md"
       >
         <CardHeader>
           <div className="flex gap-5">
             <Avatar
               isBordered
-              radius="full"
+              radius="md"
               size="md"
               src={
                 role === "mentor"
@@ -108,6 +119,15 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
             <p>
               Jam : <span>{data?.time}</span>
             </p>
+            <p>
+              Jumlah peserta Mentoring : <span>{data?.participant}</span>
+            </p>
+            <p>
+              Tanggal Pemesanan :{" "}
+              <span>
+                {(data?.createdAt).toLocaleDateString("id-ID", options)}
+              </span>
+            </p>
           </div>
         </CardBody>
         <CardFooter className="flex flex-col">
@@ -140,7 +160,8 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
                   className="hover:opacity-75"
                   radius="full"
                   color="danger"
-                  onClick={declineTransaction(data?.id)}
+                  onClick={onOpen}
+                  // onClick={declineTransaction(data?.id)}
                 >
                   <IoMdClose className="text-lg text-black" />
                 </Button>
@@ -158,40 +179,72 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
           </div>
         </CardFooter>
       </Card>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
-        {/* PASS isOpen STATE FROM  useDisclosure HOOK*/}
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Selesaikan Pesanan</ModalHeader>
-              <ModalBody className="gap-0 font-semibold text-justify">
-                <p>Apakah anda yakin ingin menyelesaikan pesanan?</p>
-                <p>
-                  Coin akan diteruskan kepada mentor apabila pesanan Selesai
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  color="danger"
-                  onPress={onClose}
-                  className="font-semibold text-black"
-                >
-                  {/* PASS  onClose FUNCTION TO onPress EVENT LISTENER*/}
-                  Tidak
-                </Button>
-                <Button
-                  color="success"
-                  onPress={onClose}
-                  onClick={finishTransaction(data?.id)}
-                  className="font-semibold text-black"
-                >
-                  {/* PASS  onClose OR ANY OTHER FUNCTION TO onPress EVENT LISTENER*/}
-                  Selesaikan
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
+      <Modal
+        backdrop="blur"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        hideCloseButton
+      >
+        <form >
+          {/* PASS isOpen STATE FROM  useDisclosure HOOK*/}
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader>
+                  {role === "user"
+                    ? "Selesaikan Pesanan"
+                    : "Berikan alasan Penolakan Mentoring"}
+                </ModalHeader>
+                <ModalBody className="gap-0 font-semibold text-justify">
+                  {role === "user" ? (
+                    <div>
+                      <p>Apakah anda yakin ingin menyelesaikan pesanan?</p>
+                      <p>
+                        Coin akan diteruskan kepada mentor apabila pesanan
+                        Selesai
+                      </p>
+                    </div>
+                  ) : (
+                    <Input
+                      name="message"
+                      isRequired
+                      type="text"
+                      label="Alasan penolakan"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="w-full"
+                    />
+                  )}
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="danger"
+                    onPress={onClose}
+                    className="font-semibold text-black"
+                  >
+                    {/* PASS  onClose FUNCTION TO onPress EVENT LISTENER*/}
+                    Tidak
+                  </Button>
+                  <Button
+                    type={role === "user" ? "button" : "button"}
+                    color="success"
+                    onPress={onClose}
+                    onClick={
+                      role === "user"
+                        ? finishTransaction(data?.id)
+                        : declineTransaction(data?.id)
+                    }
+                    className="font-semibold text-black"
+                  >
+                    {/* PASS  onClose OR ANY OTHER FUNCTION TO onPress EVENT LISTENER*/}
+                    {role === "user" ? "Selesaikan" : "Tolak Mentoring"}
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </form>
       </Modal>
     </Fragment>
   );

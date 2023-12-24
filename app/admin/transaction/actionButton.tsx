@@ -35,7 +35,7 @@ export default function ActionButtonComponent({
 
   async function onClickButton() {
     setLoading(true);
-    await AdminchangeTransactionStatus(id, selectedOptionValue);
+    await AdminchangeTransactionStatus(id, selectedOptionValue, "");
     setLoading(false);
   }
 
