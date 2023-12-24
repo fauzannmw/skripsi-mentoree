@@ -62,6 +62,44 @@ export const getMentorById = async (id: string) => {
   }
 };
 
+export const getMentorByNim = async (nim: string) => {
+  try {
+    const detail = await prisma.mentor.findUnique({
+      where: {
+        nim: nim,
+      },
+      include: {
+        course: {
+          select: {
+            course: true,
+          },
+        },
+        course_day: {
+          select: {
+            day: true,
+          },
+        },
+        experience: {
+          select: {
+            position: true,
+            company: true,
+          },
+        },
+        certification: {
+          select: {
+            course: true,
+            institution: true,
+          },
+        },
+        transaction: true,
+      },
+    });
+    return { detail };
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const checkMentorInUser = async (email: string) => {
   try {
     return !!(await prisma.user.findFirst({

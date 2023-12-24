@@ -18,8 +18,6 @@ export default async function AdminTransactionPage() {
   const data = await getAllTransaction();
   const totalData = await getTotalTransaction();
 
-  console.log(data);
-
   return (
     <div className="items-center w-full px-4 py-4 mx-auto my-10 bg-white rounded-lg shadow-md lg:w-3/4">
       <div className="container mx-auto">
