@@ -29,9 +29,7 @@ export default async function AdminTransactionPage() {
             <IoMdPrint />
           </Button>
         </div>
-        {/* @ts-ignore */}
-        <Table transactions={data} />
-        {/* <Table transactions={data as TransactionExtends} /> */}
+        <Table transactions={data as TransactionExtends} />
         <div className="flex flex-col items-center w-full px-4 py-2 space-y-2 text-sm text-gray-500 sm:justify-between sm:space-y-0 sm:flex-row">
           <p className="flex">
             Menampilkan&nbsp;

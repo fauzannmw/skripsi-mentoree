@@ -81,7 +81,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 async function main() {
   const fauzan = await prisma.mentor.upsert({
-    where: { nim: "205150200111037" },
+    where: { nim: "205150200111040" },
     update: {},
     create: {
       nim: "205150200111037",
@@ -145,7 +145,7 @@ async function main() {
     },
   });
   const faza = await prisma.mentor.upsert({
-    where: { nim: "205150200111038" },
+    where: { nim: "205150200111041" },
     update: {},
     create: {
       nim: "205150200111038",
@@ -206,7 +206,7 @@ async function main() {
     },
   });
   const xavier = await prisma.mentor.upsert({
-    where: { nim: "205150200111039" },
+    where: { nim: "205150200111042" },
     update: {},
     create: {
       nim: "205150200111039",
