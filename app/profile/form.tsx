@@ -30,7 +30,7 @@ type Inputs = z.infer<typeof FormDataSchema>;
 
 export default function Form({ profile }: FormProps) {
   const [isloading, setLoading] = useState(false);
-  const [values, setValues] = React.useState<Selection>(
+  const [values, setValues] = React.useState<Set<string | null> | Selection>(
     new Set([profile?.major])
   );
 
@@ -157,8 +157,8 @@ export default function Form({ profile }: FormProps) {
             isInvalid={errors.major ? true : false}
             errorMessage={errors.major && errors.major.message}
             {...register("major", { required: true })}
-            selectedKeys={values as Iterable<Key>}
-            onSelectionChange={setValues}
+            selectedKeys={values as any}
+            onSelectionChange={setValues as any}
             className="w-full font-semibold"
             classNames={{
               label: "text-sm",
