@@ -100,13 +100,26 @@ export const getMentorByNim = async (nim: string) => {
   }
 };
 
-export const checkMentorInUser = async (email: string) => {
+export const checkMentorInUser = async (email?: string) => {
   try {
     return !!(await prisma.user.findFirst({
       where: {
         email: email,
       },
     }));
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const checkNimInMentor = async (nim?: string) => {
+  try {
+    const data = !!(await prisma.mentor.findFirst({
+      where: {
+        nim: nim,
+      },
+    }));
+    return !data;
   } catch (error) {
     return { error };
   }
@@ -171,6 +184,61 @@ export const getTransactionByStatus = async (status: string) => {
       },
     });
     return { detail };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getTransactionByMentor = async () => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    return await prisma.transaction.findMany({
+      where: {
+        mentor: {
+          email: session?.user?.email,
+        },
+        OR: [
+          {
+            status: "Selesai",
+          },
+          { status: "Gagal" },
+        ],
+      },
+      include: {
+        User: true,
+        mentor: true,
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getActiveTransactionByMentor = async () => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    return await prisma.transaction.findMany({
+      where: {
+        mentor: {
+          email: session?.user?.email,
+        },
+        OR: [
+          {
+            status: "Belum diterima Mentor",
+          },
+          { status: "Berjalan" },
+        ],
+      },
+      include: {
+        User: true,
+        mentor: true,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
   } catch (error) {
     return { error };
   }

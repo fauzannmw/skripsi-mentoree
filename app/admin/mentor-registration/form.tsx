@@ -12,7 +12,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { registerMentorTypes } from "@/server/types";
-import { checkMentorInUser } from "@/server/get_action";
+import { checkMentorInUser, checkNimInMentor } from "@/server/get_action";
+
+import { toast } from "sonner";
 
 export interface FormProps {
   profile: User;
@@ -25,14 +27,17 @@ const phoneRegex = new RegExp(
 const FormDataSchema = z.object({
   nim: z
     .string()
-    .min(15, { message: "Masukkan Nim dengan Format yang Benar." }),
+    .min(15, { message: "Masukkan Nim dengan Format yang Benar." })
+    .refine(async (e) => {
+      return await checkNimInMentor(e);
+    }, "Nim sudah pernah didaftarkan"),
   email: z
     .string()
     .min(1)
     .email("Masukkan Email dengan Format yang Benar.")
     .refine(async (e) => {
       return await checkMentorInUser(e);
-    }, "This email is not in our database"),
+    }, "Email belum didaftarkan sebagai User"),
   name: z.string().min(1),
   major: z.string().min(1),
   phone_number: z
@@ -89,6 +94,7 @@ export default function Form({ profile }: FormProps) {
     try {
       setLoading(true);
       await registerMentor(data as registerMentorTypes);
+      toast("Mentor Berhasil Didaftarkan");
       reset();
     } catch (error) {
       console.log(error);
@@ -478,7 +484,7 @@ export default function Form({ profile }: FormProps) {
           radius="sm"
           className="w-full text-sm font-semibold"
         >
-          Update Profil
+          Daftarkan Mentor
         </Button>
       </div>
     </form>

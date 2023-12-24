@@ -93,6 +93,8 @@ export const AdminchangeTransactionStatus = async (
   id: string,
   status: string
 ) => {
+  const session = await getServerSession(authOptions);
+
   await prisma.transaction.update({
     where: {
       id: id,
@@ -102,7 +104,11 @@ export const AdminchangeTransactionStatus = async (
     },
   });
 
-  return redirect("/admin/transaction");
+  if (session?.user?.role === "admin") {
+    return redirect("/admin/transaction");
+  } else {
+    return redirect("/mentor/mentoringku");
+  }
 };
 
 export const updateUserCoin = async (params: string) => {
