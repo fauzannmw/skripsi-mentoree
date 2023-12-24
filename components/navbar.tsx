@@ -47,7 +47,7 @@ export const NavbarGlobal = () => {
   ];
 
   const navigationMentor = [
-    { name: "Notifikasi Pemesanan", href: "/mentor/notification" },
+    { name: "Notifikasi Pemesanan", href: "/mentor/mentoringku" },
     { name: "Mentoringku", href: "/mentor/transaction" },
   ];
 

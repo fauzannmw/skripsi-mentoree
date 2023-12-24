@@ -106,8 +106,10 @@ export const AdminchangeTransactionStatus = async (
 
   if (session?.user?.role === "admin") {
     return redirect("/admin/transaction");
-  } else {
+  } else if (session?.user?.role === "mentor") {
     return redirect("/mentor/mentoringku");
+  } else {
+    redirect("/mentoringku");
   }
 };
 

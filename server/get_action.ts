@@ -178,12 +178,15 @@ export const getTotalTransaction = async () => {
 
 export const getTransactionByStatus = async (status: string) => {
   try {
-    const detail = await prisma.transaction.findMany({
+    return await prisma.transaction.findMany({
       where: {
         status: status,
       },
+      include: {
+        User: true,
+        mentor: true,
+      },
     });
-    return { detail };
   } catch (error) {
     return { error };
   }
@@ -228,7 +231,7 @@ export const getActiveTransactionByMentor = async () => {
           {
             status: "Belum diterima Mentor",
           },
-          { status: "Berjalan" },
+          { status: "Berlangsung" },
         ],
       },
       include: {

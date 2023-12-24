@@ -16,7 +16,7 @@ export default async function MentorTransactionPage() {
       </div>
       {/* @ts-ignore */}
       {transactionData?.map((transaction, index: number) => (
-        <TransactionCardComponent data={transaction} key={index} />
+        <TransactionCardComponent data={transaction} role="mentor" key={index} />
       ))}
     </div>
   );

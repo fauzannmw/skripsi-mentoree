@@ -6,6 +6,7 @@ import TransactionCardComponent from "@/components/transaction-card";
 
 export default async function MentorNotificationPage() {
   const transactionData = await getActiveTransactionByMentor();
+  console.log(transactionData);
 
   return (
     <div className="flex flex-col w-full gap-6 py-4 mx-auto my-6 sm:w-1/2">
@@ -17,7 +18,11 @@ export default async function MentorNotificationPage() {
       </div>
       {/* @ts-ignore */}
       {transactionData?.map((transaction, index: number) => (
-        <TransactionCardComponent data={transaction} key={index} />
+        <TransactionCardComponent
+          data={transaction}
+          role="mentor"
+          key={index}
+        />
       ))}
     </div>
   );

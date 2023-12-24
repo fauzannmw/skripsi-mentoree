@@ -7,7 +7,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Image,
   Modal,
   ModalBody,
   ModalContent,
@@ -28,14 +27,14 @@ interface TransactionExtends extends Transaction {
 
 type CardProps = {
   data: TransactionExtends;
+  role: string;
 };
 
-export default function TransactionCardComponent({ data }: CardProps) {
+export default function TransactionCardComponent({ data, role }: CardProps) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   function declineTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      console.log(transactionId);
       AdminchangeTransactionStatus(transactionId, "Gagal");
       event.preventDefault();
     };
@@ -43,8 +42,14 @@ export default function TransactionCardComponent({ data }: CardProps) {
 
   function acceptTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      console.log(transactionId);
-      AdminchangeTransactionStatus(transactionId, "Berjalan");
+      AdminchangeTransactionStatus(transactionId, "Berlangsung");
+      event.preventDefault();
+    };
+  }
+
+  function finishTransaction(transactionId: string) {
+    return (event: React.MouseEvent) => {
+      AdminchangeTransactionStatus(transactionId, "Selesai");
       event.preventDefault();
     };
   }
@@ -57,7 +62,7 @@ export default function TransactionCardComponent({ data }: CardProps) {
         shadow="sm"
         fullWidth
         onPress={onOpen}
-        isPressable={true}
+        isPressable={role === "mentor" || role === "admin"}
         className="border-2 border-[#2e1065] max-w-md"
       >
         <CardHeader>
@@ -66,14 +71,22 @@ export default function TransactionCardComponent({ data }: CardProps) {
               isBordered
               radius="full"
               size="md"
-              src={data?.User?.image}
+              src={
+                role === "mentor"
+                  ? (data?.User?.image as string)
+                  : (data?.mentor?.image as string)
+              }
             />
             <div className="flex flex-col items-start justify-center gap-1">
               <h1 className="font-semibold leading-none text-small text-default-600">
-                {data?.User?.name}
+                {role === "mentor"
+                  ? (data?.User?.name as string)
+                  : (data?.mentor?.name as string)}
               </h1>
               <p className="tracking-tight text-small text-default-400">
-                {data?.User?.email}
+                {role === "mentor"
+                  ? (data?.User?.email as string)
+                  : (data?.mentor?.phone_number as string)}
               </p>
             </div>
           </div>
@@ -97,13 +110,30 @@ export default function TransactionCardComponent({ data }: CardProps) {
             </p>
           </div>
         </CardBody>
-        <CardFooter>
+        <CardFooter className="flex flex-col">
           <div className="grid items-center justify-between w-full grid-cols-8 gap-2">
-            <h1 className="col-span-6 text-left text-small text-default-400">
-              Status Mentoring : &nbsp;
-              <span className="font-semibold">{data?.status}</span>
-            </h1>
-            {data?.status === "Belum diterima Mentor" && (
+            <div className="col-span-6">
+              <h1 className="text-left text-small text-default-400">
+                Status Mentoring : &nbsp;
+                <span className="font-semibold">{data?.status}</span>
+              </h1>
+              <h1 className="text-left text-small text-default-400">
+                Pesan Mentor : &nbsp;
+                <span className="font-semibold">{data?.message}</span>
+              </h1>
+            </div>
+            {data?.status === "Berlangsung" && role === "user" && (
+              <Button
+                isIconOnly
+                className="hover:opacity-75"
+                radius="full"
+                color="success"
+                onClick={onOpen}
+              >
+                <MdDone className="text-lg text-black" />
+              </Button>
+            )}
+            {data?.status === "Belum diterima Mentor" && role === "mentor" && (
               <div className="flex gap-2 sm:gap-4">
                 <Button
                   isIconOnly
@@ -133,21 +163,30 @@ export default function TransactionCardComponent({ data }: CardProps) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>MODAL HEADER</ModalHeader>
-              <ModalBody>
+              <ModalHeader>Selesaikan Pesanan</ModalHeader>
+              <ModalBody className="gap-0 font-semibold text-justify">
+                <p>Apakah anda yakin ingin menyelesaikan pesanan?</p>
                 <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Expedita, officiis?
+                  Coin akan diteruskan kepada mentor apabila pesanan Selesai
                 </p>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button
+                  color="danger"
+                  onPress={onClose}
+                  className="font-semibold text-black"
+                >
                   {/* PASS  onClose FUNCTION TO onPress EVENT LISTENER*/}
-                  CLOSE
+                  Tidak
                 </Button>
-                <Button color="success" variant="light" onPress={onClose}>
+                <Button
+                  color="success"
+                  onPress={onClose}
+                  onClick={finishTransaction(data?.id)}
+                  className="font-semibold text-black"
+                >
                   {/* PASS  onClose OR ANY OTHER FUNCTION TO onPress EVENT LISTENER*/}
-                  ACCEPT
+                  Selesaikan
                 </Button>
               </ModalFooter>
             </>
