@@ -1,5 +1,4 @@
 import { getMentorByNim } from "@/server/get_action";
-import { changeTransactionStatus } from "@/server/transaction_action";
 import { Button, Image } from "@nextui-org/react";
 import { Transaction } from "@prisma/client";
 import { CiCalendarDate } from "react-icons/ci";
@@ -13,7 +12,7 @@ export default async function Card({ data }: CardProps) {
   const mentorData = (await getMentorByNim(data?.mentorNim as string)).detail;
 
   return (
-    <form action={changeTransactionStatus} method="POST">
+    <form method="POST">
       <input
         type="text"
         className="sr-only peer"

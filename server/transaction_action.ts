@@ -73,20 +73,7 @@ export const createTransaction = async (e: FormData) => {
     },
   });
 
-  return redirect("/mentoringku");
-};
-
-export const changeTransactionStatus = async (e: FormData) => {
-  await prisma.transaction.update({
-    where: {
-      id: e.get("transactionId")?.toString(),
-    },
-    data: {
-      status: "Selesai",
-    },
-  });
-
-  return redirect("/mentoringku");
+  return redirect("/mentoringku/waiting");
 };
 
 export const AdminchangeTransactionStatus = async (

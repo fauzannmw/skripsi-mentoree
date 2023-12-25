@@ -1,5 +1,4 @@
 import { getTransactionByStatus } from "@/server/get_action";
-import Card from "./card";
 import Tab from "./tab";
 import TransactionCardComponent from "@/components/transaction-card";
 
