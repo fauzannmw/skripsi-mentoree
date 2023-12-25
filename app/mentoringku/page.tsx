@@ -6,7 +6,7 @@ export default async function TransactionPage() {
   const transaction = await getTransactionByStatus("Berlangsung");
 
   return (
-    <div className="flex flex-col gap-4 select-none min-w-unit-1">
+    <div className="flex flex-col w-full gap-4 my-4 select-none">
       <div className="flex flex-col w-full">
         <Tab page="Berlangsung" />
       </div>

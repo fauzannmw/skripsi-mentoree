@@ -46,12 +46,12 @@ export default async function DetailPage({
   const certification = mentorData?.certification;
 
   return (
-    <div className="flex flex-col flex-wrap gap-4 mx-auto">
+    <div className="flex flex-col flex-wrap items-center justify-center gap-4 mx-auto">
       <div className="flex items-center justify-center">
         {mentorData?.image ? (
           <Image
             alt="mentor-image"
-            className="object-cover object-center border border-gray-200 rounded w-72 h-72"
+            className="object-cover object-center w-48 h-48 border border-gray-200 rounded sm:w-72 sm:h-72"
             src={mentorData?.image}
           />
         ) : (
@@ -63,22 +63,24 @@ export default async function DetailPage({
         )}
       </div>
       <div className="flex flex-col w-full gap-4 lg:w-1/2 lg:py-6 lg:mt-0">
-        <div className="">
-          <h1 className="text-sm tracking-widest text-gray-500 ">
-            {mentorData?.major}
-          </h1>
-          <div className="flex justify-between">
-            <h1 className="mb-1 font-medium sm:text-3xl ">{mentorData?.name}</h1>
-            <button className="inline-flex items-center justify-center p-3 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
-              {mentorData?.gender == "Laki Laki" ? (
-                <BsGenderMale />
-              ) : (
-                <BsGenderFemale />
-              )}
-            </button>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-sm tracking-widest text-gray-500 ">
+              {mentorData?.major}
+            </h1>
+            <h1 className="mb-1 font-medium sm:text-3xl ">
+              {mentorData?.name}
+            </h1>
           </div>
+          <button className="inline-flex items-center justify-center p-3 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
+            {mentorData?.gender == "Laki Laki" ? (
+              <BsGenderMale />
+            ) : (
+              <BsGenderFemale />
+            )}
+          </button>
         </div>
-        <div>
+        <div className="border-t border-bg-gray-300">
           <h1 className="mb-2 text-xl font-bold dark:text-gray-400">
             Deskripsi Diri
           </h1>
@@ -167,14 +169,18 @@ export default async function DetailPage({
             Pengalaman Kerja & Organisasi
           </h1>
           <div className="flex flex-col flex-wrap font-semibold">
-            {experience?.map((experience, index: number) => (
-              <li key={index}>
-                {experience?.position}
-                <ol className="space-y-1 font-normal ps-6">
-                  {experience?.company}
-                </ol>
-              </li>
-            ))}
+            {experience?.map(
+              (experience, index: number) =>
+                experience.company &&
+                experience?.company && (
+                  <li key={index}>
+                    {experience?.position}
+                    <ol className="space-y-1 font-normal ps-6">
+                      {experience?.company}
+                    </ol>
+                  </li>
+                )
+            )}
           </div>
         </div>
         <div className="py-3 border-t border-gray-300 dark:border-gray-700">
@@ -182,14 +188,18 @@ export default async function DetailPage({
             Sertifikasi
           </h1>
           <div className="flex flex-col flex-wrap font-semibold">
-            {certification?.map((certification, index: number) => (
-              <li key={index}>
-                {certification?.course}
-                <ol className="space-y-1 font-normal ps-6">
-                  {certification?.institution}
-                </ol>
-              </li>
-            ))}
+            {certification?.map(
+              (certification, index: number) =>
+                certification?.course &&
+                certification?.institution && (
+                  <li key={index}>
+                    {certification?.course}
+                    <ol className="space-y-1 font-normal ps-6">
+                      {certification?.institution}
+                    </ol>
+                  </li>
+                )
+            )}
           </div>
         </div>
 
