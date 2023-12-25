@@ -68,9 +68,7 @@ export default async function DetailPage({
             {mentorData?.major}
           </h1>
           <div className="flex justify-between">
-            <h1 className="mb-1 text-3xl font-medium text-gray-900 ">
-              {mentorData?.name}
-            </h1>
+            <h1 className="mb-1 font-medium sm:text-3xl ">{mentorData?.name}</h1>
             <button className="inline-flex items-center justify-center p-3 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
               {mentorData?.gender == "Laki Laki" ? (
                 <BsGenderMale />

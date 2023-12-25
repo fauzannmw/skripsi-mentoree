@@ -3,6 +3,36 @@ import prisma from "./database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
+export const getAllCourse = async () => {
+  try {
+    return await prisma.course.findMany({
+      orderBy: {
+        course: "asc",
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getProfileUser = async () => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    const detail = await prisma.user.findUnique({
+      where: {
+        email: session?.user?.email,
+      },
+      include: {
+        transaction: true,
+      },
+    });
+    return { detail };
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getAllMentor = async () => {
   try {
     return await prisma.mentor.findMany({
@@ -62,44 +92,6 @@ export const getMentorById = async (id: string) => {
   }
 };
 
-export const getMentorByNim = async (nim: string) => {
-  try {
-    const detail = await prisma.mentor.findUnique({
-      where: {
-        nim: nim,
-      },
-      include: {
-        course: {
-          select: {
-            course: true,
-          },
-        },
-        course_day: {
-          select: {
-            day: true,
-          },
-        },
-        experience: {
-          select: {
-            position: true,
-            company: true,
-          },
-        },
-        certification: {
-          select: {
-            course: true,
-            institution: true,
-          },
-        },
-        transaction: true,
-      },
-    });
-    return { detail };
-  } catch (error) {
-    return { error };
-  }
-};
-
 export const checkMentorInUser = async (email?: string) => {
   try {
     return !!(await prisma.user.findFirst({
@@ -112,7 +104,7 @@ export const checkMentorInUser = async (email?: string) => {
   }
 };
 
-export const checkNimInMentor = async (nim?: string) => {
+export const checkMentorNimInUser = async (nim?: string) => {
   try {
     const data = !!(await prisma.mentor.findFirst({
       where: {
@@ -125,121 +117,38 @@ export const checkNimInMentor = async (nim?: string) => {
   }
 };
 
-export const getProfileUser = async () => {
-  const session = await getServerSession(authOptions);
-
+export const getMentorByFilters = async (
+  course: string,
+  gender: string,
+  location: string
+) => {
   try {
-    const detail = await prisma.user.findUnique({
+    return await prisma.mentor.findMany({
       where: {
-        email: session?.user?.email,
-      },
-      include: {
-        transaction: true,
-      },
-    });
-    return { detail };
-  } catch (error) {
-    return { error };
-  }
-};
-
-export const getAllCourse = async () => {
-  try {
-    return await prisma.course.findMany({
-      orderBy: {
-        course: "asc",
-      },
-    });
-  } catch (error) {
-    return { error };
-  }
-};
-
-export const getAllTransaction = async () => {
-  try {
-    return await prisma.transaction.findMany({
-      include: {
-        User: true,
-        mentor: true,
-      },
-    });
-  } catch (error) {
-    return { error };
-  }
-};
-
-export const getTotalTransaction = async () => {
-  try {
-    return await prisma.transaction.count();
-  } catch (error) {
-    return { error };
-  }
-};
-
-export const getTransactionByStatus = async (status: string) => {
-  try {
-    return await prisma.transaction.findMany({
-      where: {
-        status: status,
-      },
-      include: {
-        User: true,
-        mentor: true,
-      },
-    });
-  } catch (error) {
-    return { error };
-  }
-};
-
-export const getTransactionByMentor = async () => {
-  const session = await getServerSession(authOptions);
-
-  try {
-    return await prisma.transaction.findMany({
-      where: {
-        mentor: {
-          email: session?.user?.email,
-        },
-        OR: [
-          {
-            status: "Selesai",
+        gender: gender,
+        mentoring_location: {
+          some: {
+            location: location,
           },
-          { status: "Gagal" },
-        ],
-      },
-      include: {
-        User: true,
-        mentor: true,
-      },
-    });
-  } catch (error) {
-    return { error };
-  }
-};
-
-export const getActiveTransactionByMentor = async () => {
-  const session = await getServerSession(authOptions);
-
-  try {
-    return await prisma.transaction.findMany({
-      where: {
-        mentor: {
-          email: session?.user?.email,
         },
-        OR: [
-          {
-            status: "Belum diterima Mentor",
+        course: {
+          some: {
+            course: course,
           },
-          { status: "Berlangsung" },
-        ],
+        },
       },
       include: {
-        User: true,
-        mentor: true,
-      },
-      orderBy: {
-        date: "desc",
+        course: {
+          select: {
+            course: true,
+          },
+        },
+        course_day: {
+          select: {
+            day: true,
+            time: true,
+          },
+        },
       },
     });
   } catch (error) {

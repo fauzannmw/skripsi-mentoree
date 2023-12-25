@@ -56,7 +56,7 @@ export const NavbarGlobal = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <nav
-        className="flex items-center justify-between p-6 bg-white lg:gap-x-12 lg:px-8"
+        className="flex items-center justify-between p-6 bg-white lg:gap-x-12 lg:px-8 dark:bg-mentoree dark:text-white"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
@@ -72,7 +72,7 @@ export const NavbarGlobal = () => {
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-sm font-semibold leading-6 text-gray-900 dark:text-white"
             >
               {item.name}
             </Link>
@@ -85,7 +85,7 @@ export const NavbarGlobal = () => {
                 href="/profile"
                 className="flex flex-row items-center gap-x-6"
               >
-                <p className="text-sm font-semibold leading-6 text-gray-900">
+                <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
                   {session?.user?.name}
                 </p>
                 <Image
@@ -97,7 +97,7 @@ export const NavbarGlobal = () => {
               <ThemeSwitch />
               <button
                 onClick={() => signOut()}
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="text-sm font-semibold leading-6 text-gray-900 dark:text-white"
               >
                 Log Out <span aria-hidden="true">&rarr;</span>
               </button>
@@ -105,7 +105,7 @@ export const NavbarGlobal = () => {
           ) : (
             <button
               onClick={() => signIn()}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-sm font-semibold leading-6 text-gray-900 dark:text-white"
             >
               Log in <span aria-hidden="true">&rarr;</span>
             </button>
@@ -131,7 +131,7 @@ export const NavbarGlobal = () => {
         onClose={setMobileMenuOpen}
       >
         <div className="fixed inset-0 z-50" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full px-6 py-6 overflow-y-auto bg-white sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full px-6 py-6 overflow-y-auto bg-white dark:bg-mentoree sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
@@ -156,7 +156,7 @@ export const NavbarGlobal = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="block px-3 py-2 -mx-3 text-base font-semibold leading-7 text-gray-900 rounded-lg hover:bg-gray-50"
+                    className="block px-3 py-2 -mx-3 text-base font-semibold leading-7 text-gray-900 rounded-lg dark:text-white"
                   >
                     {item.name}
                   </Link>
@@ -171,13 +171,13 @@ export const NavbarGlobal = () => {
                         className="w-8 rounded-full"
                         src={session?.user?.image ?? ""}
                       />
-                      <p className="block px-3 py-2 -mx-3 text-base font-semibold leading-7 text-gray-900 rounded-lg hover:bg-gray-50">
+                      <p className="block px-3 py-2 -mx-3 text-base font-semibold leading-7 text-gray-900 rounded-lg b:bg-gray-50 dark:text-white">
                         {session?.user?.name}
                       </p>
                     </Link>
                     <Link
                       onClick={() => signOut()}
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-white"
                     >
                       Log Out
                     </Link>
@@ -185,7 +185,7 @@ export const NavbarGlobal = () => {
                 ) : (
                   <Link
                     onClick={() => signIn()}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-white"
                   >
                     Log In
                   </Link>

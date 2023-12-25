@@ -1,4 +1,4 @@
-import { getMentorByNim } from "@/server/get_action";
+import { getMentorById } from "@/server/get_action";
 import { Button, Image } from "@nextui-org/react";
 import { Transaction } from "@prisma/client";
 import { CiCalendarDate } from "react-icons/ci";
@@ -9,7 +9,7 @@ interface CardProps {
 }
 
 export default async function Card({ data }: CardProps) {
-  const mentorData = (await getMentorByNim(data?.mentorNim as string)).detail;
+  const mentorData = (await getMentorById(data?.id as string)).detail;
 
   return (
     <form method="POST">

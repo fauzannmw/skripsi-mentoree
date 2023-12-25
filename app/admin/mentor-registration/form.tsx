@@ -12,7 +12,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { registerMentorTypes } from "@/server/types";
-import { checkMentorInUser, checkNimInMentor } from "@/server/get_action";
+import { checkMentorInUser, checkMentorNimInUser } from "@/server/get_action";
 
 import { toast } from "sonner";
 
@@ -29,7 +29,7 @@ const FormDataSchema = z.object({
     .string()
     .min(15, { message: "Masukkan Nim dengan Format yang Benar." })
     .refine(async (e) => {
-      return await checkNimInMentor(e);
+      return await checkMentorNimInUser(e);
     }, "Nim sudah pernah didaftarkan"),
   email: z
     .string()

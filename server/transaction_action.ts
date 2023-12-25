@@ -76,7 +76,7 @@ export const createTransaction = async (e: FormData) => {
   return redirect("/mentoringku/waiting");
 };
 
-export const AdminchangeTransactionStatus = async (
+export const changeTransactionStatus = async (
   id: string,
   status: string,
   message: string
@@ -92,6 +92,22 @@ export const AdminchangeTransactionStatus = async (
       message: message,
     },
   });
+
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  status === "Selesai" &&
+    (await prisma.user.update({
+      where: {
+        nim: transaction?.mentorNim as string,
+      },
+      data: {
+        coin: { increment: 1 },
+      },
+    }));
 
   if (session?.user?.role === "admin") {
     return redirect("/admin/transaction");
@@ -155,6 +171,98 @@ export const getBonusAndCoin = async (price: number) => {
     }
     coin = coin + bonus;
     return { coin };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getAllTransaction = async () => {
+  try {
+    return await prisma.transaction.findMany({
+      include: {
+        User: true,
+        mentor: true,
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getTotalTransaction = async () => {
+  try {
+    return await prisma.transaction.count();
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getTransactionByStatus = async (status: string) => {
+  try {
+    return await prisma.transaction.findMany({
+      where: {
+        status: status,
+      },
+      include: {
+        User: true,
+        mentor: true,
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getTransactionByMentor = async () => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    return await prisma.transaction.findMany({
+      where: {
+        mentor: {
+          email: session?.user?.email,
+        },
+        OR: [
+          {
+            status: "Selesai",
+          },
+          { status: "Gagal" },
+        ],
+      },
+      include: {
+        User: true,
+        mentor: true,
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getActiveTransactionByMentor = async () => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    return await prisma.transaction.findMany({
+      where: {
+        mentor: {
+          email: session?.user?.email,
+        },
+        OR: [
+          {
+            status: "Belum diterima Mentor",
+          },
+          { status: "Berlangsung" },
+        ],
+      },
+      include: {
+        User: true,
+        mentor: true,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
   } catch (error) {
     return { error };
   }

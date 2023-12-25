@@ -1,5 +1,5 @@
 import { Card } from "@/components/card";
-import { getAllCourse, getMentorByFilter } from "@/server/get_action";
+import { getAllCourse, getMentorByFilters } from "@/server/get_action";
 import Filter from "./filter";
 import { Course } from "@prisma/client";
 
@@ -12,7 +12,7 @@ export default async function ExplorePage({
 }: {
   searchParams: ProfileSearchParams;
 }) {
-  const mentorFilter = await getMentorByFilter(
+  const mentorFilter = await getMentorByFilters(
     searchParams.course,
     searchParams.gender,
     searchParams.location

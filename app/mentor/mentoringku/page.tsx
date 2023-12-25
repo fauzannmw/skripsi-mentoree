@@ -1,6 +1,6 @@
 import { IoMdPrint } from "react-icons/io";
 import { Button } from "@nextui-org/react";
-import { getActiveTransactionByMentor } from "@/server/get_action";
+import { getActiveTransactionByMentor } from "@/server/transaction_action";
 
 import TransactionCardComponent from "@/components/transaction-card";
 

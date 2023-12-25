@@ -3,10 +3,13 @@ import { ReactNode, useRef } from "react";
 import { IoMdPrint } from "react-icons/io";
 import Table from "./table";
 import { Button } from "@nextui-org/react";
-import { getAllTransaction, getTotalTransaction } from "@/server/get_action";
 
 import { useReactToPrint } from "react-to-print";
 import { Mentor, Transaction, User } from "@prisma/client";
+import {
+  getAllTransaction,
+  getTotalTransaction,
+} from "@/server/transaction_action";
 
 interface TransactionExtends extends Transaction {
   User: User;

@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from "react";
-import { getTotalTransaction } from "@/server/get_action";
+import { getTotalTransaction } from "@/server/transaction_action";
 
 export default async function PaginationComponent() {
   const totalData = await getTotalTransaction();

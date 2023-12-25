@@ -1,4 +1,4 @@
-import { getTransactionByStatus } from "@/server/get_action";
+import { getTransactionByStatus } from "@/server/transaction_action";
 import Tab from "./tab";
 import TransactionCardComponent from "@/components/transaction-card";
 
