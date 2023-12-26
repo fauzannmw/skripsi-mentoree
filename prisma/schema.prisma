@@ -13,8 +13,8 @@ generator client {
 
 model Mentor {
   id                 String          @id @default(cuid())
-  nim                String         @unique
-  email              String         @unique
+  nim                String          @unique
+  email              String          @unique
   name               String
   major              String?
   phone_number       String?
@@ -117,6 +117,7 @@ model User {
   nim           String?       @unique
   email         String        @unique
   emailVerified DateTime?
+  phone_number  String?
   major         String?
   image         String
   role          String

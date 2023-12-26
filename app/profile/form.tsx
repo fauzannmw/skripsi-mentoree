@@ -9,7 +9,7 @@ import { Link } from "@nextui-org/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdOutlinePhoneAndroid } from "react-icons/md";
 
 import { toast } from "sonner";
 
@@ -17,12 +17,20 @@ export interface FormProps {
   profile: User;
 }
 
+const phoneRegex = new RegExp(
+  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+);
+
 const FormDataSchema = z.object({
   email: z.string().min(1).email("Masukkan Email dengan Format yang Benar."),
   name: z.string().min(1),
   nim: z
     .string()
     .min(15, { message: "Masukkan Nim dengan Format yang Benar." }),
+  phone_number: z
+    .string()
+    .min(1)
+    .regex(phoneRegex, "Masukkan Nomor Ponsel dengan Format yang Benar"),
   major: z.string().min(1, { message: "Isi Program Studi Anda dengan Benar." }),
 });
 
@@ -43,6 +51,7 @@ export default function Form({ profile }: FormProps) {
       email: profile?.email as string,
       name: profile?.name as string,
       nim: profile?.nim as string,
+      phone_number: profile?.phone_number as string,
       major: profile?.major as string,
     },
     resolver: zodResolver(FormDataSchema),
@@ -139,6 +148,29 @@ export default function Form({ profile }: FormProps) {
             errorMessage={errors.nim && errors.nim.message}
             {...register("nim", { required: true })}
             defaultValue={profile?.nim as string}
+            className="w-full font-semibold "
+            classNames={{
+              label: "text-sm",
+              input: "text-sm font-semibold",
+            }}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <Input
+            type="number"
+            placeholder="Isi Nomor Ponsel Anda..."
+            label="Nomor Ponsel"
+            labelPlacement="outside"
+            variant="bordered"
+            size="lg"
+            radius="sm"
+            isInvalid={errors.phone_number ? true : false}
+            errorMessage={errors.phone_number && errors.phone_number.message}
+            {...register("phone_number", { required: true })}
+            defaultValue={profile?.phone_number as string}
+            endContent={
+              <MdOutlinePhoneAndroid className="self-center text-xl text-default-400" />
+            }
             className="w-full font-semibold "
             classNames={{
               label: "text-sm",

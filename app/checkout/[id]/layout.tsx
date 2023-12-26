@@ -4,8 +4,8 @@ export default function CheckoutLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col justify-center gap-4 pt-8 md:pt-10">
-      <div className="justify-center inline-block max-w-lg ">{children}</div>
+    <section className="flex justify-center w-full mt-8 md:mt-10">
+      <div className="flex justify-center w-full max-w-lg">{children}</div>
     </section>
   );
 }

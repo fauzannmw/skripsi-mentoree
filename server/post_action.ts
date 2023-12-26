@@ -14,6 +14,7 @@ export const updateProfile = async (params: User) => {
   const data = {
     major: params.major,
     nim: params.nim,
+    phone_number: params.phone_number,
   };
   await prisma.user.update({
     where: {

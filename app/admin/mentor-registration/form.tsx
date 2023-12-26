@@ -337,20 +337,11 @@ export default function Form({ profile }: FormProps) {
                 value: "text-sm font-semibold",
               }}
             >
-              <SelectItem key={"08.00 - 10.00"} value="08.00 - 10.00">
-                08.00 - 10.00
+              <SelectItem key={"Pagi"} value="Pagi">
+                Pagi
               </SelectItem>
-              <SelectItem key={"10.00 - 12.00"} value="10.00 - 12.00">
-                10.00 - 12.00
-              </SelectItem>
-              <SelectItem key={"12.00 - 14.00"} value="12.00 - 14.00">
-                12.00 - 14.00
-              </SelectItem>
-              <SelectItem key={"14.00 - 16.00"} value="14.00 - 16.00">
-                14.00 - 16.00
-              </SelectItem>
-              <SelectItem key={"16.00 - 18.00"} value="16.00 - 18.00">
-                16.00 - 18.00
+              <SelectItem key={"Siang"} value="Siang">
+                Siang
               </SelectItem>
             </Select>
           </div>
