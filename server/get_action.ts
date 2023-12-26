@@ -69,6 +69,7 @@ export const getMentorById = async (id: string) => {
         course_day: {
           select: {
             day: true,
+            time: true,
           },
         },
         experience: {

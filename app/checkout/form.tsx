@@ -2,7 +2,7 @@
 
 import { Button, Link } from "@nextui-org/react";
 import { BsCoin } from "react-icons/bs";
-import { createTransaction } from "@/server/transaction_action";
+import { createTransactions } from "@/server/transaction_action";
 import { Mentor, User } from "@prisma/client";
 
 interface FormProps {
@@ -12,7 +12,7 @@ interface FormProps {
 
 export default function Form({ mentor, user }: FormProps) {
   return (
-    <form action={createTransaction} method="POST">
+    <form action={createTransactions} method="POST">
       <input
         type="text"
         className="sr-only peer"

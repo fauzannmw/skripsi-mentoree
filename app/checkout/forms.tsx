@@ -14,35 +14,36 @@ import {
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
+import { LocationData } from "./location";
+import { TimeData } from "./time";
+import { createTransaction } from "@/server/transaction_action";
 
 const FormDataSchema = z.object({
+  mentorNim: z.string().min(1),
   course_day: z.string().min(1),
-  course_time: z.string().min(1),
-  mentoring_location: z.string().min(1),
-  location_detail: z.string().min(1),
-  mentoring_topic: z.string().min(10),
+  course_time: z.string().min(1, { message: "Pilih Jam Mentoring" }),
+  participant: z.string().min(1, { message: "Pilih Jumlah Peserta Mentoring" }),
+  mentoring_location: z
+    .string()
+    .min(1, { message: "Pilih Plarform Mentoring" }),
+  location_detail: z.string().min(1, { message: "Pilih Lokasi Mentoring" }),
+  mentoring_topic: z
+    .string()
+    .min(10, { message: "Isi Topik Mentoring yang akan ditanyakan" }),
 });
 
-type Inputs = z.infer<typeof FormDataSchema>;
+export type CreateTransactionTypes = z.infer<typeof FormDataSchema>;
 
-const daring = [
-  {
-    value: "Google Meet",
-  },
-];
+type FormProps = {
+  nim: string;
+  major: string;
+  time: string;
+};
 
-const luring = [
-  {
-    value: "Kantin Griya UB",
-  },
-  {
-    value: "Kantin Creative Land UB",
-  },
-];
-
-export default function Forms() {
+export default function Forms({ nim, major, time }: FormProps) {
   const [isloading, setLoading] = useState(false);
-  const [locationDetail, setLocationDetail] = useState(daring);
+  const [locationDetail, setLocationDetail] = useState(LocationData?.daring);
+  const [mentoringTime, setMentoringTime] = useState(TimeData.pagi);
 
   const {
     register,
@@ -50,23 +51,25 @@ export default function Forms() {
     control,
     reset,
     watch,
+    resetField,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<CreateTransactionTypes>({
     defaultValues: {
-      course_day: "",
+      mentorNim: nim,
+      course_day: "Jumat",
       course_time: "",
-      mentoring_location: "Daring",
+      participant: "",
+      mentoring_location: "",
       location_detail: "",
       mentoring_topic: "",
     },
     resolver: zodResolver(FormDataSchema),
   });
 
-  const processForm: SubmitHandler<Inputs> = async (data) => {
+  const processForm: SubmitHandler<CreateTransactionTypes> = async (data) => {
     try {
       setLoading(true);
-      // @ts-ignore
-      await registerMentor(data as registerMentorTypes);
+      await createTransaction(data as CreateTransactionTypes);
       reset();
     } catch (error) {
       console.log(error);
@@ -82,15 +85,41 @@ export default function Forms() {
   });
 
   useEffect(() => {
+    if (time === "Pagi") {
+      setMentoringTime(TimeData?.pagi);
+    } else if (time === "Siang") {
+      setMentoringTime(TimeData?.siang);
+    }
     if (mentoringLocation === "Daring") {
-      setLocationDetail(daring);
-    } else {
-      setLocationDetail(luring);
+      setLocationDetail(LocationData?.daring);
+      resetField("location_detail");
+    } else if (mentoringLocation === "Luring") {
+      switch (major) {
+        case "Teknik Informatika":
+          setLocationDetail(LocationData.informatika);
+          break;
+        case "Teknik Elektro":
+          setLocationDetail(LocationData.elektro);
+          break;
+        case "Teknik Industri Pertanian":
+          setLocationDetail(LocationData.pertanian);
+          break;
+        case "Teknologi Informasi":
+          setLocationDetail(LocationData.teknologi);
+          break;
+        case "Statistika":
+          setLocationDetail(LocationData.statistika);
+          break;
+
+        default:
+          break;
+      }
+      resetField("location_detail");
     }
   }, [mentoringLocation]);
 
   return (
-    <form action="" className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(processForm)} className="flex flex-col gap-4">
       <div>
         <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
           <label
@@ -101,7 +130,7 @@ export default function Forms() {
           </label>
           <div className="flex gap-2">
             <Select
-              label="Platform"
+              label="Tanggal"
               labelPlacement="inside"
               variant="bordered"
               size="sm"
@@ -122,42 +151,29 @@ export default function Forms() {
               ))}
             </Select>
             <Select
-              label="Lokasi"
+              label="Jam"
               labelPlacement="inside"
               variant="bordered"
               size="sm"
               radius="sm"
+              isInvalid={errors.course_time ? true : false}
+              errorMessage={errors.course_time && errors.course_time.message}
+              {...register("course_time", { required: true })}
               className="w-full font-semibold"
               classNames={{
                 label: "text-sm",
                 value: "text-sm font-semibold",
               }}
             >
-              <SelectItem key={"Kantin Griya UB"} value="Kantin Griya UB">
-                Kantin Griya UB
-              </SelectItem>
-              <SelectItem
-                key={"Kantin Creative Land UB"}
-                value="Kantin Creative Land UB"
-              >
-                Kantin Creative Land UB
-              </SelectItem>
+              {mentoringTime.map((mentoringTime) => (
+                <SelectItem
+                  key={mentoringTime.value}
+                  value={mentoringTime.value}
+                >
+                  {mentoringTime.value}
+                </SelectItem>
+              ))}
             </Select>
-          </div>
-          <div className="sm:col-span-2">
-            <Textarea
-              label="Topik Mentoring"
-              labelPlacement="outside"
-              variant="bordered"
-              placeholder="Berikan penjelasan sedetail mungkin mengenai topik mentoring yang akan ditanyakan agar mentor dapat mempersiapkan mentoring dengan baik"
-              minRows={4}
-              radius="sm"
-              className="w-full font-semibold"
-              classNames={{
-                label: "text-sm",
-                input: "resize-y min-h-[60px] text-sm font-semibold",
-              }}
-            />
           </div>
         </div>
         <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
@@ -166,6 +182,9 @@ export default function Forms() {
               label="Berapa Jumlah Partisipan Mentoring"
               orientation="horizontal"
               size="sm"
+              isInvalid={errors.participant ? true : false}
+              errorMessage={errors.participant && errors.participant.message}
+              {...register("participant", { required: true })}
               className="flex justify-between w-full"
               classNames={{
                 label: "text-sm text-black",
@@ -217,6 +236,11 @@ export default function Forms() {
               variant="bordered"
               size="sm"
               radius="sm"
+              isInvalid={errors.location_detail ? true : false}
+              errorMessage={
+                errors.location_detail && errors.location_detail.message
+              }
+              {...register("location_detail", { required: true })}
               className="w-full font-semibold"
               classNames={{
                 label: "text-sm",
@@ -241,6 +265,11 @@ export default function Forms() {
               placeholder="Berikan penjelasan sedetail mungkin mengenai topik mentoring yang akan ditanyakan agar mentor dapat mempersiapkan mentoring dengan baik"
               minRows={4}
               radius="sm"
+              isInvalid={errors.mentoring_topic ? true : false}
+              errorMessage={
+                errors.mentoring_topic && errors.mentoring_topic.message
+              }
+              {...register("mentoring_topic", { required: true })}
               className="w-full font-semibold"
               classNames={{
                 label: "text-sm",
@@ -255,6 +284,7 @@ export default function Forms() {
           type="submit"
           color="primary"
           radius="sm"
+          isLoading={isloading}
           className="w-full text-sm font-semibold"
         >
           Konfirmasi Pesanan

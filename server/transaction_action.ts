@@ -10,6 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getProfileUser } from "./get_action";
 import { Inputs } from "@/app/coin/form";
+import { CreateTransactionTypes } from "@/app/checkout/forms";
 
 let snap = new Midtrans.Snap({
   isProduction: false,
@@ -51,7 +52,33 @@ export async function createMidtransToken(params: Inputs) {
   return token;
 }
 
-export const createTransaction = async (e: FormData) => {
+export const createTransaction = async (params: CreateTransactionTypes) => {
+  const session = await getServerSession(authOptions);
+
+  await prisma.user.update({
+    where: { email: session?.user?.email },
+    data: {
+      coin: { decrement: 1 },
+      transaction: {
+        create: [
+          {
+            mentorNim: params.mentorNim,
+            date: params.course_day,
+            time: params.course_time,
+            participant: params.participant,
+            location: params.mentoring_location,
+            location_detail: params.location_detail,
+            mentoring_topic: params.mentoring_topic,
+          },
+        ],
+      },
+    },
+  });
+
+  return redirect("/mentoringku/waiting");
+};
+
+export const createTransactions = async (e: FormData) => {
   const session = await getServerSession(authOptions);
 
   await prisma.user.update({
