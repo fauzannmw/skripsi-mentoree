@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { changeTransactionStatus } from "@/server/transaction_action";
+import { updateTransactionStatus } from "@/server/transaction_action";
 
 type ActionButtonProps = {
   id: string;
@@ -35,7 +35,7 @@ export default function ActionButtonComponent({
 
   async function onClickButton() {
     setLoading(true);
-    await changeTransactionStatus(id, selectedOptionValue, "");
+    await updateTransactionStatus(id, selectedOptionValue, "");
     setLoading(false);
   }
 

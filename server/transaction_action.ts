@@ -11,6 +11,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getProfileUser } from "./get_action";
 import { Inputs } from "@/app/coin/form";
 import { CreateTransactionTypes } from "@/app/checkout/forms";
+import { TransactionDetailType } from "@/app/admin/transaction/updateForm";
 
 let snap = new Midtrans.Snap({
   isProduction: false,
@@ -103,7 +104,7 @@ export const createTransactions = async (e: FormData) => {
   return redirect("/mentoringku/waiting");
 };
 
-export const changeTransactionStatus = async (
+export const updateTransactionStatus = async (
   id: string,
   status: string,
   message: string
@@ -143,6 +144,21 @@ export const changeTransactionStatus = async (
   } else {
     redirect("/mentoringku");
   }
+};
+
+export const updateTransactionLocationDetail = async (
+  params: TransactionDetailType
+) => {
+  await prisma.transaction.update({
+    where: {
+      id: params.id,
+    },
+    data: {
+      location_detail: params.location_detail,
+    },
+  });
+
+  return redirect("/admin/transaction");
 };
 
 export const updateUserCoin = async (params: string) => {

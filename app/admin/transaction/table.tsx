@@ -2,6 +2,7 @@
 import { Button, Image } from "@nextui-org/react";
 import ActionButtonComponent from "./actionButton";
 import { Transaction } from "@prisma/client";
+import UpdateForm from "./updateForm";
 
 type TableProps = {
   transactions: Transaction;
@@ -41,6 +42,9 @@ export default function Table({ transactions }: TableProps) {
               Detail Lokasi
             </th>
             <th className="px-4 py-3 border-b-2 border-blue-500">
+              Update Detail Lokasi
+            </th>
+            <th className="px-4 py-3 border-b-2 border-blue-500">
               Jumlah Partisipan
             </th>
             <th className="px-4 py-3 border-b-2 border-blue-500">
@@ -68,7 +72,7 @@ export default function Table({ transactions }: TableProps) {
                       className="object-cover w-10 h-10 mx-auto rounded-md"
                     />
                   </div>
-                  <div className="flex-1 pl-1">
+                  <div className="flex-1 w-48 pl-1">
                     <p className="font-medium dark:text-white">
                       {transaction?.mentor?.name}
                     </p>
@@ -128,25 +132,26 @@ export default function Table({ transactions }: TableProps) {
                 </p>
               </td>
               <td className="px-4 py-4">
-                <p className="w-32">
-                  Junction antara gedung F dan gedung G FILKOM UB
-                </p>
+                <p className="w-32">{transaction?.location_detail}</p>
+              </td>
+              <td className="px-4 py-4">
+                <UpdateForm id={transaction?.id} />
               </td>
               <td className="px-4 py-4">
                 <p>{transaction?.participant}</p>
               </td>
               <td className="px-4 py-4">
-                <p>{transaction?.mentoring_topic}</p>
+                <p className="w-32">{transaction?.mentoring_topic}</p>
               </td>
               <td className="px-4 py-4">
                 <p className="w-32">
-                  Terlalu mepet waktu mentoringnya dan terlalu pagi mentoringnya
+                  {transaction?.message && transaction?.message}
                 </p>
               </td>
               <td className="px-4 py-4">
                 <p>
                   {(transaction?.createdAt).toLocaleDateString(
-                    "en-US",
+                    "id-ID",
                     options
                   )}
                 </p>

@@ -1,5 +1,5 @@
 "use client";
-import { changeTransactionStatus } from "@/server/transaction_action";
+import { updateTransactionStatus } from "@/server/transaction_action";
 import {
   Avatar,
   Button,
@@ -46,28 +46,28 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
 
   function decline(transactionId: string) {
     return (event: React.FormEvent) => {
-      changeTransactionStatus(transactionId, "Gagal", message);
+      updateTransactionStatus(transactionId, "Gagal", message);
       event.preventDefault();
     };
   }
 
   function declineTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      changeTransactionStatus(transactionId, "Gagal", message);
+      updateTransactionStatus(transactionId, "Gagal", message);
       event.preventDefault();
     };
   }
 
   function acceptTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      changeTransactionStatus(transactionId, "Berlangsung", "");
+      updateTransactionStatus(transactionId, "Berlangsung", "");
       event.preventDefault();
     };
   }
 
   function finishTransaction(transactionId: string) {
     return (event: React.MouseEvent) => {
-      changeTransactionStatus(transactionId, "Selesai", "");
+      updateTransactionStatus(transactionId, "Selesai", "");
       event.preventDefault();
     };
   }

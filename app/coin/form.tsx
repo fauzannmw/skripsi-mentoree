@@ -11,11 +11,25 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
+import { toast } from "sonner";
 
 const FormDataSchema = z.object({
-  nim: z.string().min(1, { message: "Silahkan Login Terlebih Dahulu" }),
+  nim: z
+    .string({
+      required_error: "Silahkan Isi Nim Anda Terlebih Dahulu",
+      invalid_type_error: "Silahkan Isi Nim Anda Terlebih Dahulu",
+    })
+    .min(1, { message: "Silahkan Login Terlebih Dahulu" }),
+  phone_number: z
+    .string({
+      required_error: "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu",
+      invalid_type_error: "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu",
+    })
+    .min(1, { message: "Silahkan Login Terlebih Dahulu" }),
   price: z
-    .string()
+    .string({
+      invalid_type_error: "Silahkan pilih jumlah Coin yang ingin Anda Beli",
+    })
     .min(1, { message: "Silahkan pilih jumlah Coin yang ingin Anda Beli" }),
 });
 
@@ -37,6 +51,7 @@ export default function Form({ profile }: FormProps) {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
+      phone_number: profile?.phone_number as string,
       nim: profile?.nim as string,
       price: "",
     },
@@ -45,8 +60,7 @@ export default function Form({ profile }: FormProps) {
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    // @ts-ignore
-    const result = await createMidtransToken(data);
+    const result = await createMidtransToken(data as Inputs);
     setToken(result);
 
     //@ts-ignore
@@ -55,23 +69,25 @@ export default function Form({ profile }: FormProps) {
         /* You may add your own implementation here */
         await updateUserCoin(price);
         setLoading(false);
-
-        alert("payment success!");
-        console.log(result);
+        alert("Pembayaran Berhasil");
+        toast.success("Pembayaran Berhasil");
       },
       onPending: function (result: string) {
         /* You may add your own implementation here */
-        alert("wating your payment!");
-        console.log(result);
+        setLoading(false);
+        toast(
+          "Menunggu pembayaran, silahkan lapor Admin apabila coin tidak bertambah"
+        );
       },
       onError: function (result: string) {
         /* You may add your own implementation here */
-        alert("payment failed!");
-        console.log(result);
+        setLoading(false);
+        toast("Pembayaran Gagal");
       },
       onClose: function () {
         /* You may add your own implementation here */
-        alert("you closed the popup without finishing the payment");
+        setLoading(false);
+        toast("Pembayaran gagal karena kamu menutup jendela pembayaran");
       },
     });
   };
@@ -110,8 +126,8 @@ export default function Form({ profile }: FormProps) {
               {...register("price")}
               onChange={(e) => setPrice(e.target.value)}
             />
-            <div className="w-full max-w-md px-3 py-2 text-gray-600 transition-all rounded-md ring-2 ring-gray-600 hover:shadow peer-checked:text-sky-600 peer-checked:ring-blue-400 peer-checked:ring-offset-2">
-              <div className="flex flex-col gap-1">
+            <div className="w-full h-full max-w-md px-3 py-2 text-gray-600 transition-all rounded-md ring-2 ring-gray-600 hover:shadow peer-checked:text-sky-600 peer-checked:ring-blue-400 peer-checked:ring-offset-2">
+              <div className="flex flex-col justify-between gap-1">
                 <div className="flex items-center justify-between">
                   <p className="font-semibold ">
                     {coin.coin} Coin + {coin.bonus} Bonus
@@ -134,7 +150,7 @@ export default function Form({ profile }: FormProps) {
           </label>
         ))}
       </div>
-      <div className="absolute inset-x-0 bottom-0 flex flex-col w-full p-16 font-medium">
+      <div className="absolute inset-x-0 bottom-0 flex flex-col w-full p-8 font-medium sm:p-16">
         <div className="flex justify-between">
           <p>Total Pembayaran</p>
           <p className="">
@@ -142,11 +158,23 @@ export default function Form({ profile }: FormProps) {
             {price !== "0" ? numberWithCommas(parseInt(price)) : "0"}
           </p>
         </div>
-        <Button isLoading={isloading} className="font-medium" type="submit">
+        <p className="text-sm font-semibold text-red-600">
+          {errors.nim && <span>{errors.nim?.message}</span>}
+        </p>
+        <p className="text-sm font-semibold text-red-600">
+          {errors.phone_number && <span>{errors.phone_number?.message}</span>}
+        </p>
+        <p className="text-sm font-semibold text-red-600">
+          {errors.price && <span>{errors.price?.message}</span>}
+        </p>
+        <Button
+          isLoading={isloading}
+          color="primary"
+          className="font-medium"
+          type="submit"
+        >
           Lanjutkan Pembayaran
         </Button>
-        {errors.nim && <span>{errors.nim.message}</span>}
-        {errors.price && <span>{errors.price.message}</span>}
       </div>
     </form>
   );
