@@ -1,9 +1,7 @@
 import { getMentorById, getProfileUser } from "@/server/get_action";
-import Detail from "../detail";
-import Form from "../form";
 import { BsGenderFemale, BsGenderMale } from "react-icons/bs";
 import Forms from "../forms";
-import { Image } from "@nextui-org/react";
+import { Image, Link } from "@nextui-org/react";
 
 // @ts-ignore
 export default async function CheckoutPage({ params }) {
@@ -16,7 +14,7 @@ export default async function CheckoutPage({ params }) {
         <h2 className="text-lg font-medium">Order summary</h2>
         <h2 className="text-sm font-semibold">Coin Anda : {userData?.coin}</h2>
       </div>
-      <div className="flex flex-col w-full gap-4 px-4 py-6 mt-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div className="flex flex-col w-full gap-4 px-4 py-6 mt-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-black">
         <div className="flex">
           <div className="flex-shrink-0 w-16 h-16">
             <Image
@@ -29,12 +27,12 @@ export default async function CheckoutPage({ params }) {
             <div className="flex items-center justify-between">
               <div className="flex flex-col flex-1 gap-2">
                 <h4 className="text-sm">
-                  <a
-                    href="#"
+                  <Link
+                    href={`/detail/${mentorData?.id}`}
                     className="font-medium text-gray-700 hover:text-gray-800"
                   >
                     {mentorData?.name}
-                  </a>
+                  </Link>
                 </h4>
                 <div className="flex gap-2">
                   {mentorData?.course?.map((course, index) => (
@@ -58,7 +56,7 @@ export default async function CheckoutPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-6 border-gray-200 sm:px-6">
+        <div className="flex flex-col gap-6 border-gray-200">
           <div className="flex items-center justify-between text-sm">
             <p>Program Studi Mentor</p>
             <p className="font-medium ">{mentorData?.major}</p>
@@ -85,10 +83,11 @@ export default async function CheckoutPage({ params }) {
           </div>
         </div>
         <div>
-          <h1 className="font-semibold">Form Pemesanan</h1>
+          <h1 className="font-semibold dark:text-black">Form Pemesanan</h1>
           <Forms
             nim={mentorData?.nim as string}
             major={mentorData?.major as string}
+            day={mentorData?.course_day[0].day as string}
             time={mentorData?.course_day[0].time as string}
           />
         </div>

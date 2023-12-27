@@ -225,9 +225,12 @@ export const getTotalTransaction = async () => {
 };
 
 export const getTransactionByStatus = async (status: string) => {
+  const session = await getServerSession(authOptions);
+
   try {
     return await prisma.transaction.findMany({
       where: {
+        userEmail: session?.user?.email,
         status: status,
       },
       include: {

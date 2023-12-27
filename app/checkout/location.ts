@@ -14,6 +14,9 @@ export const LocationData = {
     {
       value: "Junction Filkom UB",
     },
+    {
+      value: "Gedung Kreatif Mahasiswa UB",
+    },
   ],
   elektro: [
     {
