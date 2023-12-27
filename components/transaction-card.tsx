@@ -8,6 +8,7 @@ import {
   CardFooter,
   CardHeader,
   Input,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -116,10 +117,24 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
             </p>
             <p className="text-justify">
               Lokasi :&nbsp;
-              <span>
-                {data?.location}, {data?.location_detail}
-              </span>
+              <span>{data?.location}</span>
             </p>
+            <p className="">
+              Detail Lokasi :&nbsp;
+              {data?.location_detail && data?.location === "Daring" && (
+                <Link
+                  isExternal
+                  href={`https://${data?.location_detail}`}
+                  className="text-small"
+                >
+                  Link Google Meet (Gunakan Account Gmail UB)
+                </Link>
+              )}
+              {data?.location_detail &&
+                data?.location === "Luring" &&
+                data?.location_detail}
+            </p>
+
             <p>
               Tanggal Mentoring : <span>{data?.date}</span>
             </p>
@@ -145,21 +160,25 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
                 Status Mentoring : &nbsp;
                 <span className="font-semibold">{data?.status}</span>
               </h1>
-              <h1 className="text-left text-small text-default-400">
-                Pesan Mentor : &nbsp;
-                <span className="font-semibold">{data?.message}</span>
-              </h1>
+              {data?.message && (
+                <h1 className="text-left text-small text-default-400">
+                  Pesan Mentor : &nbsp;
+                  <span className="font-semibold">{data?.message}</span>
+                </h1>
+              )}
             </div>
             {data?.status === "Berlangsung" && role === "user" && (
-              <Button
-                isIconOnly
-                className="hover:opacity-75"
-                radius="full"
-                color="success"
-                onClick={onOpen}
-              >
-                <MdDone className="text-lg text-black" />
-              </Button>
+              <div className="w-full col-span-2">
+                <Button
+                  isIconOnly
+                  className="hover:opacity-75 justify-self-end"
+                  radius="full"
+                  color="success"
+                  onClick={onOpen}
+                >
+                  <MdDone className="text-lg text-black" />
+                </Button>
+              </div>
             )}
             {data?.status === "Belum diterima Mentor" && role === "mentor" && (
               <div className="flex gap-2 sm:gap-4">

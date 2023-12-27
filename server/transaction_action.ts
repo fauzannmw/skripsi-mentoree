@@ -136,14 +136,70 @@ export const updateTransactionStatus = async (
         coin: { increment: 1 },
       },
     }));
+  status === "Gagal" &&
+    (await prisma.user.update({
+      where: {
+        email: transaction?.userEmail as string,
+      },
+      data: {
+        coin: { increment: 1 },
+      },
+    }));
 
-  if (session?.user?.role === "admin") {
-    return redirect("/admin/transaction");
-  } else if (session?.user?.role === "mentor") {
+  if (session?.user?.role === "mentor") {
     return redirect("/mentor/mentoringku");
   } else {
     redirect("/mentoringku");
   }
+};
+export const AdminUpdateTransactionStatus = async (
+  id: string,
+  status: string
+) => {
+  await prisma.transaction.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: status,
+    },
+  });
+
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  if (status === "Selesai") {
+    await prisma.user.update({
+      where: {
+        nim: transaction?.mentorNim as string,
+      },
+      data: {
+        coin: { increment: 1 },
+      },
+    });
+  } else if (status === "Gagal") {
+    await prisma.user.update({
+      where: {
+        email: transaction?.userEmail as string,
+      },
+      data: {
+        coin: { increment: 1 },
+      },
+    });
+    await prisma.user.update({
+      where: {
+        nim: transaction?.mentorNim as string,
+      },
+      data: {
+        coin: { decrement: 1 },
+      },
+    });
+  }
+
+  return redirect("/admin/transaction");
 };
 
 export const updateTransactionLocationDetail = async (

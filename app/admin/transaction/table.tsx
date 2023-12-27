@@ -1,5 +1,5 @@
 "use client";
-import { Button, Image } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import ActionButtonComponent from "./actionButton";
 import { Transaction } from "@prisma/client";
 import UpdateForm from "./updateForm";
@@ -91,11 +91,15 @@ export default function Table({ transactions }: TableProps) {
                       className="object-cover w-10 h-10 mx-auto rounded-md"
                     />
                   </div>
-                  <div className="flex-1 pl-1">
+                  <div className="flex-1 w-48 pl-1">
                     <p className="font-medium dark:text-white">
                       {transaction?.User?.name}
                     </p>
-                    <p className="text-sm">{transaction?.User?.email}</p>
+                    <p className="text-sm">
+                      {transaction?.User?.phone_number
+                        ? transaction?.User?.phone_number
+                        : transaction?.User?.email}
+                    </p>
                   </div>
                 </div>
               </td>
