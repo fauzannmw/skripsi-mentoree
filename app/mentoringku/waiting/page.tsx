@@ -3,7 +3,7 @@ import Tab from "../tab";
 import TransactionCardComponent from "@/components/transaction-card";
 
 export default async function TransactionPage() {
-  const transaction = await getTransactionByStatus("Belum diterima Mentor");
+  const transaction = await getTransactionByStatus("Menunggu");
 
   return (
     <div className="flex flex-col w-full gap-4 my-4 select-none">

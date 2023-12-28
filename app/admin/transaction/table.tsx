@@ -17,7 +17,7 @@ export default function Table({ transactions }: TableProps) {
   };
 
   const colorStatus = {
-    "Belum diterima Mentor": "text-yellow-600",
+    Menunggu: "text-yellow-600",
     Berlangsung: "text-blue-600",
     Selesai: "text-green-600",
     Gagal: "text-red-600",

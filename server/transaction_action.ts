@@ -134,7 +134,41 @@ export const finishTransactionStatus = async (
     },
   });
 
-  redirect("/mentoringku/done");
+  return redirect("/mentoringku/done");
+};
+
+export const changeTransactionStatus = async (
+  id: string,
+  status: string,
+  message: string
+) => {
+  await prisma.transaction.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: status,
+      message: message,
+    },
+  });
+
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  status === "Gagal" &&
+    (await prisma.user.update({
+      where: {
+        email: transaction?.userEmail as string,
+      },
+      data: {
+        coin: { increment: 1 },
+      },
+    }));
+
+  return redirect("/mentor/mentoringku");
 };
 
 export const updateTransactionStatus = async (
@@ -182,7 +216,7 @@ export const updateTransactionStatus = async (
   if (session?.user?.role === "mentor") {
     return redirect("/mentor/mentoringku");
   } else {
-    redirect("/mentoringku");
+    return redirect("/mentoringku");
   }
 };
 
@@ -401,7 +435,7 @@ export const getActiveTransactionByMentor = async () => {
         },
         OR: [
           {
-            status: "Belum diterima Mentor",
+            status: "Menunggu",
           },
           { status: "Berlangsung" },
         ],

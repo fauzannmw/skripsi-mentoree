@@ -36,14 +36,10 @@ type Inputs = z.infer<typeof FormDataSchema>;
 export default function ButtonModalAccept({ transactionId }: ButtonModalProps) {
   const { onClose, isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isloading, setLoading] = useState(false);
-  const [message, setMessage] = useState(
-    "Mentor Berhalangan pada Jadwal yang diminta"
-  );
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -66,17 +62,9 @@ export default function ButtonModalAccept({ transactionId }: ButtonModalProps) {
     }
   };
 
-  function finishTransaction(transactionId: string) {
-    return (event: React.MouseEvent) => {
-      updateTransactionStatus(transactionId, "Selesai", "");
-      event.preventDefault();
-    };
-  }
-
   return (
     <Fragment>
       <Button
-        isIconOnly
         className="w-full font-semibold hover:opacity-75"
         size="sm"
         radius="sm"
@@ -102,7 +90,7 @@ export default function ButtonModalAccept({ transactionId }: ButtonModalProps) {
                 <ModalBody className="gap-2 font-semibold text-justify">
                   <div>
                     <p>Apakah anda yakin ingin menyelesaikan pesanan?</p>
-                    <p>
+                    <p className="text-xs text-red-600">
                       Coin akan diteruskan kepada mentor apabila pesanan Selesai
                     </p>
                   </div>

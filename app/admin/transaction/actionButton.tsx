@@ -27,7 +27,7 @@ export default function ActionButtonComponent({
   const selectedOptionValue = Array.from(selectedOption)[0];
 
   const labelsMap = {
-    "Belum diterima Mentor": "Ubah Status menjadi Belum diterima oleh Mentor",
+    Menunggu: "Ubah Status menjadi Belum diterima oleh Mentor",
     Berlangsung: "Ubah Status menjadi Berlangsung",
     Selesai: "Ubah Status menjadi Selesai",
     Gagal: "Ubah Status menjadi Gagal",
@@ -59,8 +59,8 @@ export default function ActionButtonComponent({
           onSelectionChange={setSelectedOption as any}
           className="max-w-[300px]"
         >
-          <DropdownItem color="warning" key="Belum diterima Mentor">
-            {labelsMap["Belum diterima Mentor"]}
+          <DropdownItem color="warning" key="Menunggu">
+            {labelsMap["Menunggu"]}
           </DropdownItem>
           <DropdownItem color="primary" key="Berlangsung">
             {labelsMap["Berlangsung"]}

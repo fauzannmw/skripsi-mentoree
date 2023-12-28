@@ -14,13 +14,14 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
 import { Mentor, Transaction, User } from "@prisma/client";
-import { FormEventHandler, Fragment, useState } from "react";
-import { MdDone } from "react-icons/md";
-import { IoMdClose } from "react-icons/io";
+import { Fragment } from "react";
+import { IoLogoWhatsapp } from "react-icons/io";
 import ButtonModalAccept from "./button-modal-accept";
+import ButtonModalDecline from "./button-modal-decline";
 
 interface TransactionExtends extends Transaction {
   User: User;
@@ -35,9 +36,10 @@ type CardProps = {
 
 export default function TransactionCardComponent({ data, role }: CardProps) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [message, setMessage] = useState(
-    "Mentor Berhalangan pada Jadwal yang diminta"
-  );
+
+  function phoneParse(phone_number: string) {
+    return phone_number.replace(/^0+/, "");
+  }
 
   const options = {
     weekday: "long",
@@ -46,225 +48,150 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
     day: "numeric",
   };
 
-  function decline(transactionId: string) {
-    return (event: React.FormEvent) => {
-      updateTransactionStatus(transactionId, "Gagal", message);
-      event.preventDefault();
-    };
-  }
-
-  function declineTransaction(transactionId: string) {
-    return (event: React.MouseEvent) => {
-      updateTransactionStatus(transactionId, "Gagal", message);
-      event.preventDefault();
-    };
-  }
-
-  function acceptTransaction(transactionId: string) {
-    return (event: React.MouseEvent) => {
-      updateTransactionStatus(transactionId, "Berlangsung", "");
-      event.preventDefault();
-    };
-  }
-
-  function finishTransaction(transactionId: string) {
-    return (event: React.MouseEvent) => {
-      updateTransactionStatus(transactionId, "Selesai", "");
-      event.preventDefault();
-    };
-  }
-
   return (
-    <Fragment>
-      <Card
-        isBlurred
-        radius="sm"
-        shadow="sm"
-        fullWidth
-        onPress={onOpen}
-        // isPressable={role === "mentor" || role === "admin"}
-        className="border-2 border-[#2e1065] max-w-md"
-      >
-        <CardHeader>
-          <div className="flex gap-5">
-            <Avatar
-              isBordered
-              radius="md"
-              size="md"
-              src={
-                role === "mentor"
-                  ? (data?.User?.image as string)
-                  : (data?.mentor?.image as string)
-              }
-            />
-            <div className="flex flex-col items-start justify-center gap-1">
-              <h1 className="font-semibold leading-none text-small text-default-600">
-                {role === "mentor"
-                  ? (data?.User?.name as string)
-                  : (data?.mentor?.name as string)}
-              </h1>
-              <p className="tracking-tight text-small text-default-400">
-                {role === "mentor"
-                  ? (data?.User?.email as string)
-                  : (data?.mentor?.phone_number as string)}
-              </p>
-            </div>
-          </div>
-        </CardHeader>
-        <CardBody className="flex gap-2 bg-gray-200">
-          <div className="flex flex-col items-start justify-center font-semibold text-start text-default-400 text-small">
-            <p>
-              Materi :&nbsp;<span>{data?.mentoring_topic}</span>
-            </p>
-            <p className="text-justify">
-              Lokasi :&nbsp;
-              <span>{data?.location}</span>
-            </p>
-            <p className="">
-              Detail Lokasi :&nbsp;
-              {data?.location_detail && data?.location === "Daring" && (
-                <Link
-                  isExternal
-                  href={`https://${data?.location_detail}`}
-                  className="text-small"
-                >
-                  Link Google Meet (Gunakan Account Gmail UB)
-                </Link>
-              )}
-              {data?.location_detail &&
-                data?.location === "Luring" &&
-                data?.location_detail}
-            </p>
-
-            <p>
-              Tanggal Mentoring : <span>{data?.date}</span>
-            </p>
-            <p>
-              Jam : <span>{data?.time}</span>
-            </p>
-            <p>
-              Jumlah peserta Mentoring : <span>{data?.participant}</span>
-            </p>
-            <p>
-              Tanggal Pemesanan :{" "}
-              <span>
-                {/* @ts-ignore */}
-                {(data?.createdAt).toLocaleDateString("id-ID", options)}
-              </span>
+    <Card
+      isBlurred
+      radius="sm"
+      shadow="sm"
+      fullWidth
+      onPress={onOpen}
+      // isPressable={role === "mentor" || role === "admin"}
+      className="max-w-md "
+    >
+      <CardHeader className="flex items-center justify-between">
+        <div className="flex gap-5">
+          <Avatar
+            isBordered
+            radius="md"
+            size="md"
+            src={
+              role === "mentor"
+                ? (data?.User?.image as string)
+                : (data?.mentor?.image as string)
+            }
+          />
+          <div className="flex flex-col items-start justify-center gap-1">
+            <h1 className="font-semibold leading-none text-small text-default-600">
+              {role === "mentor"
+                ? (data?.User?.name as string)
+                : (data?.mentor?.name as string)}
+            </h1>
+            <p className="tracking-tight text-small text-default-400">
+              {role === "mentor"
+                ? data?.User?.phone_number
+                  ? data?.User?.phone_number
+                  : data?.User?.email
+                : (data?.mentor?.phone_number as string)}
             </p>
           </div>
-        </CardBody>
-        <CardFooter className="flex flex-col">
-          <div className="grid items-center justify-between w-full grid-cols-10 gap-2">
-            <div className="col-span-6">
-              <h1 className="text-left text-small text-default-400">
-                Status Mentoring : &nbsp;
-                <span className="font-semibold">{data?.status}</span>
-              </h1>
-              {data?.message && (
-                <h1 className="text-left text-small text-default-400">
-                  Pesan Mentor : &nbsp;
-                  <span className="font-semibold">{data?.message}</span>
-                </h1>
-              )}
-            </div>
-            <div className="col-span-4">
-              {data?.status === "Berlangsung" && role === "user" && (
-                <ButtonModalAccept transactionId={data?.id} />
-              )}
-              {data?.status === "Belum diterima Mentor" &&
-                role === "mentor" && (
-                  <div className="flex w-full gap-2 sm:gap-4">
-                    <Button
-                      isIconOnly
-                      className="hover:opacity-75"
-                      radius="full"
-                      color="danger"
-                      onClick={onOpen}
-                      // onClick={declineTransaction(data?.id)}
-                    >
-                      <IoMdClose className="text-lg text-black" />
-                    </Button>
-                    <Button
-                      isIconOnly
-                      className="hover:opacity-75"
-                      radius="full"
-                      color="success"
-                      onClick={acceptTransaction(data?.id)}
-                    >
-                      <MdDone className="text-lg text-black" />
-                    </Button>
-                  </div>
-                )}
-            </div>
-          </div>
-        </CardFooter>
-      </Card>
-      <Modal
-        backdrop="blur"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        isDismissable={false}
-        hideCloseButton
-      >
-        <form onSubmit={decline(data?.id)}>
-          {/* PASS isOpen STATE FROM  useDisclosure HOOK*/}
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader>
-                  {role === "user"
-                    ? "Selesaikan Pesanan"
-                    : "Berikan alasan Penolakan Mentoring"}
-                </ModalHeader>
-                <ModalBody className="gap-0 font-semibold text-justify">
-                  {role === "user" ? (
-                    <div>
-                      <p>Apakah anda yakin ingin menyelesaikan pesanan?</p>
-                      <p>
-                        Coin akan diteruskan kepada mentor apabila pesanan
-                        Selesai
-                      </p>
-                    </div>
-                  ) : (
-                    <Input
-                      name="message"
-                      isRequired
-                      type="text"
-                      label="Alasan penolakan"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      className="w-full"
-                    />
-                  )}
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="danger"
-                    onPress={onClose}
-                    className="font-semibold text-black"
-                  >
-                    {/* PASS  onClose FUNCTION TO onPress EVENT LISTENER*/}
-                    Tidak
-                  </Button>
-                  <Button
-                    type={role === "user" ? "button" : "submit"}
-                    color="success"
-                    onPress={onClose}
-                    isDisabled={role === "mentor" && message === ""}
-                    // @ts-ignore
-                    onClick={role === "user" && finishTransaction(data?.id)}
-                    className="font-semibold text-black"
-                  >
-                    {/* PASS  onClose OR ANY OTHER FUNCTION TO onPress EVENT LISTENER*/}
-                    {role === "user" ? "Selesaikan" : "Tolak Mentoring"}
-                  </Button>
-                </ModalFooter>
-              </>
+        </div>
+        <Tooltip
+          content={role === "mentor" ? "Hubungi Mentee" : "Hubungi Mentor"}
+          showArrow
+          placement="left"
+          classNames={{
+            base: ["before:bg-green-500 dark:before:bg-white"],
+            content: [
+              "py-2 px-4 shadow-xl",
+              "text-black font-semibold bg-green-500",
+            ],
+          }}
+        >
+          <Link
+            isExternal
+            href={`https://api.whatsapp.com/send?phone=62${phoneParse(
+              role === "mentor"
+                ? (data?.User?.phone_number as string)
+                : (data?.mentor?.phone_number as string)
+            )}`}
+          >
+            <Button
+              isIconOnly
+              className="hover:opacity-75"
+              radius="full"
+              variant="light"
+              onClick={onOpen}
+            >
+              <IoLogoWhatsapp className="text-2xl text-green-600" />
+            </Button>
+          </Link>
+        </Tooltip>
+      </CardHeader>
+      <CardBody className="flex gap-2 bg-gray-200">
+        <div className="flex flex-col items-start justify-center font-semibold text-start text-default-400 text-small">
+          <p>
+            Materi :&nbsp;<span>{data?.mentoring_topic}</span>
+          </p>
+          <p className="text-justify">
+            Lokasi :&nbsp;
+            <span>{data?.location}</span>
+          </p>
+          <p className="">
+            Detail Lokasi :&nbsp;
+            {data?.location_detail && data?.location === "Daring" && (
+              <Link
+                isExternal
+                href={`https://${data?.location_detail}`}
+                className="text-small"
+              >
+                Link Google Meet (Gunakan Account Gmail UB)
+              </Link>
             )}
-          </ModalContent>
-        </form>
-      </Modal>
-    </Fragment>
+            {data?.location_detail &&
+              data?.location === "Luring" &&
+              data?.location_detail}
+          </p>
+
+          <p>
+            Tanggal Mentoring : <span>{data?.date}</span>
+          </p>
+          <p>
+            Jam : <span>{data?.time}</span>
+          </p>
+          <p>
+            Jumlah peserta Mentoring : <span>{data?.participant}</span>
+          </p>
+          <p>
+            Tanggal Pemesanan :{" "}
+            <span>
+              {/* @ts-ignore */}
+              {(data?.createdAt).toLocaleDateString("id-ID", options)}
+            </span>
+          </p>
+        </div>
+      </CardBody>
+      <CardFooter className="flex flex-col">
+        <div className="grid items-center justify-between w-full grid-cols-10 gap-2">
+          <div className="col-span-6">
+            <h1 className="text-left text-small text-default-400">
+              Status Mentoring : &nbsp;
+              <span className="font-semibold">{data?.status}</span>
+            </h1>
+            {data?.message && (
+              <h1 className="text-left text-small text-default-400">
+                Pesan dari Mentor : &nbsp;
+                <span className="font-semibold">{data?.message}</span>
+              </h1>
+            )}
+          </div>
+          <div className="col-span-4">
+            {data?.status === "Berlangsung" && role === "user" && (
+              <div className="flex justify-end">
+                <ButtonModalAccept transactionId={data?.id} />
+              </div>
+            )}
+            {data?.status === "Menunggu" && role === "mentor" && (
+              <div className="flex justify-end w-full gap-2 sm:gap-4">
+                <ButtonModalDecline transactionId={data?.id} status="Gagal" />
+                <ButtonModalDecline
+                  transactionId={data?.id}
+                  status="Berlangsung"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }
