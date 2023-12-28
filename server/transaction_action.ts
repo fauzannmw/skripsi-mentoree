@@ -104,6 +104,39 @@ export const createTransactions = async (e: FormData) => {
   return redirect("/mentoringku/waiting");
 };
 
+export const finishTransactionStatus = async (
+  id: string,
+  status: string,
+  review: string
+) => {
+  await prisma.transaction.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: status,
+      review: review,
+    },
+  });
+
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  await prisma.user.update({
+    where: {
+      nim: transaction?.mentorNim as string,
+    },
+    data: {
+      coin: { increment: 1 },
+    },
+  });
+
+  redirect("/mentoringku/done");
+};
+
 export const updateTransactionStatus = async (
   id: string,
   status: string,
@@ -152,6 +185,7 @@ export const updateTransactionStatus = async (
     redirect("/mentoringku");
   }
 };
+
 export const AdminUpdateTransactionStatus = async (
   id: string,
   status: string
@@ -203,6 +237,21 @@ export const AdminUpdateTransactionStatus = async (
 };
 
 export const updateTransactionLocationDetail = async (
+  params: TransactionDetailType
+) => {
+  await prisma.transaction.update({
+    where: {
+      id: params.id,
+    },
+    data: {
+      location_detail: params.location_detail,
+    },
+  });
+
+  return redirect("/admin/transaction");
+};
+
+export const updateTransactionReview = async (
   params: TransactionDetailType
 ) => {
   await prisma.transaction.update({

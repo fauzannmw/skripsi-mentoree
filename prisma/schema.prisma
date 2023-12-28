@@ -106,6 +106,7 @@ model Transaction {
   participant     String?
   mentoring_topic String?
   message         String?
+  review          String?
   status          String?  @default("Belum diterima Mentor")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

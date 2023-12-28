@@ -20,6 +20,7 @@ import { Mentor, Transaction, User } from "@prisma/client";
 import { FormEventHandler, Fragment, useState } from "react";
 import { MdDone } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
+import ButtonModalAccept from "./button-modal-accept";
 
 interface TransactionExtends extends Transaction {
   User: User;
@@ -154,7 +155,7 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
           </div>
         </CardBody>
         <CardFooter className="flex flex-col">
-          <div className="grid items-center justify-between w-full grid-cols-8 gap-2">
+          <div className="grid items-center justify-between w-full grid-cols-10 gap-2">
             <div className="col-span-6">
               <h1 className="text-left text-small text-default-400">
                 Status Mentoring : &nbsp;
@@ -167,42 +168,35 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
                 </h1>
               )}
             </div>
-            {data?.status === "Berlangsung" && role === "user" && (
-              <div className="w-full col-span-2">
-                <Button
-                  isIconOnly
-                  className="hover:opacity-75 justify-self-end"
-                  radius="full"
-                  color="success"
-                  onClick={onOpen}
-                >
-                  <MdDone className="text-lg text-black" />
-                </Button>
-              </div>
-            )}
-            {data?.status === "Belum diterima Mentor" && role === "mentor" && (
-              <div className="flex gap-2 sm:gap-4">
-                <Button
-                  isIconOnly
-                  className="hover:opacity-75"
-                  radius="full"
-                  color="danger"
-                  onClick={onOpen}
-                  // onClick={declineTransaction(data?.id)}
-                >
-                  <IoMdClose className="text-lg text-black" />
-                </Button>
-                <Button
-                  isIconOnly
-                  className="hover:opacity-75"
-                  radius="full"
-                  color="success"
-                  onClick={acceptTransaction(data?.id)}
-                >
-                  <MdDone className="text-lg text-black" />
-                </Button>
-              </div>
-            )}
+            <div className="col-span-4">
+              {data?.status === "Berlangsung" && role === "user" && (
+                <ButtonModalAccept transactionId={data?.id} />
+              )}
+              {data?.status === "Belum diterima Mentor" &&
+                role === "mentor" && (
+                  <div className="flex w-full gap-2 sm:gap-4">
+                    <Button
+                      isIconOnly
+                      className="hover:opacity-75"
+                      radius="full"
+                      color="danger"
+                      onClick={onOpen}
+                      // onClick={declineTransaction(data?.id)}
+                    >
+                      <IoMdClose className="text-lg text-black" />
+                    </Button>
+                    <Button
+                      isIconOnly
+                      className="hover:opacity-75"
+                      radius="full"
+                      color="success"
+                      onClick={acceptTransaction(data?.id)}
+                    >
+                      <MdDone className="text-lg text-black" />
+                    </Button>
+                  </div>
+                )}
+            </div>
           </div>
         </CardFooter>
       </Card>
