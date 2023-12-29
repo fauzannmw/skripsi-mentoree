@@ -12,6 +12,7 @@ import { getProfileUser } from "./get_action";
 import { Inputs } from "@/app/coin/form";
 import { CreateTransactionTypes } from "@/app/checkout/form";
 import { TransactionDetailType } from "@/app/admin/transaction/updateForm";
+import { sendMail } from "@/app/api/mail/mail";
 
 let snap = new Midtrans.Snap({
   isProduction: false,
@@ -76,6 +77,21 @@ export const createTransaction = async (params: CreateTransactionTypes) => {
     },
   });
 
+  await sendMail({
+    to: params?.mentorEmail,
+    name: "Mentoree",
+    subject: "Permintaan Mentoring Baru untuk Kamu",
+    body: `Halo ${params?.mentorEmail} ada permintaan mentoring nih dari ${session?.user?.email}`,
+  });
+
+  params?.mentoring_location === "Daring" &&
+    (await sendMail({
+      to: "mentoree.ub@gmail.com",
+      name: "Mentoree",
+      subject: "Transaksi mentoring Daring Baru",
+      body: `Halo Admin transaksi Daring dengan mentor ${params?.mentorEmail} perlu kamu konfirmasi link google meetnya`,
+    }));
+
   return redirect("/mentoringku/waiting");
 };
 
@@ -98,6 +114,10 @@ export const MenteeUpdateTransactionStatus = async (
     where: {
       id: id,
     },
+    include: {
+      mentor: true,
+      User: true,
+    },
   });
 
   await prisma.user.update({
@@ -108,6 +128,14 @@ export const MenteeUpdateTransactionStatus = async (
       coin: { increment: 1 },
     },
   });
+
+  status === "Selesai" &&
+    (await sendMail({
+      to: transaction?.mentor?.email as string,
+      name: "Mentoree",
+      subject: `Mentoring ${status}`,
+      body: `Selamat mentoring kamu dengan Mentee ${transaction?.User?.name} berhasil diselesaikan`,
+    }));
 
   return redirect("/mentoringku/done");
 };
@@ -131,6 +159,10 @@ export const MentorUpdateTransactionStatus = async (
     where: {
       id: id,
     },
+    include: {
+      mentor: true,
+      User: true,
+    },
   });
 
   status === "Gagal" &&
@@ -141,6 +173,22 @@ export const MentorUpdateTransactionStatus = async (
       data: {
         coin: { increment: 1 },
       },
+    }));
+
+  status === "Berlangsung" &&
+    (await sendMail({
+      to: transaction?.User?.email as string,
+      name: "Mentoree",
+      subject: `Permintaan Mentoring kamu diterima Mentor`,
+      body: `Selamat mentoring kamu dengan Mentor ${transaction?.mentor?.name} berjalan dengan Status Berlangsung`,
+    }));
+
+  status === "Gagal" &&
+    (await sendMail({
+      to: transaction?.User?.email as string,
+      name: "Mentoree",
+      subject: `Permintaan Mentoring kamu ditolak Mentor`,
+      body: `Mohon maaf mentoring kamu dengan Mentor ${transaction?.mentor?.name} belum bisa berjalan dikarenakan mentor ${message}`,
     }));
 
   return redirect("/mentor/mentoringku");
@@ -276,6 +324,9 @@ export const getAllTransaction = async () => {
         User: true,
         mentor: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   } catch (error) {
     return { error };
@@ -303,6 +354,9 @@ export const getTransactionByStatus = async (status: string) => {
         User: true,
         mentor: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   } catch (error) {
     return { error };
@@ -328,6 +382,9 @@ export const getTransactionByMentor = async () => {
       include: {
         User: true,
         mentor: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
   } catch (error) {
@@ -356,7 +413,7 @@ export const getActiveTransactionByMentor = async () => {
         mentor: true,
       },
       orderBy: {
-        date: "desc",
+        createdAt: "desc",
       },
     });
   } catch (error) {

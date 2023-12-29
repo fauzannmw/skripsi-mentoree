@@ -12,7 +12,15 @@ export default async function CheckoutPage({ params }) {
     <div className="w-full">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-medium">Order summary</h2>
-        <h2 className="text-sm font-semibold">Coin Anda : {userData?.coin}</h2>
+        <h2 className="text-sm font-semibold">
+          Coin Anda :
+          <span
+            className={`${(userData?.coin as number) <= 0 && "text-red-600"}`}
+          >
+            &nbsp;
+            {userData?.coin}
+          </span>
+        </h2>
       </div>
       <div className="flex flex-col w-full gap-4 px-4 py-6 mt-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-black">
         <div className="flex">
@@ -85,8 +93,10 @@ export default async function CheckoutPage({ params }) {
         <div>
           <h1 className="font-semibold dark:text-black">Form Pemesanan</h1>
           <Form
-            nim={mentorData?.nim as string}
             phone_number={userData?.phone_number as string}
+            coin={userData?.coin as number}
+            nim={mentorData?.nim as string}
+            email={mentorData?.email as string}
             major={mentorData?.major as string}
             day={mentorData?.course_day[0].day as string}
             time={mentorData?.course_day[0].time as string}

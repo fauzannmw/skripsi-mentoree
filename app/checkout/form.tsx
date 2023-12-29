@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Button,
   Input,
+  Link,
   Radio,
   RadioGroup,
   Select,
@@ -22,6 +23,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const FormDataSchema = z.object({
   mentorNim: z.string().min(1),
+  mentorEmail: z.string().min(1),
   phone_number: z
     .string({
       required_error:
@@ -46,16 +48,20 @@ const FormDataSchema = z.object({
 export type CreateTransactionTypes = z.infer<typeof FormDataSchema>;
 
 type FormProps = {
+  coin: number;
   nim: string;
   phone_number: string;
+  email: string;
   major: string;
   day: string;
   time: string;
 };
 
 export default function Form({
+  coin,
   nim,
   phone_number,
+  email,
   major,
   day,
   time,
@@ -104,6 +110,7 @@ export default function Form({
   } = useForm<CreateTransactionTypes>({
     defaultValues: {
       mentorNim: nim,
+      mentorEmail: email,
       phone_number: phone_number,
       course_day: "01 Januari 2024",
       course_time: "",
@@ -115,7 +122,9 @@ export default function Form({
     resolver: zodResolver(FormDataSchema),
   });
 
+  console.log(coin);
   console.log(watch("phone_number"));
+  console.log(watch("mentorEmail"));
   console.log(watch("course_day"));
   console.log(watch("participant"));
 
@@ -357,15 +366,28 @@ export default function Form({
         </div>
       </div>
       <div className="">
-        <Button
-          type="submit"
-          color="primary"
-          radius="sm"
-          isLoading={isloading}
-          className="w-full text-sm font-semibold"
-        >
-          Konfirmasi Pesanan
-        </Button>
+        {(coin as number) <= 0 ? (
+          <Button
+            href="/coin"
+            as={Link}
+            type="button"
+            color="danger"
+            radius="sm"
+            className="w-full text-sm font-semibold"
+          >
+            Silahkan beli Coin terlebih dahulu
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            color="primary"
+            radius="sm"
+            isLoading={isloading}
+            className="w-full text-sm font-semibold"
+          >
+            Konfirmasi Pemesanan
+          </Button>
+        )}
       </div>
     </form>
   );

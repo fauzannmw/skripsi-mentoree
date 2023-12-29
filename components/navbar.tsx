@@ -47,8 +47,8 @@ export const NavbarGlobal = () => {
   ];
 
   const navigationMentor = [
-    { name: "Notifikasi Pemesanan", href: "/mentor/mentoringku" },
-    { name: "Mentoringku", href: "/mentor/transaction" },
+    { name: "Mentoring Aktif", href: "/mentor/mentoringku" },
+    { name: "Histori Transaksi", href: "/mentor/transaction" },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
