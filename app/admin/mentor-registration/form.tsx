@@ -246,7 +246,7 @@ export default function Form({ profile }: FormProps) {
         </div>
         <div className="sm:col-span-2">
           <Textarea
-            label="Description"
+            label="Deskripsi"
             labelPlacement="outside"
             variant="bordered"
             placeholder="Deskripsi singkat Mentor"
@@ -263,8 +263,7 @@ export default function Form({ profile }: FormProps) {
           />
         </div>
         <div className="sm:col-span-2">
-          <Input
-            type="text"
+          <Select
             label="Bahasa Pemrograman"
             labelPlacement="outside"
             variant="bordered"
@@ -272,16 +271,41 @@ export default function Form({ profile }: FormProps) {
             radius="sm"
             isInvalid={errors.course ? true : false}
             errorMessage={errors.course && errors.course.message}
-            endContent={
-              <FaCode className="self-center text-xl text-default-400" />
-            }
             {...register("course", { required: true })}
-            className="w-full font-semibold "
+            className="w-full font-semibold"
             classNames={{
               label: "text-sm",
-              input: "text-sm font-semibold",
+              value: "text-sm font-semibold",
             }}
-          />
+          >
+            <SelectItem key={"Typescript"} value="Typescript">
+              Typescript
+            </SelectItem>
+            <SelectItem key={"Kotlin"} value="Kotlin">
+              Kotlin
+            </SelectItem>
+            <SelectItem key={"Golang"} value="Golang">
+              Golang
+            </SelectItem>
+            <SelectItem key={"Python"} value="Python">
+              Python
+            </SelectItem>
+            <SelectItem key={"Java"} value="Java">
+              Java
+            </SelectItem>
+            <SelectItem key={"C++"} value="C++">
+              C++
+            </SelectItem>
+            <SelectItem key={"Swift"} value="Swift">
+              Swift
+            </SelectItem>
+            <SelectItem key={"PHP"} value="PHP">
+              PHP
+            </SelectItem>
+            <SelectItem key={"SQL"} value="SQL">
+              SQL
+            </SelectItem>
+          </Select>
         </div>
         <div className="flex flex-col w-full gap-2 mt-2 sm:col-span-2">
           <label

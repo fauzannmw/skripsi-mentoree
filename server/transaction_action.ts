@@ -10,7 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getProfileUser } from "./get_action";
 import { Inputs } from "@/app/coin/form";
-import { CreateTransactionTypes } from "@/app/checkout/forms";
+import { CreateTransactionTypes } from "@/app/checkout/form";
 import { TransactionDetailType } from "@/app/admin/transaction/updateForm";
 
 let snap = new Midtrans.Snap({
@@ -79,32 +79,7 @@ export const createTransaction = async (params: CreateTransactionTypes) => {
   return redirect("/mentoringku/waiting");
 };
 
-export const createTransactions = async (e: FormData) => {
-  const session = await getServerSession(authOptions);
-
-  await prisma.user.update({
-    where: { email: session?.user?.email },
-    data: {
-      coin: { decrement: 1 },
-      transaction: {
-        create: [
-          {
-            mentorNim: e.get("mentorNim")?.toString(),
-            date: e.get("date")?.toString(),
-            time: e.get("time")?.toString(),
-            location: e.get("location")?.toString(),
-            participant: e.get("participant")?.toString(),
-            mentoring_topic: e.get("mentoring_topic")?.toString(),
-          },
-        ],
-      },
-    },
-  });
-
-  return redirect("/mentoringku/waiting");
-};
-
-export const finishTransactionStatus = async (
+export const MenteeUpdateTransactionStatus = async (
   id: string,
   status: string,
   review: string
@@ -137,7 +112,7 @@ export const finishTransactionStatus = async (
   return redirect("/mentoringku/done");
 };
 
-export const changeTransactionStatus = async (
+export const MentorUpdateTransactionStatus = async (
   id: string,
   status: string,
   message: string
@@ -169,55 +144,6 @@ export const changeTransactionStatus = async (
     }));
 
   return redirect("/mentor/mentoringku");
-};
-
-export const updateTransactionStatus = async (
-  id: string,
-  status: string,
-  message: string
-) => {
-  const session = await getServerSession(authOptions);
-
-  await prisma.transaction.update({
-    where: {
-      id: id,
-    },
-    data: {
-      status: status,
-      message: message,
-    },
-  });
-
-  const transaction = await prisma.transaction.findUnique({
-    where: {
-      id: id,
-    },
-  });
-
-  status === "Selesai" &&
-    (await prisma.user.update({
-      where: {
-        nim: transaction?.mentorNim as string,
-      },
-      data: {
-        coin: { increment: 1 },
-      },
-    }));
-  status === "Gagal" &&
-    (await prisma.user.update({
-      where: {
-        email: transaction?.userEmail as string,
-      },
-      data: {
-        coin: { increment: 1 },
-      },
-    }));
-
-  if (session?.user?.role === "mentor") {
-    return redirect("/mentor/mentoringku");
-  } else {
-    return redirect("/mentoringku");
-  }
 };
 
 export const AdminUpdateTransactionStatus = async (
@@ -271,21 +197,6 @@ export const AdminUpdateTransactionStatus = async (
 };
 
 export const updateTransactionLocationDetail = async (
-  params: TransactionDetailType
-) => {
-  await prisma.transaction.update({
-    where: {
-      id: params.id,
-    },
-    data: {
-      location_detail: params.location_detail,
-    },
-  });
-
-  return redirect("/admin/transaction");
-};
-
-export const updateTransactionReview = async (
   params: TransactionDetailType
 ) => {
   await prisma.transaction.update({

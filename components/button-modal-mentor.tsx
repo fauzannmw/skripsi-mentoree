@@ -1,4 +1,4 @@
-import { changeTransactionStatus } from "@/server/transaction_action";
+import { MentorUpdateTransactionStatus } from "@/server/transaction_action";
 import {
   Button,
   Input,
@@ -31,7 +31,7 @@ const FormDataSchema = z.object({
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
-export default function ButtonModalDecline({
+export default function ButtonModalMentor({
   transactionId,
   status,
 }: ButtonModalProps) {
@@ -53,7 +53,7 @@ export default function ButtonModalDecline({
   const processForm: SubmitHandler<Inputs> = async (data) => {
     try {
       setLoading(true);
-      await changeTransactionStatus(data?.id, status, data?.message);
+      await MentorUpdateTransactionStatus(data?.id, status, data?.message);
 
       status === "Berlangsung" && toast("Berhasil Menyelesaikan Mentoring");
       status === "Gagal" && toast("Berhasil Menolak Mentoring");

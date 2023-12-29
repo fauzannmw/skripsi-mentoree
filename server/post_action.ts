@@ -86,6 +86,7 @@ export const registerMentor = async (params: registerMentorTypes) => {
     },
     data: {
       nim: params.nim,
+      phone_number: params.phone_number,
       major: params.major,
       role: "mentor",
     },

@@ -1,7 +1,7 @@
 import { Card } from "@/components/card";
-import { getAllCourse, getMentorByFilters } from "@/server/get_action";
+import { getAllCourse, getMentorByFilter } from "@/server/get_action";
 import Filter from "./filter";
-import { Course } from "@prisma/client";
+import { Course, Mentor } from "@prisma/client";
 
 export type ProfileSearchParams = {
   [key: string]: string;
@@ -12,7 +12,7 @@ export default async function ExplorePage({
 }: {
   searchParams: ProfileSearchParams;
 }) {
-  const mentorFilter = await getMentorByFilters(
+  const mentorFilter = await getMentorByFilter(
     searchParams.course,
     searchParams.gender,
     searchParams.location
@@ -21,25 +21,28 @@ export default async function ExplorePage({
   const courseList = await getAllCourse();
 
   return (
-    <div className="grid gap-y-6">
-      {/* @ts-ignore */}
-      <Filter courseList={courseList as Course} />
-      <div className="grid justify-center p-6 gap-y-6">
+    <div className="grid gap-y-12">
+      <div className="w-screen max-w-lg px-8 sm:px-6">
         {/* @ts-ignore */}
-        {mentorFilter.map((mentor, index) => (
-          <Card
-            key={index}
-            id={mentor.id}
-            nim={mentor.nim}
-            name={mentor.name}
-            major={mentor.major}
-            image={mentor.image}
-            gender={mentor.gender}
-            course={mentor.course}
-            course_day={mentor.course_day}
-            description={mentor.description}
-          />
-        ))}
+        <Filter courseList={courseList as Course} />
+      </div>
+      <div className="flex justify-center w-screen max-w-lg px-8 sm:px-6 gap-y-6">
+        {mentorFilter instanceof Array &&
+          mentorFilter.map((mentor, index) => (
+            <Card
+              key={index}
+              id={mentor.id}
+              nim={mentor.nim}
+              name={mentor.name}
+              major={mentor.major}
+              image={mentor.image}
+              gender={mentor.gender}
+              mentoring_location={mentor.mentoring_location}
+              course={mentor.course}
+              course_day={mentor.course_day}
+              description={mentor.description}
+            />
+          ))}
       </div>
     </div>
   );

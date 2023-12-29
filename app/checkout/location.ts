@@ -12,6 +12,9 @@ export const LocationData = {
       value: "Kantin Creative Land UB",
     },
     {
+      value: "Perpustakaan UB",
+    },
+    {
       value: "Junction Filkom UB",
     },
     {
@@ -26,6 +29,9 @@ export const LocationData = {
       value: "Kantin Creative Land UB",
     },
     {
+      value: "Perpustakaan UB",
+    },
+    {
       value: "Gedung Teknik Elektro",
     },
   ],
@@ -35,6 +41,9 @@ export const LocationData = {
     },
     {
       value: "Kantin Creative Land UB",
+    },
+    {
+      value: "Perpustakaan UB",
     },
     {
       value: "Gedung Fakultas Teknologi Pertanian",
@@ -48,6 +57,9 @@ export const LocationData = {
       value: "Kantin Creative Land UB",
     },
     {
+      value: "Perpustakaan UB",
+    },
+    {
       value: "Gedung Fakultas Vokasi",
     },
   ],
@@ -57,6 +69,9 @@ export const LocationData = {
     },
     {
       value: "Kantin Creative Land UB",
+    },
+    {
+      value: "Perpustakaan UB",
     },
     {
       value: "Gedung Fakultas MIPA",

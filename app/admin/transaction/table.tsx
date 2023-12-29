@@ -52,6 +52,9 @@ export default function Table({ transactions }: TableProps) {
             </th>
             <th className="px-4 py-3 border-b-2 border-blue-500">Pesan</th>
             <th className="px-4 py-3 border-b-2 border-blue-500">
+              Review Mentor
+            </th>
+            <th className="px-4 py-3 border-b-2 border-blue-500">
               Tanggal Pemesanan
             </th>
           </tr>
@@ -150,6 +153,11 @@ export default function Table({ transactions }: TableProps) {
               <td className="px-4 py-4">
                 <p className="w-32">
                   {transaction?.message && transaction?.message}
+                </p>
+              </td>
+              <td className="px-4 py-4">
+                <p className="w-32">
+                  {transaction?.review && transaction?.review}
                 </p>
               </td>
               <td className="px-4 py-4">

@@ -1,8 +1,4 @@
-import {
-  finishTransactionStatus,
-  updateTransactionReview,
-  updateTransactionStatus,
-} from "@/server/transaction_action";
+import { MenteeUpdateTransactionStatus } from "@/server/transaction_action";
 import {
   Button,
   Input,
@@ -33,7 +29,7 @@ const FormDataSchema = z.object({
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
-export default function ButtonModalAccept({ transactionId }: ButtonModalProps) {
+export default function ButtonModalMentee({ transactionId }: ButtonModalProps) {
   const { onClose, isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isloading, setLoading] = useState(false);
 
@@ -52,7 +48,7 @@ export default function ButtonModalAccept({ transactionId }: ButtonModalProps) {
   const processForm: SubmitHandler<Inputs> = async (data) => {
     try {
       setLoading(true);
-      await finishTransactionStatus(data?.id, "Selesai", data?.review);
+      await MenteeUpdateTransactionStatus(data?.id, "Selesai", data?.review);
       toast("Berhasil Menyelesaikan Mentoring");
       onClose();
     } catch (error) {

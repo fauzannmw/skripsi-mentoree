@@ -1,6 +1,6 @@
 import { getMentorById, getProfileUser } from "@/server/get_action";
 import { BsGenderFemale, BsGenderMale } from "react-icons/bs";
-import Forms from "../forms";
+import Form from "../form";
 import { Image, Link } from "@nextui-org/react";
 
 // @ts-ignore
@@ -84,8 +84,9 @@ export default async function CheckoutPage({ params }) {
         </div>
         <div>
           <h1 className="font-semibold dark:text-black">Form Pemesanan</h1>
-          <Forms
+          <Form
             nim={mentorData?.nim as string}
+            phone_number={userData?.phone_number as string}
             major={mentorData?.major as string}
             day={mentorData?.course_day[0].day as string}
             time={mentorData?.course_day[0].time as string}

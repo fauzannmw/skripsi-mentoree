@@ -1,5 +1,4 @@
 "use client";
-import { updateTransactionStatus } from "@/server/transaction_action";
 import {
   Avatar,
   Button,
@@ -18,10 +17,9 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Mentor, Transaction, User } from "@prisma/client";
-import { Fragment } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
-import ButtonModalAccept from "./button-modal-accept";
-import ButtonModalDecline from "./button-modal-decline";
+import ButtonModalMentee from "./button-modal-mentee";
+import ButtonModalMentor from "./button-modal-mentor";
 
 interface TransactionExtends extends Transaction {
   User: User;
@@ -177,13 +175,13 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
           <div className="col-span-4">
             {data?.status === "Berlangsung" && role === "user" && (
               <div className="flex justify-end">
-                <ButtonModalAccept transactionId={data?.id} />
+                <ButtonModalMentee transactionId={data?.id} />
               </div>
             )}
             {data?.status === "Menunggu" && role === "mentor" && (
               <div className="flex justify-end w-full gap-2 sm:gap-4">
-                <ButtonModalDecline transactionId={data?.id} status="Gagal" />
-                <ButtonModalDecline
+                <ButtonModalMentor transactionId={data?.id} status="Gagal" />
+                <ButtonModalMentor
                   transactionId={data?.id}
                   status="Berlangsung"
                 />

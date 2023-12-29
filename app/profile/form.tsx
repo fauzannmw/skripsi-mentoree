@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Image } from "@nextui-org/image";
-import { User } from "@prisma/client";
+import { Mentor, User } from "@prisma/client";
 import { updateProfile } from "@/server/post_action";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { Link } from "@nextui-org/link";
@@ -15,6 +15,7 @@ import { toast } from "sonner";
 
 export interface FormProps {
   profile: User;
+  mentor: Mentor;
 }
 
 const phoneRegex = new RegExp(
@@ -36,7 +37,7 @@ const FormDataSchema = z.object({
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
-export default function Form({ profile }: FormProps) {
+export default function Form({ profile, mentor }: FormProps) {
   const [isloading, setLoading] = useState(false);
   const [values, setValues] = React.useState<Set<string | null> | Selection>(
     new Set([profile?.major])

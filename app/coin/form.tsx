@@ -16,14 +16,18 @@ import { toast } from "sonner";
 const FormDataSchema = z.object({
   nim: z
     .string({
-      required_error: "Silahkan Isi Nim Anda Terlebih Dahulu",
-      invalid_type_error: "Silahkan Isi Nim Anda Terlebih Dahulu",
+      required_error:
+        "Silahkan Isi Nim Anda Terlebih Dahulu di halaman Profile",
+      invalid_type_error:
+        "Silahkan Isi Nim Anda Terlebih Dahulu di halaman Profile",
     })
     .min(1, { message: "Silahkan Login Terlebih Dahulu" }),
   phone_number: z
     .string({
-      required_error: "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu",
-      invalid_type_error: "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu",
+      required_error:
+        "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu di halaman Profile",
+      invalid_type_error:
+        "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu di halaman Profile",
     })
     .min(1, { message: "Silahkan Login Terlebih Dahulu" }),
   price: z
@@ -97,6 +101,18 @@ export default function Form({ profile }: FormProps) {
   }
 
   useEffect(() => {
+    errors?.nim
+      ? toast(errors?.nim?.message, { position: "top-center" })
+      : toast.dismiss();
+    errors?.phone_number
+      ? toast(errors?.phone_number?.message, { position: "top-center" })
+      : toast.dismiss();
+    errors?.price
+      ? toast(errors?.price?.message, { position: "top-center" })
+      : toast.dismiss();
+  }, [errors?.nim, errors?.phone_number, errors?.price]);
+
+  useEffect(() => {
     const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
     const clientKey = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT;
     const script = document.createElement("script");
@@ -158,7 +174,7 @@ export default function Form({ profile }: FormProps) {
             {price !== "0" ? numberWithCommas(parseInt(price)) : "0"}
           </p>
         </div>
-        <p className="text-sm font-semibold text-red-600">
+        {/* <p className="text-sm font-semibold text-red-600">
           {errors.nim && <span>{errors.nim?.message}</span>}
         </p>
         <p className="text-sm font-semibold text-red-600">
@@ -166,7 +182,7 @@ export default function Form({ profile }: FormProps) {
         </p>
         <p className="text-sm font-semibold text-red-600">
           {errors.price && <span>{errors.price?.message}</span>}
-        </p>
+        </p> */}
         <Button
           isLoading={isloading}
           color="primary"

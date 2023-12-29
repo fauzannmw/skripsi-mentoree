@@ -33,6 +33,23 @@ export const getProfileUser = async () => {
   }
 };
 
+export const getProfileMentor = async () => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    return await prisma.mentor.findUnique({
+      where: {
+        email: session?.user?.email,
+      },
+      include: {
+        transaction: true,
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getAllMentor = async () => {
   try {
     return await prisma.mentor.findMany({
@@ -118,7 +135,7 @@ export const checkMentorNimInUser = async (nim?: string) => {
   }
 };
 
-export const getMentorByFilters = async (
+export const getMentorByFilter = async (
   course: string,
   gender: string,
   location: string
@@ -139,6 +156,11 @@ export const getMentorByFilters = async (
         },
       },
       include: {
+        mentoring_location: {
+          select: {
+            location: true,
+          },
+        },
         course: {
           select: {
             course: true,
@@ -157,7 +179,7 @@ export const getMentorByFilters = async (
   }
 };
 
-export const getMentorByFilter = async (
+export const getMentorByFilters = async (
   course: string,
   gender: string,
   location: string
