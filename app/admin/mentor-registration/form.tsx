@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mentor, User } from "@prisma/client";
 import { registerMentor } from "@/server/post_action";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
@@ -11,7 +11,6 @@ import { FaCode } from "react-icons/fa";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { registerMentorTypes } from "@/server/types";
 import { checkMentorInUser, checkMentorNimInUser } from "@/server/get_action";
 
 import { toast } from "sonner";
@@ -24,58 +23,87 @@ const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
 
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+
 const FormDataSchema = z.object({
   nim: z
     .string()
-    .min(15, { message: "Masukkan Nim dengan Format yang Benar." })
+    .min(15, { message: "Masukkan Nim dengan Format yang Benar" })
     .refine(async (e) => {
       return await checkMentorNimInUser(e);
     }, "Nim sudah pernah didaftarkan"),
   email: z
     .string()
-    .min(1)
+    .min(1, { message: "Masukkan Email dengan Format yang Benar." })
     .email("Masukkan Email dengan Format yang Benar.")
     .refine(async (e) => {
       return await checkMentorInUser(e);
     }, "Email belum didaftarkan sebagai User"),
-  name: z.string().min(1),
-  major: z.string().min(1),
+  name: z.string().min(1, { message: "Masukkan Nama" }),
+  major: z.string().min(1, { message: "Pilih Jurusan terlebih dahulu" }),
   phone_number: z
     .string()
-    .min(1)
+    .min(1, { message: "Masukkan Nomor Ponsel dengan Format yang Benar" })
     .regex(phoneRegex, "Masukkan Nomor Ponsel dengan Format yang Benar"),
-  image: z.string(),
-  gender: z.string().min(1),
-  description: z.string().min(10),
-  course: z.string().min(1),
-  course_day: z.string().min(1),
-  course_time: z.string().min(1),
-  mentoring_location: z.string().min(1),
+  image: z.string().min(1, { message: "Silahkan upload foto terlebih dahulu" }),
+  // .any()
+  // // To not allow empty files
+  // .refine((files) => files?.length >= 1, { message: "Image is required." })
+  // // To not allow files other than images
+  // .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), {
+  //   message: ".jpg, .jpeg, .png and .webp files are accepted.",
+  // })
+  // // To not allow files larger than 5MB
+  // .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
+  //   message: `Max file size is 5MB.`,
+  // }),
+  gender: z.string().min(1, { message: "Pilih Jenis Kelamin terlebih dahulu" }),
+  description: z.string().min(10, { message: "Deskripsi minimal 10 Karakter" }),
+  course: z
+    .string()
+    .min(1, { message: "Pilih Bahasa Pemrograman terlebih dahulu" }),
+  course_day: z
+    .string()
+    .min(1, { message: "Pilih Waktu Mentoring terlebih dahulu" }),
+  course_time: z
+    .string()
+    .min(1, { message: "Pilih Waktu Mentoring terlebih dahulu" }),
+  mentoring_location: z
+    .string()
+    .min(1, { message: "Pilih Lokasi Mentoring terlebih dahulu" }),
   experience_position: z.string(),
   experience_company: z.string(),
   certification_course: z.string(),
   certification_institution: z.string(),
 });
 
-type Inputs = z.infer<typeof FormDataSchema>;
+export type RegisterMentorTypes = z.infer<typeof FormDataSchema>;
 
 export default function Form({ profile }: FormProps) {
   const [isloading, setLoading] = useState(false);
+  const [image, setImage] = useState<File>();
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<RegisterMentorTypes>({
     defaultValues: {
-      nim: "",
       email: "",
+      nim: "",
       name: "",
       major: "",
       phone_number: "",
-      image:
-        "https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=3230&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      image: "",
       gender: "",
       description: "",
       course: "",
@@ -90,10 +118,36 @@ export default function Form({ profile }: FormProps) {
     resolver: zodResolver(FormDataSchema),
   });
 
-  const processForm: SubmitHandler<Inputs> = async (data) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      if (image !== undefined) {
+        setLoading(true);
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "mentoree");
+
+        const uploadResponse = await fetch(
+          "https://api.cloudinary.com/v1_1/dfuy7tcaq/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const uploadedImageData = await uploadResponse.json();
+        const imageUrl = uploadedImageData.secure_url;
+        setValue("image", imageUrl);
+        toast("Berhasil Upload Gambar");
+        setLoading(false);
+      }
+    };
+    fetchData().catch(console.error);
+  }, [image]);
+
+  const processForm: SubmitHandler<RegisterMentorTypes> = async (data) => {
     try {
       setLoading(true);
-      await registerMentor(data as registerMentorTypes);
+      await registerMentor(data as RegisterMentorTypes);
       toast("Mentor Berhasil Didaftarkan");
       reset();
     } catch (error) {
@@ -245,6 +299,28 @@ export default function Form({ profile }: FormProps) {
           </Select>
         </div>
         <div className="sm:col-span-2">
+          <label
+            htmlFor="experience_position"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            <span className={errors.image && "text-[#f31260]"}>Foto</span>
+          </label>
+          <div className="flex flex-col gap-2">
+            <input
+              className={`w-full text-sm border-2 border-gray-300 rounded-lg py-2 px-3 font-semibold ${
+                errors.image && "text-[#f31260] border-[#f31260]"
+              }`}
+              type="file"
+              onChange={(e) => {
+                e.target.files && setImage(e.target.files[0]);
+              }}
+            />
+            <p className="text-xs font-semibold text-[#f31260]">
+              {errors.image && (errors.image?.message as string)}
+            </p>
+          </div>
+        </div>
+        <div className="sm:col-span-2">
           <Textarea
             label="Deskripsi"
             labelPlacement="outside"
@@ -312,7 +388,13 @@ export default function Form({ profile }: FormProps) {
             htmlFor="experience_position"
             className="block text-sm font-semibold leading-6 text-gray-900"
           >
-            Jadwal Mentoring
+            <span
+              className={
+                errors.course_day || errors.course_time ? "text-[#f31260]" : ""
+              }
+            >
+              Jadwal Mentoring
+            </span>
           </label>
           <div className="flex gap-2">
             <Select
@@ -398,7 +480,7 @@ export default function Form({ profile }: FormProps) {
         </div>
         <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
           <label
-            htmlFor="experience_position"
+            htmlFor="experience"
             className="block text-sm font-semibold leading-6 text-gray-900"
           >
             Pengalaman Bekerja
