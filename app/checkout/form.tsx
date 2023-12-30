@@ -44,8 +44,8 @@ const FormDataSchema = z.object({
     .min(1),
   course_day: z.string().min(1, { message: "Pilih Tanggal Mentoring" }),
   course_time: z.string().min(1, { message: "Pilih Jam Mentoring" }),
-  participant: z.any(),
-  // participant: z.string().min(1, { message: "Pilih Jumlah Peserta Mentoring" }),
+  // participant: z.any(),
+  participant: z.string().min(1, { message: "Pilih Jumlah Peserta Mentoring" }),
   mentoring_location: z
     .string()
     .min(1, { message: "Pilih Plarform Mentoring" }),
@@ -77,7 +77,6 @@ export default function Form({
   const [locationDetail, setLocationDetail] = useState(LocationData?.daring);
   const [mentoringTime, setMentoringTime] = useState(TimeData.pagi);
   const [mentoringDay, setMentoringDay] = useState(1);
-  // const [startDate, setStartDate] = useState(new Date());
   const [startDate, setStartDate] = useState();
 
   const filterDay = (date: any) => {
@@ -129,6 +128,8 @@ export default function Form({
     },
     resolver: zodResolver(FormDataSchema),
   });
+  
+  console.log(watch("participant"));
 
   const processForm: SubmitHandler<CreateTransactionTypes> = async (data) => {
     try {
@@ -151,10 +152,8 @@ export default function Form({
 
   useEffect(() => {
     if (startDate !== undefined) {
-      console.log(startDate);
       // @ts-ignore
       setValue("course_day", startDate.toLocaleDateString("id-ID", options));
-      console.log(watch("course_day"));
       clearErrors("course_day");
     }
   }, [startDate]);
@@ -240,7 +239,7 @@ export default function Form({
                 filterDate={filterDay}
                 // selected={new Date(new Date().valueOf() + 1000 * 3600 * 24)}
                 // {...register("course_day", { required: true })}
-                className={`w-full p-3 border-2 border-gray-200 rounded-md text-zinc-500 ${
+                className={`transition duration-1000 w-full p-3 border-2 border-gray-200 rounded-md text-zinc-500 bg-transparent dark:border-black ${
                   errors.course_day && "!text-[#f31260] !border-[#f31260]"
                 }`}
               />
@@ -275,13 +274,72 @@ export default function Form({
           </div>
         </div>
         <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
-          <div className="flex gap-2">
+          <label
+            htmlFor="participant"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            <span className={errors.participant && "text-[#f31260]"}>
+              Jumlah Peserta Mentoring
+            </span>
+          </label>
+          <ul
+            className={`items-center w-full text-sm font-medium border-2 border-gray-200 rounded-lg sm:flex dark:border-gray-600 ${
+              errors.participant && "!text-[#f31260] !border-[#f31260]"
+            }`}
+          >
+            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+              <div className="flex items-center ps-3">
+                <input
+                  id="horizontal-list-radio-id"
+                  type="radio"
+                  value="Private"
+                  {...register("participant", { required: true })}
+                  className="w-4 h-4"
+                />
+                <label className="w-full py-3 text-sm font-semibold ms-2">
+                  Private
+                </label>
+              </div>
+            </li>
+            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+              <div className="flex items-center ps-3">
+                <input
+                  id="horizontal-list-radio-id"
+                  type="radio"
+                  value="2 - 5 Orang"
+                  {...register("participant", { required: true })}
+                  className="w-4 h-4"
+                />
+                <label className="w-full py-3 text-sm font-semibold ms-2">
+                  2 - 5 Orang
+                </label>
+              </div>
+            </li>
+            <li className="w-full border-gray-200 dark:border-gray-600">
+              <div className="flex items-center ps-3">
+                <input
+                  id="horizontal-list-radio-id"
+                  type="radio"
+                  value="6 - 10 Orang"
+                  {...register("participant", { required: true })}
+                  className="w-4 h-4"
+                />
+                <label className="w-full py-3 text-sm font-semibold ms-2">
+                  6 - 10 Orang
+                </label>
+              </div>
+            </li>
+          </ul>
+          <p className="text-xs font-semibold text-[#f31260]">
+            {errors.participant && (errors.participant?.message as string)}
+          </p>
+          {/* <div className="flex gap-2">
             <RadioGroup
               label="Berapa Jumlah Partisipan Mentoring"
               orientation="horizontal"
               size="sm"
               isInvalid={errors.participant ? true : false}
-              // errorMessage={errors.participant && errors.participant.message}
+              errorMessage={errors.participant && errors.participant.message}
               {...register("participant", { required: true })}
               className="flex justify-between w-full"
               classNames={{
@@ -300,7 +358,7 @@ export default function Form({
                 5 - 10 Orang
               </Radio>
             </RadioGroup>
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
           <label
