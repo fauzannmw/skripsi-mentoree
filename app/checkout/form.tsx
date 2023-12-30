@@ -233,13 +233,10 @@ export default function Form({
               <DatePicker
                 placeholderText={"Tanggal"}
                 selected={startDate !== undefined && startDate}
-                // selected={watch("course_day")}
                 onChange={(date: any) => setStartDate(date)}
                 minDate={new Date(new Date().valueOf() + 1000 * 3600 * 24)}
                 filterDate={filterDay}
-                // selected={new Date(new Date().valueOf() + 1000 * 3600 * 24)}
-                // {...register("course_day", { required: true })}
-                className={`transition duration-1000 w-full p-3 border-2 border-gray-200 rounded-md text-zinc-500 bg-transparent dark:border-black ${
+                 className={`transition duration-1000 w-full p-3 border-2 border-gray-200 rounded-md text-zinc-500 bg-transparent dark:border-black ${
                   errors.course_day && "!text-[#f31260] !border-[#f31260]"
                 }`}
               />

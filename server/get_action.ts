@@ -42,6 +42,9 @@ export const getProfileMentor = async () => {
         email: session?.user?.email,
       },
       include: {
+        course: true,
+        course_day: true,
+        mentoring_location: true,
         transaction: true,
       },
     });

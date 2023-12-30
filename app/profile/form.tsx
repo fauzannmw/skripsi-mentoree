@@ -15,7 +15,6 @@ import { toast } from "sonner";
 
 export interface FormProps {
   profile: User;
-  mentor: Mentor;
 }
 
 const phoneRegex = new RegExp(
@@ -37,7 +36,7 @@ const FormDataSchema = z.object({
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
-export default function Form({ profile, mentor }: FormProps) {
+export default function Form({ profile }: FormProps) {
   const [isloading, setLoading] = useState(false);
   const [values, setValues] = React.useState<Set<string | null> | Selection>(
     new Set([profile?.major])

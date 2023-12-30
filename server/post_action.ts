@@ -5,10 +5,12 @@ import prisma from "./database";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { User } from "@prisma/client";
+import { Mentor, User } from "@prisma/client";
 
 import { v2 as cloudinary } from "cloudinary";
 import { RegisterMentorTypes } from "@/app/admin/mentor-registration/form";
+import { MentorInputs } from "@/app/profile/form-mentor";
+import { create } from "domain";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -29,6 +31,48 @@ export const updateProfile = async (params: User) => {
       email: session?.user?.email,
     },
     data: data,
+  });
+
+  return redirect("/profile");
+};
+
+export const updateMentorProfile = async (params: MentorInputs) => {
+  const session = await getServerSession(authOptions);
+
+  await prisma.user.update({
+    where: {
+      email: session?.user?.email,
+    },
+    data: {
+      phone_number: params?.phone_number,
+    },
+  });
+
+  await prisma.mentor.update({
+    where: {
+      email: session?.user?.email,
+    },
+    data: {
+      phone_number: params?.phone_number,
+      description: params?.description,
+      // course_day: {
+      //   update: {
+      //     where: {
+      //       id: 1,
+      //     },
+      //   },
+      // },
+      // course_day: {
+      //   connectOrCreate: {
+      //     where: {
+      //       id: 2,
+      //     },
+      //   },
+      // },
+      // course_day[0] : {
+
+      // }
+    },
   });
 
   return redirect("/profile");

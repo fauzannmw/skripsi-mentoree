@@ -27,7 +27,7 @@ export default async function CheckoutPage({ params }) {
           <div className="flex-shrink-0 w-16 h-16">
             <Image
               src={mentorData?.image as string}
-              alt="Front of men&#039;s Basic Tee in black."
+              alt="mentor-image"
               className="w-16 h-16 rounded-md"
             />
           </div>
