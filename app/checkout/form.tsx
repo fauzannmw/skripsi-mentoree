@@ -21,6 +21,16 @@ import { toast } from "sonner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+type FormProps = {
+  coin: number;
+  nim: string;
+  phone_number: string;
+  email: string;
+  major: string;
+  day: string;
+  time: string;
+};
+
 const FormDataSchema = z.object({
   mentorNim: z.string().min(1),
   mentorEmail: z.string().min(1),
@@ -32,7 +42,7 @@ const FormDataSchema = z.object({
         "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu di halaman Profile",
     })
     .min(1),
-  course_day: z.string().min(1),
+  course_day: z.string().min(1, { message: "Pilih Tanggal Mentoring" }),
   course_time: z.string().min(1, { message: "Pilih Jam Mentoring" }),
   participant: z.any(),
   // participant: z.string().min(1, { message: "Pilih Jumlah Peserta Mentoring" }),
@@ -47,14 +57,11 @@ const FormDataSchema = z.object({
 
 export type CreateTransactionTypes = z.infer<typeof FormDataSchema>;
 
-type FormProps = {
-  coin: number;
-  nim: string;
-  phone_number: string;
-  email: string;
-  major: string;
-  day: string;
-  time: string;
+const options = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 };
 
 export default function Form({
@@ -70,12 +77,11 @@ export default function Form({
   const [locationDetail, setLocationDetail] = useState(LocationData?.daring);
   const [mentoringTime, setMentoringTime] = useState(TimeData.pagi);
   const [mentoringDay, setMentoringDay] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
 
   const filterDay = (date: any) => {
     const daySelected = date.getDay();
-    console.log(daySelected);
-
     switch (day) {
       case "Senin":
         setMentoringDay(1);
@@ -105,6 +111,8 @@ export default function Form({
     control,
     reset,
     watch,
+    setValue,
+    clearErrors,
     resetField,
     formState: { errors },
   } = useForm<CreateTransactionTypes>({
@@ -112,7 +120,7 @@ export default function Form({
       mentorNim: nim,
       mentorEmail: email,
       phone_number: phone_number,
-      course_day: "01 Januari 2024",
+      course_day: "",
       course_time: "",
       participant: "",
       mentoring_location: "",
@@ -121,12 +129,6 @@ export default function Form({
     },
     resolver: zodResolver(FormDataSchema),
   });
-
-  console.log(coin);
-  console.log(watch("phone_number"));
-  console.log(watch("mentorEmail"));
-  console.log(watch("course_day"));
-  console.log(watch("participant"));
 
   const processForm: SubmitHandler<CreateTransactionTypes> = async (data) => {
     try {
@@ -146,6 +148,16 @@ export default function Form({
     name: "mentoring_location",
     defaultValue: "Daring",
   });
+
+  useEffect(() => {
+    if (startDate !== undefined) {
+      console.log(startDate);
+      // @ts-ignore
+      setValue("course_day", startDate.toLocaleDateString("id-ID", options));
+      console.log(watch("course_day"));
+      clearErrors("course_day");
+    }
+  }, [startDate]);
 
   useEffect(() => {
     errors?.phone_number
@@ -218,17 +230,23 @@ export default function Form({
             Jadwal Mentoring
           </label>
           <div className="flex gap-2">
-            <div className="flex items-center text-sm font-semibold w-fit">
+            <div className="flex flex-col w-full text-sm font-semibold">
               <DatePicker
-                selected={startDate}
+                placeholderText={"Tanggal"}
+                selected={startDate !== undefined && startDate}
                 // selected={watch("course_day")}
                 onChange={(date: any) => setStartDate(date)}
                 minDate={new Date(new Date().valueOf() + 1000 * 3600 * 24)}
                 filterDate={filterDay}
                 // selected={new Date(new Date().valueOf() + 1000 * 3600 * 24)}
                 // {...register("course_day", { required: true })}
-                className="p-3 border border-gray-200 rounded-md"
+                className={`w-full p-3 border-2 border-gray-200 rounded-md text-zinc-500 ${
+                  errors.course_day && "!text-[#f31260] !border-[#f31260]"
+                }`}
               />
+              <p className="text-xs text-start font-semibold text-[#f31260] my-1.5">
+                {errors.course_day && (errors.course_day?.message as string)}
+              </p>
             </div>
             <Select
               label="Jam"

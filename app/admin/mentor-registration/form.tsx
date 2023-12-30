@@ -95,6 +95,7 @@ export default function Form({ profile }: FormProps) {
     reset,
     watch,
     setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<RegisterMentorTypes>({
     defaultValues: {
@@ -119,9 +120,10 @@ export default function Form({ profile }: FormProps) {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (image !== undefined) {
+    if (image !== undefined) {
+      const fetchData = async () => {
         setLoading(true);
+
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "mentoree");
@@ -137,11 +139,15 @@ export default function Form({ profile }: FormProps) {
         const uploadedImageData = await uploadResponse.json();
         const imageUrl = uploadedImageData.secure_url;
         setValue("image", imageUrl);
+
+        // clearErrors image because error.image does not auto refresh
+        clearErrors("image");
+
         toast("Berhasil Upload Gambar");
         setLoading(false);
-      }
-    };
-    fetchData().catch(console.error);
+      };
+      fetchData().catch(console.error);
+    }
   }, [image]);
 
   const processForm: SubmitHandler<RegisterMentorTypes> = async (data) => {
@@ -301,13 +307,13 @@ export default function Form({ profile }: FormProps) {
         <div className="sm:col-span-2">
           <label
             htmlFor="experience_position"
-            className="block text-sm font-semibold leading-6 text-gray-900"
+            className="block text-sm font-semibold leading-6 "
           >
             <span className={errors.image && "text-[#f31260]"}>Foto</span>
           </label>
           <div className="flex flex-col gap-2">
             <input
-              className={`w-full text-sm border-2 border-gray-300 rounded-lg py-2 px-3 font-semibold ${
+              className={`w-full text-sm border-2 border-gray-300  dark:border-zinc-700 dark:text-zinc-400 rounded-lg py-2 px-3 font-semibold ${
                 errors.image && "text-[#f31260] border-[#f31260]"
               }`}
               type="file"

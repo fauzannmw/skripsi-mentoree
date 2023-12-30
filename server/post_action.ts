@@ -34,30 +34,6 @@ export const updateProfile = async (params: User) => {
   return redirect("/profile");
 };
 
-export const uploadPicture = async (props: Uint8Array) => {
-  try {
-    const response = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          {
-            tags: ["nextjs-server-actions-upload-sneakers"],
-          },
-          function (error, result) {
-            if (error) {
-              reject(error);
-              return;
-            }
-            resolve(result);
-          }
-        )
-        .end(props);
-    });
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const registerMentor = async (params: RegisterMentorTypes) => {
   await prisma.mentor.upsert({
     where: { nim: params.nim as string },

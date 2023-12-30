@@ -384,7 +384,7 @@ export const getTransactionByMentor = async () => {
         mentor: true,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
   } catch (error) {
@@ -413,7 +413,7 @@ export const getActiveTransactionByMentor = async () => {
         mentor: true,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
   } catch (error) {

@@ -145,6 +145,7 @@ export default function Form({ profile, mentor }: FormProps) {
             variant="bordered"
             size="lg"
             radius="sm"
+            min={0}
             isInvalid={errors.nim ? true : false}
             errorMessage={errors.nim && errors.nim.message}
             {...register("nim", { required: true })}
