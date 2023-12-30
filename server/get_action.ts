@@ -33,6 +33,14 @@ export const getProfileUser = async () => {
   }
 };
 
+export const getAllUser = async () => {
+  try {
+    return await prisma.user.findMany({});
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getProfileMentor = async () => {
   const session = await getServerSession(authOptions);
 
@@ -65,6 +73,7 @@ export const getAllMentor = async () => {
         course_day: {
           select: {
             day: true,
+            time: true,
           },
         },
       },

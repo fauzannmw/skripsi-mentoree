@@ -28,7 +28,7 @@ export default async function CheckoutPage({ params }) {
             <Image
               src={mentorData?.image as string}
               alt="mentor-image"
-              className="w-16 h-16 rounded-md"
+              className="object-cover object-center w-16 h-16 rounded-md"
             />
           </div>
           <div className="flex-1 w-full ml-6 ">
