@@ -141,7 +141,11 @@ export default function TransactionCardComponent({ data, role }: CardProps) {
           </p>
 
           <p>
-            Tanggal Mentoring : <span>{data?.date}</span>
+            Tanggal Mentoring :{" "}
+            <span>
+              {/* @ts-ignore */}
+              {data?.date && data?.date.toLocaleDateString("id-ID", options)}
+            </span>
           </p>
           <p>
             Jam : <span>{data?.time}</span>

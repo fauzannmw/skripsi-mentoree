@@ -2,11 +2,63 @@
 import prisma from "./database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { sendMail } from "@/app/api/mail/mail";
 
-export const updateTransactionStatusOnSchecule = async () => {
+export const checkTransactionStatusBasedOnDate = async () => {
+  const confirmLimit = new Date().setDate(new Date().getDate() - 3);
+
   try {
-    const response = await prisma.transaction.findMany({});
-    return response;
+    const wait = await prisma.transaction.updateMany({
+      where: {
+        status: "Menunggu",
+        date: {
+          lte: new Date(),
+        },
+      },
+      data: {
+        status: "Gagal",
+        message:
+          "Mentor tidak merespon permintan mentoring hingga tanggal mentoring",
+      },
+    });
+
+    const live = await prisma.transaction.updateMany({
+      where: {
+        status: "Berlangsung",
+        date: {
+          lte: new Date(confirmLimit),
+        },
+      },
+      data: {
+        status: "Selesai",
+        message:
+          "Proses mentoring dianggap selesai karena mentee tidak konfirmasi selesai hingga 3 hari setelah proses mentoring",
+      },
+    });
+
+    wait?.count > 0 &&
+      (await sendMail({
+        to: "mentoree.ub@gmail.com",
+        name: "Mentoree",
+        subject: "Transaksi Gagal Otomatis",
+        body: `<div>
+        <p>Halo Admin ada ${wait?.count} transaksi Gagal Otomatis karena Mentor tidak merespon permintan mentoring hingga tanggal mentoring</p>
+        <a href="https://mentoree.vercel.app/admin/transaction-urgent">Mentoree</a>
+        </div>`,
+      }));
+
+    live?.count > 0 &&
+      (await sendMail({
+        to: "mentoree.ub@gmail.com",
+        name: "Mentoree",
+        subject: "Transaksi Selesai Otomatis",
+        body: `<div>
+        <p>Halo Admin ada ${live?.count} transaksi Selesai Otomatis karena Mentee tidak melakukan konfirmasi pesanan penyelesaian Mentoring</p>
+        <a href="https://mentoree.vercel.app/admin/transaction-urgent">Mentoree</a>
+        </div>`,
+      }));
+
+    return { wait, live };
   } catch (error) {
     return { error };
   }

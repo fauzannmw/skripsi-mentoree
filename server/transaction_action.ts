@@ -333,6 +333,36 @@ export const getAllTransaction = async () => {
   }
 };
 
+export const getUrgentTransaction = async () => {
+  try {
+    return await prisma.transaction.findMany({
+      where: {
+        OR: [
+          {
+            status: "Gagal",
+            message:
+              "Mentor tidak merespon permintan mentoring hingga tanggal mentoring",
+          },
+          {
+            status: "Selesai",
+            message:
+              "Proses mentoring dianggap selesai karena mentee tidak konfirmasi selesai hingga 3 hari setelah proses mentoring",
+          },
+        ],
+      },
+      include: {
+        User: true,
+        mentor: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getTotalTransaction = async () => {
   try {
     return await prisma.transaction.count();

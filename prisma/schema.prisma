@@ -23,10 +23,12 @@ model Mentor {
   description        String?
   course             Course[]
   course_day         Day[]
-  mentoring_location Location[]
+  // mentoring_location Location[]
   experience         Experience[]
   certification      Certification[]
   transaction        Transaction[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 }
 
 model Course {
@@ -52,11 +54,11 @@ model Certification {
   institution String
 }
 
-model Location {
-  id       Int      @id @default(autoincrement())
-  location String
-  mentor   Mentor[]
-}
+// model Location {
+//   id       Int      @id @default(autoincrement())
+//   location String
+//   mentor   Mentor[]
+// }
 
 model Day {
   id        Int     @id @default(autoincrement())
@@ -94,12 +96,12 @@ model Session {
 }
 
 model Transaction {
-  id              String   @id @default(cuid())
-  User            User?    @relation(fields: [userEmail], references: [email])
-  mentor          Mentor?  @relation(fields: [mentorNim], references: [nim])
+  id              String    @id @default(cuid())
+  User            User?     @relation(fields: [userEmail], references: [email])
+  mentor          Mentor?   @relation(fields: [mentorNim], references: [nim])
   userEmail       String
   mentorNim       String?
-  date            String?
+  date            DateTime?
   time            String?
   location        String?
   location_detail String?
@@ -107,9 +109,9 @@ model Transaction {
   mentoring_topic String?
   message         String?
   review          String?
-  status          String?  @default("Menunggu")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  status          String?   @default("Menunggu")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model User {
@@ -126,6 +128,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   transaction   Transaction[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 model VerificationToken {

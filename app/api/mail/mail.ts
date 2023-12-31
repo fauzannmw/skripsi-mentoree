@@ -33,8 +33,8 @@ export async function sendMail({
       from: SMTP_EMAIL,
       to,
       subject,
-      text: body,
-      //   html: body,
+      // text: body,
+      html: body,
     });
     console.log(sendResult);
   } catch (error) {

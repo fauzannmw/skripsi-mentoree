@@ -1,9 +1,8 @@
 import { title, subtitle } from "@/components/primitives";
-import { updateTransactionStatusOnSchecule } from "@/server/get_action";
+import { checkTransactionStatusBasedOnDate } from "@/server/get_action";
 
 export default async function Home() {
-  const data = await updateTransactionStatusOnSchecule();
-  console.log(data);
+  const data = await checkTransactionStatusBasedOnDate();
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">

@@ -42,7 +42,7 @@ const FormDataSchema = z.object({
         "Silahkan Isi Nomor Ponsel Anda Terlebih Dahulu di halaman Profile",
     })
     .min(1),
-  course_day: z.string().min(1, { message: "Pilih Tanggal Mentoring" }),
+  course_day: z.string().datetime(),
   course_time: z.string().min(1, { message: "Pilih Jam Mentoring" }),
   // participant: z.any(),
   participant: z.string().min(1, { message: "Pilih Jumlah Peserta Mentoring" }),
@@ -128,8 +128,6 @@ export default function Form({
     },
     resolver: zodResolver(FormDataSchema),
   });
-  
-  console.log(watch("participant"));
 
   const processForm: SubmitHandler<CreateTransactionTypes> = async (data) => {
     try {
@@ -153,7 +151,10 @@ export default function Form({
   useEffect(() => {
     if (startDate !== undefined) {
       // @ts-ignore
-      setValue("course_day", startDate.toLocaleDateString("id-ID", options));
+      // console.log("startDate adalah: ", startDate.toISOString());
+      // @ts-ignore
+      setValue("course_day", startDate.toISOString());
+      // setValue("course_day", startDate.toLocaleDateString("id-ID", options));
       clearErrors("course_day");
     }
   }, [startDate]);
@@ -236,7 +237,7 @@ export default function Form({
                 onChange={(date: any) => setStartDate(date)}
                 minDate={new Date(new Date().valueOf() + 1000 * 3600 * 24)}
                 filterDate={filterDay}
-                 className={`transition duration-1000 w-full p-3 border-2 border-gray-200 rounded-md text-zinc-500 bg-transparent dark:border-black ${
+                className={`transition duration-1000 w-full p-3 border-2 border-gray-200 rounded-md text-zinc-500 bg-transparent dark:border-black ${
                   errors.course_day && "!text-[#f31260] !border-[#f31260]"
                 }`}
               />

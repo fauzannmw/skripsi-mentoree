@@ -11,6 +11,13 @@ interface CardProps {
 export default async function Card({ data }: CardProps) {
   const mentorData = (await getMentorById(data?.id as string)).detail;
 
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   return (
     <form method="POST">
       <input
@@ -43,7 +50,7 @@ export default async function Card({ data }: CardProps) {
                 <span>
                   <CiCalendarDate />
                 </span>
-                {data?.date}
+                {data?.date && data?.date.toLocaleDateString("id-ID", options)}
               </p>
               <p className="flex items-center gap-4">
                 <span>
