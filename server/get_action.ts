@@ -3,6 +3,15 @@ import prisma from "./database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
+export const updateTransactionStatusOnSchecule = async () => {
+  try {
+    const response = await prisma.transaction.findMany({});
+    return response;
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getAllCourse = async () => {
   try {
     return await prisma.course.findMany({
