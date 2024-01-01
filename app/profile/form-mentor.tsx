@@ -6,19 +6,17 @@ import {
   Course,
   Day,
   Experience,
-  // Location,
   Mentor,
   Transaction,
   User,
 } from "@prisma/client";
 import { updateMentorProfile } from "@/server/post_action";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { Link } from "@nextui-org/link";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { MdEmail, MdOutlinePhoneAndroid } from "react-icons/md";
+import { MdOutlinePhoneAndroid } from "react-icons/md";
 
 import { toast } from "sonner";
 
@@ -30,7 +28,6 @@ export interface FormProps {
 interface MentorExtend extends Mentor {
   course: Course[];
   course_day: Day[];
-  // mentoring_location: Location[];
   experience: Experience[];
   certification: Certification[];
   transaction: Transaction[];
@@ -52,9 +49,6 @@ const FormDataSchema = z.object({
   course_time: z
     .string()
     .min(1, { message: "Pilih Waktu Mentoring terlebih dahulu" }),
-  // mentoring_location: z
-  //   .string()
-  //   .min(1, { message: "Pilih Lokasi Mentoring terlebih dahulu" }),
 });
 
 export type MentorInputs = z.infer<typeof FormDataSchema>;
@@ -67,9 +61,6 @@ export default function MentorForm({ profile, mentor }: FormProps) {
   const [time, setTime] = React.useState<Set<string | null> | Selection>(
     new Set([mentor?.course_day[0].time])
   );
-  // const [location, setLocation] = React.useState<
-  //   Set<string | null> | Selection
-  // >(new Set([mentor?.mentoring_location[0].location]));
 
   const {
     register,
@@ -81,7 +72,6 @@ export default function MentorForm({ profile, mentor }: FormProps) {
       description: mentor?.description as string,
       course_day: mentor?.course_day[0].day as string,
       course_time: mentor?.course_day[0].time as string,
-      // mentoring_location: mentor?.mentoring_location[0].location as string,
     },
     resolver: zodResolver(FormDataSchema),
   });
@@ -115,15 +105,6 @@ export default function MentorForm({ profile, mentor }: FormProps) {
           <p className="block text-sm font-semibold leading-6 text-gray-900">
             Mentore Coin Kamu : {profile?.coin}
           </p>
-          {/* <Link href="/coin">
-            <Button
-              color="primary"
-              radius="sm"
-              className="w-full text-sm font-semibold"
-            >
-              Topup Coin
-            </Button>
-          </Link> */}
         </div>
         <div className="sm:col-span-2">
           <Input
@@ -221,34 +202,6 @@ export default function MentorForm({ profile, mentor }: FormProps) {
             </Select>
           </div>
         </div>
-        {/* <div className="sm:col-span-2">
-          <Select
-            label="Lokasi Mentoring"
-            labelPlacement="outside"
-            variant="bordered"
-            size="lg"
-            radius="sm"
-            isInvalid={errors.mentoring_location ? true : false}
-            errorMessage={
-              errors.mentoring_location && errors.mentoring_location.message
-            }
-            {...register("mentoring_location", { required: true })}
-            selectedKeys={location as any}
-            onSelectionChange={setLocation as any}
-            className="w-full font-semibold"
-            classNames={{
-              label: "text-sm",
-              value: "text-sm font-semibold",
-            }}
-          >
-            <SelectItem key={"Daring"} value="Daring">
-              Daring
-            </SelectItem>
-            <SelectItem key={"Luring"} value="Luring">
-              Luring
-            </SelectItem>
-          </Select>
-        </div> */}
 
         <div className="sm:col-span-2">
           <Textarea

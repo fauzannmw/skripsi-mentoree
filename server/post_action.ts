@@ -91,13 +91,6 @@ export const registerMentor = async (params: RegisterMentorTypes) => {
       image: params.image as string,
       gender: params.gender as string,
       description: params.description as string,
-      // mentoring_location: {
-      //   create: [
-      //     {
-      //       location: params.mentoring_location as string,
-      //     },
-      //   ],
-      // },
       course: {
         create: [
           {

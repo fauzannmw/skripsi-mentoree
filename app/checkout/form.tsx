@@ -151,10 +151,7 @@ export default function Form({
   useEffect(() => {
     if (startDate !== undefined) {
       // @ts-ignore
-      // console.log("startDate adalah: ", startDate.toISOString());
-      // @ts-ignore
       setValue("course_day", startDate.toISOString());
-      // setValue("course_day", startDate.toLocaleDateString("id-ID", options));
       clearErrors("course_day");
     }
   }, [startDate]);

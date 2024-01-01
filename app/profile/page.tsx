@@ -7,7 +7,6 @@ import {
   Day,
   Mentor,
   User,
-  // Location,
   Experience,
   Certification,
   Transaction,
@@ -16,7 +15,6 @@ import {
 interface MentorExtend extends Mentor {
   course: Course[];
   course_day: Day[];
-  // mentoring_location: Location[];
   experience: Experience[];
   certification: Certification[];
   transaction: Transaction[];

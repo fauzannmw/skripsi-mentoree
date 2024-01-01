@@ -94,16 +94,6 @@ async function main() {
       gender: "Laki Laki",
       description:
         "Their faces were red and weather-blasted below their white foreheads, the coarse hair on their round heads grown iron-gray and as stiff as the roached mane of a horse.",
-      // mentoring_location: {
-      //   create: [
-      //     {
-      //       location: "Daring",
-      //     },
-      //     {
-      //       location: "Luring",
-      //     },
-      //   ],
-      // },
       course: {
         create: [
           {
@@ -158,13 +148,6 @@ async function main() {
       gender: "Laki Laki",
       description:
         "Their faces were red and weather-blasted below their white foreheads, the coarse hair on their round heads grown iron-gray and as stiff as the roached mane of a horse.",
-      // mentoring_location: {
-      //   create: [
-      //     {
-      //       location: "Daring",
-      //     },
-      //   ],
-      // },
       course: {
         create: [
           {
@@ -219,13 +202,7 @@ async function main() {
       gender: "Perempuan",
       description:
         "Their faces were red and weather-blasted below their white foreheads, the coarse hair on their round heads grown iron-gray and as stiff as the roached mane of a horse.",
-      // mentoring_location: {
-      //   create: [
-      //     {
-      //       location: "Luring",
-      //     },
-      //   ],
-      // },
+
       course: {
         create: [
           {
