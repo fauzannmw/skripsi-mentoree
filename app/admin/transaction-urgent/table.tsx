@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import { Image } from "@nextui-org/react";
 import ActionButtonComponent from "./actionButton";
@@ -145,8 +144,7 @@ export default function Table({ transactions }: TableProps) {
                 <td className="px-4 py-4">
                   <p className="w-20 font-medium dark:text-white">
                     {/* @ts-ignore */}
-                    {transaction?.date &&
-                      transaction?.date.toLocaleDateString("id-ID", options)}
+                    {transaction?.date && transaction?.date.toLocaleDateString("id-ID", options)}
                   </p>
                 </td>
                 <td className="px-4 py-4 ">
@@ -177,9 +175,7 @@ export default function Table({ transactions }: TableProps) {
                 <td className="px-4 py-4">
                   <p>
                     {/* @ts-ignore */}
-                    {(transaction?.createdAt).toLocaleDateString(
-                      "id-ID",
-                      options
+                    {(transaction?.createdAt).toLocaleDateString("id-ID", options
                     )}
                   </p>
                 </td>
