@@ -2,12 +2,21 @@ import React, { Fragment } from "react";
 import Form from "./form";
 import MentorForm from "./form-mentor";
 import { getProfileMentor, getProfileUser } from "@/server/get_action";
-import { Course, Day, Mentor, User, Location, Experience, Certification, Transaction } from "@prisma/client";
+import {
+  Course,
+  Day,
+  Mentor,
+  User,
+  // Location,
+  Experience,
+  Certification,
+  Transaction,
+} from "@prisma/client";
 
 interface MentorExtend extends Mentor {
   course: Course[];
   course_day: Day[];
-  mentoring_location: Location[];
+  // mentoring_location: Location[];
   experience: Experience[];
   certification: Certification[];
   transaction: Transaction[];

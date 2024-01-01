@@ -25,13 +25,24 @@ const FormDataSchema = z.object({
   email: z.string().min(1).email("Masukkan Email dengan Format yang Benar."),
   name: z.string().min(1),
   nim: z
-    .string()
+    .string({
+      invalid_type_error: "Masukkan Nim dengan Format yang Benar.",
+      required_error: "Masukkan Nim dengan Format yang Benar",
+    })
     .min(15, { message: "Masukkan Nim dengan Format yang Benar." }),
   phone_number: z
-    .string()
-    .min(1)
-    .regex(phoneRegex, "Masukkan Nomor Ponsel dengan Format yang Benar"),
-  major: z.string().min(1, { message: "Isi Program Studi Anda dengan Benar." }),
+    .string({
+      invalid_type_error: "Masukkan Nomor Ponsel dengan Format yang Benar.",
+      required_error: "Masukkan Nomor Ponsel dengan Format yang Benar.",
+    })
+    .min(10, { message: "Masukkan Nomor Ponsel dengan Format yang Benar." })
+    .regex(phoneRegex, "Masukkan Nomor Ponsel dengan Format yang Benar."),
+  major: z
+    .string({
+      invalid_type_error: "Isi Program Studi Anda dengan Benar.",
+      required_error: "Isi Program Studi Anda dengan Benar.",
+    })
+    .min(1, { message: "Isi Program Studi Anda dengan Benar." }),
 });
 
 type Inputs = z.infer<typeof FormDataSchema>;

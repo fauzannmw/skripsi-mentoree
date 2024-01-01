@@ -113,7 +113,7 @@ export const getProfileMentor = async () => {
       include: {
         course: true,
         course_day: true,
-        mentoring_location: true,
+        // mentoring_location: true,
         transaction: true,
       },
     });
@@ -217,11 +217,11 @@ export const getMentorByFilter = async (
     return await prisma.mentor.findMany({
       where: {
         gender: gender,
-        mentoring_location: {
-          some: {
-            location: location,
-          },
-        },
+        // mentoring_location: {
+        //   some: {
+        //     location: location,
+        //   },
+        // },
         course: {
           some: {
             course: course,
@@ -229,11 +229,11 @@ export const getMentorByFilter = async (
         },
       },
       include: {
-        mentoring_location: {
-          select: {
-            location: true,
-          },
-        },
+        // mentoring_location: {
+        //   select: {
+        //     location: true,
+        //   },
+        // },
         course: {
           select: {
             course: true,
@@ -264,11 +264,11 @@ export const getMentorByFilters = async (
           return await prisma.mentor.findMany({
             where: {
               gender: gender,
-              mentoring_location: {
-                some: {
-                  location: location,
-                },
-              },
+              // mentoring_location: {
+              //   some: {
+              //     location: location,
+              //   },
+              // },
               course: {
                 some: {
                   course: course,
@@ -319,11 +319,11 @@ export const getMentorByFilters = async (
           return await prisma.mentor.findMany({
             where: {
               gender: gender,
-              mentoring_location: {
-                some: {
-                  location: location,
-                },
-              },
+              // mentoring_location: {
+              //   some: {
+              //     location: location,
+              //   },
+              // },
             },
             include: {
               course: {
@@ -387,11 +387,11 @@ export const getMentorByFilters = async (
         case location:
           return await prisma.mentor.findMany({
             where: {
-              mentoring_location: {
-                some: {
-                  location: location,
-                },
-              },
+              // mentoring_location: {
+              //   some: {
+              //     location: location,
+              //   },
+              // },
             },
             include: {
               course: {

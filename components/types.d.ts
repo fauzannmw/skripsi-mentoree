@@ -9,15 +9,15 @@ export type CardProps = {
   major: string?;
   image: string?;
   gender: string?;
-  mentoring_location: Location[];
+  // mentoring_location: Location[];
   course: Course[];
   course_day: Day[];
   description: string?;
 };
 
-type Location = {
-  location: string;
-};
+// type Location = {
+//   location: string;
+// };
 
 type Course = {
   course: string?;

@@ -46,6 +46,7 @@ export const NavbarGlobal = () => {
     { name: "Data Mentor", href: "/admin/mentor-list" },
     { name: "Pendaftaran Mentor", href: "/admin/mentor-registration" },
     { name: "Daftar Transaksi User", href: "/admin/transaction" },
+    { name: "Daftar Transaksi Urgent", href: "/admin/transaction-urgent" },
   ];
 
   const navigationMentor = [

@@ -13,11 +13,11 @@ interface MentorExtends extends Mentor {
       time: string;
     }
   ];
-  mentoring_location: [
-    {
-      location: string;
-    }
-  ];
+  // mentoring_location: [
+  //   {
+  //     location: string;
+  //   }
+  // ];
   experience: [
     {
       position: string;

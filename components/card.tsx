@@ -14,7 +14,7 @@ export const Card: React.FC<CardProps> = async ({
   major,
   image,
   gender,
-  mentoring_location,
+  // mentoring_location,
   course,
   course_day,
   description,

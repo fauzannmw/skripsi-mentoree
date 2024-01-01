@@ -37,7 +37,7 @@ export default async function ExplorePage({
               major={mentor.major}
               image={mentor.image}
               gender={mentor.gender}
-              mentoring_location={mentor.mentoring_location}
+              // mentoring_location={mentor.mentoring_location}
               course={mentor.course}
               course_day={mentor.course_day}
               description={mentor.description}

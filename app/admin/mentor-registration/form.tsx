@@ -74,9 +74,9 @@ const FormDataSchema = z.object({
   course_time: z
     .string()
     .min(1, { message: "Pilih Waktu Mentoring terlebih dahulu" }),
-  mentoring_location: z
-    .string()
-    .min(1, { message: "Pilih Lokasi Mentoring terlebih dahulu" }),
+  // mentoring_location: z
+  //   .string()
+  //   .min(1, { message: "Pilih Lokasi Mentoring terlebih dahulu" }),
   experience_position: z.string(),
   experience_company: z.string(),
   certification_course: z.string(),
@@ -110,7 +110,7 @@ export default function Form({ profile }: FormProps) {
       course: "",
       course_day: "",
       course_time: "",
-      mentoring_location: "",
+      // mentoring_location: "",
       experience_position: "",
       experience_company: "",
       certification_course: "",
@@ -231,6 +231,7 @@ export default function Form({ profile }: FormProps) {
             variant="bordered"
             size="lg"
             radius="sm"
+            min={0}
             isInvalid={errors.phone_number ? true : false}
             errorMessage={errors.phone_number && errors.phone_number.message}
             {...register("phone_number", { required: true })}
@@ -458,7 +459,7 @@ export default function Form({ profile }: FormProps) {
             </Select>
           </div>
         </div>
-        <div className="sm:col-span-2">
+        {/* <div className="sm:col-span-2">
           <Select
             label="Lokasi Mentoring"
             labelPlacement="outside"
@@ -483,7 +484,7 @@ export default function Form({ profile }: FormProps) {
               Luring
             </SelectItem>
           </Select>
-        </div>
+        </div> */}
         <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
           <label
             htmlFor="experience"

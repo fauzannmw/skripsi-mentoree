@@ -6,7 +6,7 @@ import {
   Course,
   Day,
   Experience,
-  Location,
+  // Location,
   Mentor,
   Transaction,
   User,
@@ -30,7 +30,7 @@ export interface FormProps {
 interface MentorExtend extends Mentor {
   course: Course[];
   course_day: Day[];
-  mentoring_location: Location[];
+  // mentoring_location: Location[];
   experience: Experience[];
   certification: Certification[];
   transaction: Transaction[];
@@ -52,9 +52,9 @@ const FormDataSchema = z.object({
   course_time: z
     .string()
     .min(1, { message: "Pilih Waktu Mentoring terlebih dahulu" }),
-  mentoring_location: z
-    .string()
-    .min(1, { message: "Pilih Lokasi Mentoring terlebih dahulu" }),
+  // mentoring_location: z
+  //   .string()
+  //   .min(1, { message: "Pilih Lokasi Mentoring terlebih dahulu" }),
 });
 
 export type MentorInputs = z.infer<typeof FormDataSchema>;
@@ -67,9 +67,9 @@ export default function MentorForm({ profile, mentor }: FormProps) {
   const [time, setTime] = React.useState<Set<string | null> | Selection>(
     new Set([mentor?.course_day[0].time])
   );
-  const [location, setLocation] = React.useState<
-    Set<string | null> | Selection
-  >(new Set([mentor?.mentoring_location[0].location]));
+  // const [location, setLocation] = React.useState<
+  //   Set<string | null> | Selection
+  // >(new Set([mentor?.mentoring_location[0].location]));
 
   const {
     register,
@@ -81,7 +81,7 @@ export default function MentorForm({ profile, mentor }: FormProps) {
       description: mentor?.description as string,
       course_day: mentor?.course_day[0].day as string,
       course_time: mentor?.course_day[0].time as string,
-      mentoring_location: mentor?.mentoring_location[0].location as string,
+      // mentoring_location: mentor?.mentoring_location[0].location as string,
     },
     resolver: zodResolver(FormDataSchema),
   });
@@ -221,7 +221,7 @@ export default function MentorForm({ profile, mentor }: FormProps) {
             </Select>
           </div>
         </div>
-        <div className="sm:col-span-2">
+        {/* <div className="sm:col-span-2">
           <Select
             label="Lokasi Mentoring"
             labelPlacement="outside"
@@ -248,7 +248,7 @@ export default function MentorForm({ profile, mentor }: FormProps) {
               Luring
             </SelectItem>
           </Select>
-        </div>
+        </div> */}
 
         <div className="sm:col-span-2">
           <Textarea
