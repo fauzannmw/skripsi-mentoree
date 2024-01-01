@@ -139,6 +139,7 @@ export default function Table({ transactions }: TableProps) {
                 <td className="px-4 py-4">
                   <p className="w-20 font-medium dark:text-white">
                     {transaction?.date &&
+                      // @ts-ignore
                       transaction?.date.toLocaleDateString("id-ID", options)}
                   </p>
                 </td>
@@ -174,10 +175,9 @@ export default function Table({ transactions }: TableProps) {
                 </td>
                 <td className="px-4 py-4">
                   <p>
-                    {(transaction?.createdAt).toLocaleDateString(
-                      "id-ID",
-                      options
-                    )}
+                    {transaction?.createdAt &&
+                      // @ts-ignore
+                      (transaction?.createdAt).toLocaleDateString("id-ID", options)}
                   </p>
                 </td>
               </tr>
