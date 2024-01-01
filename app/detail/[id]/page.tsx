@@ -1,9 +1,8 @@
 import { getMentorById } from "@/server/get_action";
 import { Image } from "@nextui-org/image";
-import { Button, Link } from "@nextui-org/react";
+import { Button, Link, Snippet } from "@nextui-org/react";
 import { Mentor } from "@prisma/client";
-import { BsCoin, BsGenderFemale, BsGenderMale } from "react-icons/bs";
-import { RiErrorWarningLine } from "react-icons/ri";
+import { BsGenderFemale, BsGenderMale } from "react-icons/bs";
 
 interface MentorExtends extends Mentor {
   course: [{ course: string }];
@@ -13,11 +12,6 @@ interface MentorExtends extends Mentor {
       time: string;
     }
   ];
-  // mentoring_location: [
-  //   {
-  //     location: string;
-  //   }
-  // ];
   experience: [
     {
       position: string;
@@ -39,176 +33,140 @@ export default async function DetailPage({
 }) {
   const mentorData = (await getMentorById(params.id))
     .detail as unknown as MentorExtends;
-
-  const courses = mentorData?.course;
-  const courses_day = mentorData?.course_day;
   const experience = mentorData?.experience;
   const certification = mentorData?.certification;
 
   return (
-    <div className="flex flex-col flex-wrap items-center justify-center gap-4 mx-auto">
-      <div className="flex items-center justify-center">
-        {mentorData?.image ? (
-          <Image
-            alt="mentor-image"
-            className="object-cover object-center w-48 h-48 border border-gray-200 rounded sm:w-72 sm:h-72"
-            src={mentorData?.image}
-          />
-        ) : (
-          <Image
-            alt="mentor-image"
-            className="object-cover object-center border border-gray-200 rounded w-72 h-72"
-            src="https://images.unsplash.com/photo-1518288774672-b94e808873ff?q=80&w=2718&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
-        )}
+    <div className="w-full">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-medium">Detail Mentor</h2>
+        <Snippet
+          size="sm"
+          color="primary"
+          variant="solid"
+          hideSymbol
+          codeString={`https://mentoree.vercel.app/detail/${mentorData?.id}`}
+          classNames={{
+            content: "font-semibold",
+          }}
+        >
+          Bagikan Profil Mentor
+        </Snippet>
       </div>
-      <div className="flex flex-col w-full gap-4 lg:w-1/2 lg:py-6 lg:mt-0">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-sm tracking-widest text-gray-500 ">
-              {mentorData?.major}
-            </h1>
-            <h1 className="mb-1 font-medium sm:text-3xl ">
-              {mentorData?.name}
-            </h1>
-          </div>
-          <button className="inline-flex items-center justify-center p-3 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
-            {mentorData?.gender == "Laki Laki" ? (
-              <BsGenderMale />
-            ) : (
-              <BsGenderFemale />
-            )}
-          </button>
-        </div>
-        <div className="border-t border-bg-gray-300">
-          <h1 className="mb-2 text-xl font-bold dark:text-gray-400">
-            Deskripsi Diri
-          </h1>
-          <p className="leading-relaxed">{mentorData?.description}</p>
-        </div>
-        <div className="py-3 border-t border-bg-gray-300 dark:border-gray-700">
-          <h1 className="mb-2 text-xl font-bold dark:text-gray-400">
-            Bahasa Pemrograman
-          </h1>
-          <div className="flex flex-wrap -mb-2">
-            {courses?.map((course, index) => (
-              <button
-                key={index}
-                className="px-2 py-1 mb-2 mr-1 border hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400"
-              >
-                {course?.course}
-              </button>
-            ))}
+      <div className="flex flex-col w-full gap-4 px-4 py-6 mt-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-black">
+        <div className="flex items-center justify-center">
+          <div className="flex-shrink-0 w-48 h-48">
+            <Image
+              src={mentorData?.image as string}
+              alt="mentor-image"
+              className="object-cover object-center w-48 h-48 rounded-md"
+            />
           </div>
         </div>
-        <div className="py-3 border-t border-gray-300 dark:border-gray-700">
-          <h1 className="mb-2 text-xl font-bold dark:text-gray-400">
-            Hari Mengajar
-          </h1>
-          <div className="flex flex-wrap -mb-2">
-            {courses_day?.map((course_day, index) => (
-              <button
-                key={index}
-                className="px-2 py-1 mb-2 mr-1 border hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400"
-              >
-                {course_day?.day}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 py-3 border-t border-gray-300 dark:border-gray-700">
-          <h1 className="text-xl font-bold dark:text-gray-400">
-            Waktu Persiapan Mentor
-          </h1>
-          <div className="flex items-center gap-2 px-2 py-1 border border-gray-900 rounded">
-            <span>
-              <RiErrorWarningLine />
-            </span>
-            <p className="text-sm">
-              Pemesanan Mentor kurang dari waktu persiapan berisiko ditolak.
-            </p>
-          </div>
-          <Button size="sm" className="font-semibold w-fit">
-            1 Hari
-          </Button>
-        </div>
-        <div className="flex flex-col gap-4 py-3 border-t border-gray-300 dark:border-gray-700">
-          <h1 className="text-xl font-bold dark:text-gray-400">
-            Rekomendasi Jadwal Mentoring
-          </h1>
-          <div className="flex items-center gap-2 px-2 py-1 border border-gray-900 rounded">
-            <span>
-              <RiErrorWarningLine />
-            </span>
-            <p className="text-sm">
-              Pemesanan Mentor di luar jadwal rekomendasi berisiko ditolak.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            {/* @ts-ignore */}
-            {courses_day.map((course_day, index: number) => (
-              <div key={index} className="flex gap-4">
-                <Button size="sm" className="font-semibold w-fit">
-                  {course_day?.day}
-                </Button>
-                <Button size="sm" className="font-semibold w-fit">
-                  13.00 - 14.00
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="py-3 border-t border-gray-300 dark:border-gray-700">
-          <h1 className="mb-2 text-xl font-bold dark:text-gray-400">
-            Pengalaman Kerja & Organisasi
-          </h1>
-          <div className="flex flex-col flex-wrap font-semibold">
-            {experience?.map(
-              (experience, index: number) =>
-                experience.company &&
-                experience?.company && (
-                  <li key={index}>
-                    {experience?.position}
-                    <ol className="space-y-1 font-normal ps-6">
-                      {experience?.company}
-                    </ol>
-                  </li>
-                )
-            )}
-          </div>
-        </div>
-        <div className="py-3 border-t border-gray-300 dark:border-gray-700">
-          <h1 className="mb-2 text-xl font-bold dark:text-gray-400">
-            Sertifikasi
-          </h1>
-          <div className="flex flex-col flex-wrap font-semibold">
-            {certification?.map(
-              (certification, index: number) =>
-                certification?.course &&
-                certification?.institution && (
-                  <li key={index}>
-                    {certification?.course}
-                    <ol className="space-y-1 font-normal ps-6">
-                      {certification?.institution}
-                    </ol>
-                  </li>
-                )
-            )}
+        <div className="flex-1 w-full">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col flex-1">
+              <h1 className="text-sm tracking-widest text-gray-500 ">
+                {mentorData?.major}
+              </h1>
+              <h1 className="text-sm">
+                <Link
+                  href={`/detail/${mentorData?.id}`}
+                  className="font-medium text-gray-700 hover:text-gray-800"
+                >
+                  {mentorData?.name}
+                </Link>
+              </h1>
+            </div>
+            <div className=" bg-white p-2.5 flex items-center justify-center text-gray-400 hover:text-gray-500">
+              <span className="sr-only">Gender</span>
+              {mentorData?.gender === "Laki Laki" ? (
+                <BsGenderMale />
+              ) : (
+                <BsGenderFemale />
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="flex justify-between">
-          <p className="flex items-center text-2xl font-medium text-gray-900 gap-x-1 ">
-            1&nbsp;
-            <span>
-              <BsCoin />
-            </span>
-          </p>
-          <Link href={`/checkout/${mentorData?.id}`} className="">
-            <Button className="font-sans text-sm font-semibold text-white bg-gray-900 rounded-lg">
-              Pesan Sekarang
-            </Button>
-          </Link>
+        <div className="flex flex-col gap-6 py-2 border-t border-gray-200 border-bg-gray-300">
+          <div className="flex flex-col text-sm">
+            <h1 className="font-medium dark:text-gray-400">Deskripsi Diri</h1>
+            <p className="text-sm leading-relaxed">{mentorData?.description}</p>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <p>Bahasa Pemrograman</p>
+            <div className="flex gap-2">
+              {mentorData?.course?.map((course, index) => (
+                <p
+                  key={index}
+                  className="px-3 text-sm text-gray-500 bg-white border border-gray-200 rounded-md py-0.5"
+                >
+                  {course?.course}
+                </p>
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <p>Hari Mengajar</p>
+            <p className="font-medium ">
+              {mentorData?.course_day?.map((day, index) => (
+                <span key={index}>{day?.day}</span>
+              ))}
+            </p>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <p>Sesi</p>
+            <p className="font-medium ">
+              {mentorData?.course_day?.map((time, index) => (
+                <span key={index}>{time?.time}</span>
+              ))}
+            </p>
+          </div>
+          <div className="pt-3 text-sm border-t border-gray-300 dark:border-gray-700">
+            <h1 className="mb-2 font-medium dark:text-gray-400">
+              Pengalaman Kerja & Organisasi
+            </h1>
+            <div className="flex flex-col flex-wrap">
+              {experience?.map(
+                (experience, index: number) =>
+                  experience.company &&
+                  experience?.company && (
+                    <li key={index}>
+                      {experience?.position} -&nbsp;
+                      <span>{experience?.company}</span>
+                    </li>
+                  )
+              )}
+            </div>
+          </div>
+          <div className="pb-3 text-sm border-b border-gray-300 dark:border-gray-700">
+            <h1 className="mb-2 font-medium dark:text-gray-400">Sertifikasi</h1>
+            <div className="flex flex-col flex-wrap">
+              {certification?.map(
+                (certification, index: number) =>
+                  certification?.course &&
+                  certification?.institution && (
+                    <li key={index}>
+                      {certification?.course} -&nbsp;
+                      <span>{certification?.institution}</span>
+                    </li>
+                  )
+              )}
+            </div>
+          </div>
+        </div>
+        <div>
+          <Button
+            href={`/checkout/${mentorData?.id}`}
+            as={Link}
+            type="button"
+            color="primary"
+            radius="sm"
+            className="w-full text-sm font-semibold"
+          >
+            Pesan Mentoring
+          </Button>
         </div>
       </div>
     </div>

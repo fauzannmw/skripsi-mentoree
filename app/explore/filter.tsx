@@ -17,7 +17,7 @@ export default function Filter({ courseList }: FilterProps) {
   const processForm = async (data: any) => {
     try {
       setLoading(true);
-      await updateFilter(data);
+      // await updateFilter(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -70,10 +70,10 @@ export default function Filter({ courseList }: FilterProps) {
             </SelectItem>
           </Select>
           <Select
-            name="location"
-            id="location"
-            label="Pilih Lokasi Mentoring"
-            description="Pilih Mentor dengan preferensi Lokasi Mentoring kamu"
+            name="day"
+            id="day"
+            label="Pilih Hari Mentoring"
+            description="Pilih Mentor dengan preferensi Hari Mentoring kamu"
             variant="bordered"
             className="w-full"
             classNames={{
@@ -81,11 +81,20 @@ export default function Filter({ courseList }: FilterProps) {
               value: "text-sm font-semibold",
             }}
           >
-            <SelectItem key="Daring" value="Daring">
-              Daring
+            <SelectItem key="Senin" value="Senin">
+              Senin
             </SelectItem>
-            <SelectItem key="Luring" value="Luring">
-              Luring
+            <SelectItem key="Selasa" value="Selasa">
+              Selasa
+            </SelectItem>
+            <SelectItem key="Rabu" value="Rabu">
+              Rabu
+            </SelectItem>
+            <SelectItem key="Kamis" value="Kamis">
+              Kamis
+            </SelectItem>
+            <SelectItem key="Jumat" value="Jumat">
+              Jumat
             </SelectItem>
           </Select>
         </div>

@@ -4,8 +4,8 @@ export default function DetailLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-10 md:py-10">
-      <div className="justify-center inline-block ">{children}</div>
+    <section className="flex justify-center w-full my-8 md:mt-10">
+      <div className="flex justify-center w-full max-w-xl">{children}</div>
     </section>
   );
 }

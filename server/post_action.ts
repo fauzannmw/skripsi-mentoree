@@ -147,21 +147,19 @@ export const registerMentor = async (params: RegisterMentorTypes) => {
 };
 
 export const updateFilter = async (data: any) => {
-  const courseFilter = data.course ?? "";
-  const genderFilter = data.gender ?? "";
-  const locationFilter = data.location ?? "";
+  const courseFilter = data.course ?? undefined;
+  const genderFilter = data.gender ?? undefined;
+  const dayFilter = data.day ?? undefined;
 
-  if (courseFilter || genderFilter || locationFilter) {
+  if (courseFilter || genderFilter || dayFilter) {
     const courseParams = new URLSearchParams([
       ["course", courseFilter.join(",")],
     ]);
     const genderParams = new URLSearchParams([
       ["gender", genderFilter.join(",")],
     ]);
-    const locationParams = new URLSearchParams([
-      ["location", locationFilter.join(",")],
-    ]);
-    redirect(`/explore?${courseParams}&${genderParams}&${locationParams}`);
+    const dayParams = new URLSearchParams([["day", dayFilter.join(",")]]);
+    redirect(`/explore?${courseParams}&${genderParams}&${dayParams}`);
   }
 
   redirect("/explore");

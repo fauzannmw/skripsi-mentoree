@@ -8,6 +8,19 @@ export const checkTransactionStatusBasedOnDate = async () => {
   const confirmLimit = new Date().setDate(new Date().getDate() - 3);
 
   try {
+    await prisma.transaction.updateMany({
+      where: {
+        status: "Menunggu",
+        date: {
+          lte: new Date(),
+        },
+      },
+      data: {
+        status: "Gagal",
+        message:
+          "Mentor tidak merespon permintan mentoring hingga tanggal mentoring",
+      },
+    });
     const wait = await prisma.transaction.updateMany({
       where: {
         status: "Menunggu",
@@ -211,29 +224,34 @@ export const checkMentorNimInUser = async (nim?: string) => {
 export const getMentorByFilter = async (
   course: string,
   gender: string,
-  location: string
+  day: string
 ) => {
+  console.log(course, gender, day);
+
   try {
     return await prisma.mentor.findMany({
       where: {
-        gender: gender,
-        // mentoring_location: {
-        //   some: {
-        //     location: location,
-        //   },
-        // },
-        course: {
-          some: {
-            course: course,
+        OR: [
+          {
+            course: {
+              some: {
+                course: course,
+              },
+            },
           },
-        },
+          {
+            name: gender,
+          },
+          {
+            course_day: {
+              some: {
+                day: day,
+              },
+            },
+          },
+        ],
       },
       include: {
-        // mentoring_location: {
-        //   select: {
-        //     location: true,
-        //   },
-        // },
         course: {
           select: {
             course: true,

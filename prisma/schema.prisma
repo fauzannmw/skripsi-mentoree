@@ -12,23 +12,22 @@ generator client {
 }
 
 model Mentor {
-  id                 String          @id @default(cuid())
-  nim                String          @unique
-  email              String          @unique
-  name               String
-  major              String?
-  phone_number       String?
-  image              String?
-  gender             String?
-  description        String?
-  course             Course[]
-  course_day         Day[]
-  // mentoring_location Location[]
-  experience         Experience[]
-  certification      Certification[]
-  transaction        Transaction[]
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime        @updatedAt
+  id            String          @id @default(cuid())
+  nim           String          @unique
+  email         String          @unique
+  name          String
+  major         String?
+  phone_number  String?
+  image         String?
+  gender        String?
+  description   String?
+  course        Course[]
+  course_day    Day[]
+  experience    Experience[]
+  certification Certification[]
+  transaction   Transaction[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 }
 
 model Course {
@@ -53,12 +52,6 @@ model Certification {
   course      String
   institution String
 }
-
-// model Location {
-//   id       Int      @id @default(autoincrement())
-//   location String
-//   mentor   Mentor[]
-// }
 
 model Day {
   id        Int     @id @default(autoincrement())
