@@ -1,7 +1,7 @@
 import { Card } from "@/components/card";
 import { getAllCourse, getMentorByFilter } from "@/server/get_action";
 import Filter from "./filter";
-import { Course, Mentor } from "@prisma/client";
+import { Course } from "@prisma/client";
 
 export type ProfileSearchParams = {
   [key: string]: string;

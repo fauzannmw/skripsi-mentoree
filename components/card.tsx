@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Image } from "@nextui-org/image";
-import { HeartFilledIcon, StarIcon } from "./icons";
 import { CardProps } from "./types";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/react";

@@ -1,5 +1,3 @@
-import Tab from "./tab";
-
 export default function AboutLayout({
   children,
 }: {
