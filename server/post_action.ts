@@ -11,6 +11,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { RegisterMentorTypes } from "@/app/admin/mentor-registration/form";
 import { MentorInputs } from "@/app/profile/form-mentor";
 import { create } from "domain";
+import { sendMail } from "@/app/api/mail/mail";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -136,7 +137,15 @@ export const registerMentor = async (params: RegisterMentorTypes) => {
       role: "mentor",
     },
   });
-  return redirect("/admin/mentor-registration");
+
+  await sendMail({
+    to: params.email as string,
+    name: "Mentoree",
+    subject: `Berhasil mendaftar sebagai Mentor`,
+    body: `Halo ${params?.name} akun Mentoree kamu dengan email ${params?.email} berhasil didaftarkan ke dalam sistem, silahkan login ulang melalui email kamu`,
+  });
+
+  return redirect("/admin/mentor-list");
 };
 
 export const updateFilter = async (data: any) => {

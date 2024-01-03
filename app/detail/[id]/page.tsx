@@ -1,3 +1,4 @@
+import { ButtonComponent } from "@/components/button";
 import { getMentorById } from "@/server/get_action";
 import { Image } from "@nextui-org/image";
 import { Button, Link, Snippet } from "@nextui-org/react";
@@ -157,16 +158,10 @@ export default async function DetailPage({
           </div>
         </div>
         <div>
-          <Button
-            href={`/checkout/${mentorData?.id}`}
-            as={Link}
-            type="button"
-            color="primary"
-            radius="sm"
-            className="w-full text-sm font-semibold"
-          >
-            Pesan Mentoring
-          </Button>
+          <ButtonComponent
+            link={`/checkout/${mentorData?.id as string}`}
+            text="Pesan Mentoring"
+          />
         </div>
       </div>
     </div>

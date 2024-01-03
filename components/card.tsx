@@ -1,12 +1,14 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Image } from "@nextui-org/image";
 import { CardProps } from "./types";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/react";
 import { BsGenderMale } from "react-icons/bs";
 import { BsGenderFemale } from "react-icons/bs";
+import { ButtonComponent } from "./button";
 
-export const Card: React.FC<CardProps> = async ({
+export const Card: React.FC<CardProps> = ({
   id,
   nim,
   name,
@@ -17,6 +19,13 @@ export const Card: React.FC<CardProps> = async ({
   course_day,
   description,
 }) => {
+  const [isloading, setLoading] = useState<boolean>();
+  const clickHandler = (params: boolean) => {
+    return async (event: React.MouseEvent) => {
+      await setLoading(params);
+      event.preventDefault();
+    };
+  };
   return (
     <div className="flex flex-col w-full gap-4 p-6 text-gray-700 bg-white shadow-2xl rounded-xl bg-clip-border dark:bg-secunder">
       <div className="flex items-center justify-center">
@@ -75,17 +84,7 @@ export const Card: React.FC<CardProps> = async ({
           {description}
         </p>
       </div>
-      <Link href={`detail/${id}`} className="">
-        <Button
-          className="w-full text-sm font-semibold"
-          radius="sm"
-          color="primary"
-          // className="w-full select-none rounded-lg bg-gray-900 dark:bg-mentoree py-4 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button"
-        >
-          See Detail
-        </Button>
-      </Link>
+      <ButtonComponent link={`/detail/${id}`} text="Lihat Detail" />
     </div>
   );
 };

@@ -17,7 +17,6 @@ export default async function ExplorePage({
     searchParams.gender,
     searchParams.day
   );
-  console.log(mentorFilter);
 
   const courseList = await getAllCourse();
 

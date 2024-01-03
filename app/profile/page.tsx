@@ -23,7 +23,6 @@ interface MentorExtend extends Mentor {
 export default async function Profile() {
   const user = (await getProfileUser()).detail;
   const mentor = await getProfileMentor();
-  console.log(user);
 
   return (
     <Fragment>
