@@ -8,19 +8,6 @@ export const checkTransactionStatusBasedOnDate = async () => {
   const confirmLimit = new Date().setDate(new Date().getDate() - 3);
 
   try {
-    await prisma.transaction.updateMany({
-      where: {
-        status: "Menunggu",
-        date: {
-          lte: new Date(),
-        },
-      },
-      data: {
-        status: "Gagal",
-        message:
-          "Mentor tidak merespon permintan mentoring hingga tanggal mentoring",
-      },
-    });
     const wait = await prisma.transaction.updateMany({
       where: {
         status: "Menunggu",

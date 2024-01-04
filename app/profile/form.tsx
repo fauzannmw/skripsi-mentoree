@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Image } from "@nextui-org/image";
-import { Mentor, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { updateProfile } from "@/server/post_action";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { Link } from "@nextui-org/link";

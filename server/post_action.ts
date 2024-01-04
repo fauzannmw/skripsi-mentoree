@@ -10,7 +10,6 @@ import { Mentor, User } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
 import { RegisterMentorTypes } from "@/app/admin/mentor-registration/form";
 import { MentorInputs } from "@/app/profile/form-mentor";
-import { create } from "domain";
 import { sendMail } from "@/app/api/mail/mail";
 
 cloudinary.config({
@@ -19,7 +18,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const updateProfile = async (params: User) => {
+export const  updateProfile = async (params: User) => {
   const session = await getServerSession(authOptions);
 
   const data = {

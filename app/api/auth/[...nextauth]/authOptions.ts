@@ -25,7 +25,8 @@ export const authOptions: NextAuthOptions = {
             profile?.email === "muhamad.fauzan@student.ub.ac.id" ||
             profile?.email === "fz1792@student.ub.ac.id" ||
             profile?.email === "lutfifanani@ub.ac.id" ||
-            profile?.email === "adam@ub.ac.id"
+            profile?.email === "adam@ub.ac.id" ||
+            profile?.email === "mentoree.ub@gmail.com"
               ? "admin"
               : "user",
         };
@@ -40,7 +41,8 @@ export const authOptions: NextAuthOptions = {
           (profile?.email_verified &&
             //@ts-ignore
             profile?.email?.endsWith("ub.ac.id")) ||
-          profile?.email == "fauzanwahyudi0@gmail.com"
+          profile?.email == "fauzanwahyudi0@gmail.com" ||
+          profile?.email == "mentoree.ub@gmail.com"
         );
       }
       return true; // Do different verification for other providers that don't have `email_verified`
