@@ -5,7 +5,7 @@ import prisma from "./database";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { Mentor, User } from "@prisma/client";
+import { User } from "@prisma/client";
 
 import { v2 as cloudinary } from "cloudinary";
 import { RegisterMentorTypes } from "@/app/admin/mentor-registration/form";
@@ -18,7 +18,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const  updateProfile = async (params: User) => {
+export const updateProfile = async (params: User) => {
   const session = await getServerSession(authOptions);
 
   const data = {
@@ -55,23 +55,6 @@ export const updateMentorProfile = async (params: MentorInputs) => {
     data: {
       phone_number: params?.phone_number,
       description: params?.description,
-      // course_day: {
-      //   update: {
-      //     where: {
-      //       id: 1,
-      //     },
-      //   },
-      // },
-      // course_day: {
-      //   connectOrCreate: {
-      //     where: {
-      //       id: 2,
-      //     },
-      //   },
-      // },
-      // course_day[0] : {
-
-      // }
     },
   });
 

@@ -84,7 +84,11 @@ export const Card: React.FC<CardProps> = ({
           {description}
         </p>
       </div>
-      <ButtonComponent link={`/detail/${id}`} text="Lihat Detail" />
+      <ButtonComponent
+        link={`/detail/${id}`}
+        text="Lihat Detail"
+        fullWidth={true}
+      />
     </div>
   );
 };

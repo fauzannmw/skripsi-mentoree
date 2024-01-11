@@ -44,7 +44,6 @@ const FormDataSchema = z.object({
     .min(1),
   course_day: z.string().datetime(),
   course_time: z.string().min(1, { message: "Pilih Jam Mentoring" }),
-  // participant: z.any(),
   participant: z.string().min(1, { message: "Pilih Jumlah Peserta Mentoring" }),
   mentoring_location: z
     .string()

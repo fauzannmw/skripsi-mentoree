@@ -161,6 +161,7 @@ export default async function DetailPage({
           <ButtonComponent
             link={`/checkout/${mentorData?.id as string}`}
             text="Pesan Mentoring"
+            fullWidth={true}
           />
         </div>
       </div>

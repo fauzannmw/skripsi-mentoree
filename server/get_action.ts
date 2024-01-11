@@ -194,7 +194,7 @@ export const checkMentorInUser = async (email?: string) => {
   }
 };
 
-export const checkMentorNimInUser = async (nim?: string) => {
+export const checkMentorNimInUser = async (nim: string) => {
   try {
     const data = !!(await prisma.mentor.findFirst({
       where: {
