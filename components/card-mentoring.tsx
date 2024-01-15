@@ -34,8 +34,8 @@ export default function MentoringCardComponent({ data, role }: CardProps) {
   return (
     <Fragment>
       <div className="flex flex-col w-full gap-4 px-6 py-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <div className="grid grid-cols-7">
-          <div className="col-span-1">
+        <div className="grid grid-cols-12">
+          <div className="col-span-2">
             <Avatar
               isBordered
               radius="md"
@@ -47,15 +47,13 @@ export default function MentoringCardComponent({ data, role }: CardProps) {
               }
             />
           </div>
-          <div className="flex flex-col items-start justify-center col-span-5 gap-1">
+          <div className="flex flex-col items-start justify-center col-span-9 gap-1">
             <h1 className="font-semibold leading-none text-small text-default-600">
               {role === "mentor"
                 ? (data?.User?.name as string)
                 : (data?.mentor?.name as string)}
             </h1>
-            <p
-              className="px-3 text-sm text-gray-500 bg-white border border-gray-200 rounded-md py-0.5"
-            >
+            <p className="px-3 text-sm text-gray-500 bg-white border border-gray-200 rounded-md py-0.5">
               {role === "mentor"
                 ? data?.User?.phone_number
                   ? data?.User?.phone_number
