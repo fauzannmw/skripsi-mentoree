@@ -187,6 +187,7 @@ export default function Form({ profile }: FormProps) {
           isLoading={isloading}
           color="primary"
           className="font-medium"
+          radius="sm"
           type="submit"
         >
           Lanjutkan Pembayaran

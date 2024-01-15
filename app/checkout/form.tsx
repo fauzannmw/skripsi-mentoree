@@ -78,6 +78,13 @@ export default function Form({
   const [mentoringDay, setMentoringDay] = useState(1);
   const [startDate, setStartDate] = useState();
 
+  const clickHandler = (params: boolean) => {
+    return async (event: React.MouseEvent) => {
+      await setLoading(params);
+      event.preventDefault();
+    };
+  };
+
   const filterDay = (date: any) => {
     const daySelected = date.getDay();
     switch (day) {
@@ -327,32 +334,6 @@ export default function Form({
           <p className="text-xs font-semibold text-[#f31260]">
             {errors.participant && (errors.participant?.message as string)}
           </p>
-          {/* <div className="flex gap-2">
-            <RadioGroup
-              label="Berapa Jumlah Partisipan Mentoring"
-              orientation="horizontal"
-              size="sm"
-              isInvalid={errors.participant ? true : false}
-              errorMessage={errors.participant && errors.participant.message}
-              {...register("participant", { required: true })}
-              className="flex justify-between w-full"
-              classNames={{
-                label: "text-sm text-black",
-                base: "text-xs font-semibold",
-                wrapper: "w-full flex gap-2",
-              }}
-            >
-              <Radio key={"Private"} value={"Private"}>
-                Private
-              </Radio>
-              <Radio key={"2 - 5 Orang"} value={"2 - 5 Orang"}>
-                2 - 5 Orang
-              </Radio>
-              <Radio key={"5 - 10 Orang"} value={"5 - 10 Orang"}>
-                5 - 10 Orang
-              </Radio>
-            </RadioGroup>
-          </div> */}
         </div>
         <div className="flex flex-col gap-2 mt-2 sm:col-span-2">
           <label
@@ -443,6 +424,8 @@ export default function Form({
             type="button"
             color="danger"
             radius="sm"
+            isLoading={isloading}
+            onClick={clickHandler(true)}
             className="w-full text-sm font-semibold"
           >
             Silahkan beli Coin terlebih dahulu
