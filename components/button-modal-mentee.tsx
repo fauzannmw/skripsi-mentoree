@@ -62,11 +62,13 @@ export default function ButtonModalMentee({ transactionId }: ButtonModalProps) {
     <Fragment>
       <Button
         className="w-full font-semibold hover:opacity-75"
-        size="sm"
+        size="md"
         radius="sm"
         color="success"
         onClick={onOpen}
-        endContent={<MdDone className="text-lg text-black" />}
+        fullWidth
+        // endContent={<MdDone />}
+        endContent={<MdDone className="text-lg font-bold text-black" />}
       >
         Selesaikan Pesanan
       </Button>

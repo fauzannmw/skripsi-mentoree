@@ -40,8 +40,6 @@ export const NavbarGlobal = () => {
   ];
 
   const navigationAdmin = [
-    { name: "Explore", href: "/explore" },
-    { name: "Mentoringku", href: "/mentoringku" },
     { name: "Data User", href: "/admin/user-list" },
     { name: "Data Mentor", href: "/admin/mentor-list" },
     { name: "Pendaftaran Mentor", href: "/admin/mentor-registration" },

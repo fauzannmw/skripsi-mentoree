@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 
+// Silahkan cek aplikasi Mentoree
 export async function sendMail({
   to,
   name,

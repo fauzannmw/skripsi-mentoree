@@ -69,9 +69,9 @@ export default function ButtonModalMentor({
   return (
     <Fragment>
       <Button
+        className="w-full font-semibold hover:opacity-75"
         isIconOnly
-        className="hover:opacity-75"
-        radius="full"
+        fullWidth
         color={status === "Berlangsung" ? "success" : "danger"}
         onClick={onOpen}
       >
