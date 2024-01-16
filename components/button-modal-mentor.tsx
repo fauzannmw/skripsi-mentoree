@@ -55,7 +55,7 @@ export default function ButtonModalMentor({
       setLoading(true);
       await MentorUpdateTransactionStatus(data?.id, status, data?.message);
 
-      status === "Berlangsung" && toast("Berhasil Menyelesaikan Mentoring");
+      status === "Berlangsung" && toast("Berhasil Menerima Mentoring");
       status === "Gagal" && toast("Berhasil Menolak Mentoring");
 
       onClose();

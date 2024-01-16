@@ -31,16 +31,16 @@ export default function Filter({ courseList }: FilterProps) {
                 <option className="text-xs font-semibold" value={""}>
                   Semua
                 </option>
-                {/* @ts-ignore */}
-                {courseList.map((course: Course, index: number) => (
-                  <option
-                    key={index}
-                    value={course?.course}
-                    className="text-xs font-semibold"
-                  >
-                    {course?.course}
-                  </option>
-                ))}
+                {courseList instanceof Array &&
+                  courseList.map((course: Course, index: number) => (
+                    <option
+                      key={index}
+                      value={course?.course}
+                      className="text-xs font-semibold"
+                    >
+                      {course?.course}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="flex flex-col">

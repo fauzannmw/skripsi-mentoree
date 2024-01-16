@@ -44,11 +44,12 @@ export default function Filter({ courseList }: FilterProps) {
             }}
           >
             {/* @ts-ignore */}
-            {courseList.map((course) => (
-              <SelectItem key={course.course} value={course.course}>
-                {course.course}
-              </SelectItem>
-            ))}
+            {courseList instanceof Array &&
+              courseList.map((course) => (
+                <SelectItem key={course.course} value={course.course}>
+                  {course.course}
+                </SelectItem>
+              ))}
           </Select>
           <Select
             name="gender"
