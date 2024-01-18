@@ -28,8 +28,8 @@ export const MentoreeIcon: React.FC<IconSvgProps> = ({
         y2="16.181"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="%%GRADIENT_TO%%" />
-        <stop offset="1" stop-color="%%GRADIENT_FROM%%" />
+        {/* <stop stop-color="%%GRADIENT_TO%%" />
+        <stop offset="1" stop-color="%%GRADIENT_FROM%%" /> */}
       </linearGradient>
     </defs>
   </svg>

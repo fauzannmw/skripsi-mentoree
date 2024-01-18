@@ -85,7 +85,7 @@ export default function Form({
     };
   };
 
-  const filterDay = (date: any) => {
+  const filterDay = (date: Date) => {
     const daySelected = date.getDay();
     switch (day) {
       case "Senin":
