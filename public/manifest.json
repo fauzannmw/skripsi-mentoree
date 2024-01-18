@@ -29,5 +29,43 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Lihat Daftar Mentor",
+      "short_name": "Cari Mentor",
+      "url": "/explore",
+      "icons": [
+        { "src": "/icon/search.png", "sizes": "192x192", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "Lihat Mentoring Aktif",
+      "short_name": "Mentoringku",
+      "url": "/mentoringku",
+      "icons": [
+        { "src": "/icon/active.png", "sizes": "192x192", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "Lihat Permintaan Mentoring",
+      "short_name": "Permintaan Mentoring",
+      "url": "/mentor/mentoringku",
+      "icons": [
+        {
+          "src": "/icon/notification.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Beli Coin Mentoree",
+      "short_name": "Beli Coin",
+      "url": "/coin",
+      "icons": [
+        { "src": "/icon/coin.png", "sizes": "192x192", "type": "image/png" }
+      ]
+    }
   ]
 }
