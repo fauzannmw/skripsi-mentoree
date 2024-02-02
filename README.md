@@ -11,6 +11,8 @@ This is a template for creating applications using Next.js 14 (server action) an
 - [TypeScript](https://www.typescriptlang.org/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [next-themes](https://github.com/pacocoursey/next-themes)
+- [Prisma](https://www.prisma.io/)
+- [Midtrans API](https://midtrans.com/)
 
 ## How to Use
 
@@ -34,6 +36,21 @@ npm install
 ```bash
 npm run dev
 ```
+### Project Demo
+
+https://github.com/fauzannmw/skripsi-mentoree/assets/47935196/2e91a890-116a-46ec-ab3e-fd611511b8e8
+
+https://github.com/fauzannmw/skripsi-mentoree/assets/47935196/5edd0f06-2870-4848-9ba2-9d5b9f527d61
+
+https://github.com/fauzannmw/skripsi-mentoree/assets/47935196/58666aae-9a8a-4ea8-a026-bd8a173a84eb
+
+https://github.com/fauzannmw/skripsi-mentoree/assets/47935196/69e45360-1025-46ff-b551-b4fec05be999
+
+https://github.com/fauzannmw/skripsi-mentoree/assets/47935196/46ae2cc1-a796-4ee5-b4af-dd1137c9b45a
+
+https://github.com/fauzannmw/skripsi-mentoree/assets/47935196/7210c9f2-8bbc-4d7a-9390-05ab9332d7eb
+
+https://github.com/fauzannmw/skripsi-mentoree/assets/47935196/7282b713-7bf3-4fdc-87c7-1b9eefe316c2
 
 ## License
 
