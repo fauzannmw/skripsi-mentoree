@@ -1,6 +1,4 @@
-# Next.js & NextUI Template
-
-This is a template for creating applications using Next.js 14 (server action) and NextUI (v2).
+# Progressive Web App Online Programming Course Platform Brawijaya University
 
 ## Technologies Used
 
